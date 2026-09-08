@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiết kế CSDL - ERD - Chuẩn hóa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #17a2b8;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 80vh;
+        }
+
+        .sidebar {
+            height: 80vh;
+            overflow-y: auto;
+            background: var(--light);
+            padding: 20px;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .nav-list {
+            list-style: none;
+            position: sticky;
+            top: 20px;
+            padding: 0;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-size: 0.85rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--secondary);
+            color: white;
+            transform: translateX(5px);
+            border-color: var(--secondary);
+        }
+
+        .nav-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--secondary);
+            margin-top: 15px;
+            margin-bottom: 8px;
+            padding-left: 10px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .nav-section-title:first-of-type {
+            margin-top: 0;
+        }
+
+        .main-content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 25px 0 15px;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent);
+        }
+
+        h4 {
+            color: var(--info);
+            margin: 20px 0 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.5;
+            border: 2px solid #444;
+            font-size: 0.85rem;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .copy-btn {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        .class-name {
+            color: #4ec9b0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: var(--secondary);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .note, .info-box, .success-box, .warning-box {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid var(--info);
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid var(--success);
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                border-right: none;
+                border-bottom: 3px solid var(--secondary);
+                height: auto;
+                max-height: 300px;
+            }
+        }
+
+        .architecture {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 25px;
+            border-radius: 24px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            margin: 25px 0;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow-x: auto;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .badge-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .badge-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .badge-info {
+            background: var(--info);
+            color: white;
+        }
+
+        .badge-danger {
+            background: var(--accent);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-database"></i> THIẾT KẾ CSDL</h1>
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#tongquan" class="nav-link active"><i class="fas fa-question-circle"></i> Tổng quan</a></li>
+                    <li class="nav-item"><a href="#er_thanhphan" class="nav-link"><i class="fas fa-cubes"></i> </i>Mô hình ER</a></li>
+                    <li class="nav-item"><a href="#map_rules" class="nav-link"><i class="fas fa-arrow-right"></i> Chuyển đổi ERD</a></li>
+                    <li class="nav-item"><a href="#1nf" class="nav-link"><i class="fas fa-layer-group"></i> Chuẩn hóa</a></li>
+                    <li class="nav-item"><a href="#bt1" class="nav-link"><i class="fas fa-plane"></i> Bài tập</a></li>
+                    <!-- <li class="nav-item"><a href="#doan" class="nav-link"><i class="fas fa-school"></i> PHẦN 6: Đề án tổng hợp</a></li> -->
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!-- PHẦN 1: TỔNG QUAN -->
+                <section id="tongquan" class="section active">
+                    <h2><i class="fas fa-info-circle"></i> 1. TỔNG QUAN VỀ THIẾT KẾ CSDL</h2>
+                    
+                    <h3>1.1. Tại sao phải thiết kế CSDL?</h3>
+                    <img src="../img/thietkecsd.png" style="width: 100%;" alt="">
+
+                    <h3>1.2. Vòng đời thiết kế CSDL</h3>
+                    <p>Theo phương pháp luận cổ điển:</p>
+                                        <img src="../img/Vòng đời thiết kế CSDL.png" style="width: 100%;" alt="">
+
+                    <div class="note">
+                        <p><strong>Trong giáo trình này, chúng ta tập trung vào bước 2, 3, 4.</strong></p>
+                    </div>
+
+                    
+                </section>
+
+                <section id="vongdoi" class="section">
+                    <h2><i class="fas fa-sync-alt"></i> 1.2. Vòng đời thiết kế CSDL</h2>
+                    <img src="../img/Vòng đời thiết kế CSDL.png" style="width: 100%;" alt="">
+                    <div class="note"><p><strong>Trong giáo trình này, chúng ta tập trung vào bước 2, 3, 4.</strong></p></div>
+                </section>
+
+                <section id="khainiem" class="section">
+                    <h2><i class="fas fa-key"></i> 1.3. Các khái niệm nền tảng trước khi bắt đầu</h2>
+                    <ul>
+                        <li><strong>Khóa chính (Primary Key):</strong> Một hoặc nhiều thuộc tính xác định duy nhất mỗi dòng trong bảng.</li>
+                        <li><strong>Khóa ngoại (Foreign Key):</strong> Một thuộc tính (hoặc tập thuộc tính) tham chiếu khóa chính của bảng khác, tạo liên kết.</li>
+                        <li><strong>Phụ thuộc hàm (Functional Dependency):</strong> X → Y nghĩa là nếu hai dòng có cùng giá trị ở tập thuộc tính X thì chúng cũng có cùng giá trị ở tập Y.<br>Ví dụ: Mã sinh viên → Họ tên, Ngày sinh (một mã sinh viên xác định duy nhất họ tên và ngày sinh).</li>
+                    </ul>
+                    <div class="info-box"><p><strong>Ghi nhớ:</strong> Thiết kế CSDL giống như xây ngôi nhà – cần bản vẽ chi tiết trước khi đổ bê tông.</p></div>
+                </section>
+
+                <!-- PHẦN 2: MÔ HÌNH ER -->
+                <section id="er_thanhphan" class="section">
+                    <h2><i class="fas fa-project-diagram"></i> 2. MÔ HÌNH THỰC THỂ - LIÊN KẾT (ER)</h2>
+                    
+                    <h3>Khái niệm cơ bản</h3>
+                    <p>Mô hình ER dùng để:</p>
+                    <ul>
+                        <li>Xác định đối tượng (thực thể) trong hệ thống</li>
+                        <li>Xác định thuộc tính của chúng</li>
+                        <li>Xác định mối liên kết giữa các thực thể</li>
+                    </ul>
+
+                    <h3>2.1. Thành phần cơ bản của ERD</h3>
+                    <p><strong>a) Thực thể (Entity)</strong></p>
+                    <!-- <ul>
+                        <li>Là một đối tượng trong thế giới thực, có thể phân biệt được với các đối tượng khác.</li>
+                        <li>Thường là danh từ: sinh viên, môn học, nhân viên, phòng ban, hợp đồng.</li>
+                        <li>Ký hiệu: Hình chữ nhật.</li>
+                        <li><strong>Phân loại:</strong> Thực thể mạnh (strong entity): tồn tại độc lập, không phụ thuộc vào thực thể khác (ví dụ: SinhVien). Thực thể yếu (weak entity): không có khóa riêng, phụ thuộc tồn tại vào thực thể mạnh. Giáo trình này chỉ tập trung vào thực thể mạnh.</li>
+                    </ul> -->
+                    <img src="../img/entity.png" style="width: 100%;" alt="">
+                    <p><strong>b) Thuộc tính (Attribute)</strong></p>
+                  
+                    <img src="../img/attribute.png" style="width: 100%;" alt="">
+
+                    <p><strong>c) Liên kết (Relationship)</strong></p>
+                      <img src="../img/relationsive.png" style="width: 100%;" alt="">
+
+                    <p><strong>d) Bản số (Cardinality)</strong></p>
+                         <img src="../img/cardinality.png" style="width: 100%;" alt="">
+
+        
+               
+                    <h3>2.2. Ví dụ minh họa xây dựng ERD</h3>
+                    <p><strong>Yêu cầu nghiệp vụ:</strong></p>
+                    <p>Hệ thống quản lý đề thi cho một trung tâm ngoại ngữ.</p>
+                    <ul>
+                        <li>Mỗi giáo viên có mã giáo viên, họ tên, chuyên môn, số điện thoại (có thể nhiều số).</li>
+                        <li>Mỗi đề thi có mã đề, tên đề, cấp độ (A1, A2, B1...).</li>
+                        <li>Một giáo viên có thể ra nhiều đề thi. Một đề thi chỉ do một giáo viên ra (vì lý do bản quyền).</li>
+                        <li>Cần lưu thêm ngày ra đề cho mỗi lần ra đề (thuộc tính của liên kết).</li>
+                    </ul>
+                    <p><strong>Bước 1:</strong> Xác định thực thể → GIAO_VIEN, DE_THI.</p>
+                    <p><strong>Bước 2:</strong> Xác định thuộc tính</p>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>Thực thể</th><th>Thuộc tính (gạch chân cho khóa)</th></tr></thead>
+                            <tbody>
+                                <tr><td>GIAO_VIEN</td><td>MaGV, HoTen, ChuyenMon, SoDienThoai (đa trị)</td></tr>
+                                <tr><td>DE_THI</td><td>MaDe, TenDe, CapDo</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p><strong>Bước 3:</strong> Xác định liên kết - Giữa GIAO_VIEN và DE_THI có liên kết RA_DE.</p>
+                        <ul>                        <li>Bản số: Một giáo viên ra nhiều đề (một GV có thể ra nhiều đề). </li>
+
+                        <li> Một đề chỉ do một GV ra (theo yêu cầu). → Đây là liên kết 1-n từ GIAO_VIEN (1) đến DE_THI (n).</li>
+
+                        <li>Thuộc tính của liên kết: NgayRaDe (ngày tháng năm ra đề).</li>
+        </ul>
+                    <p><strong>Bước 4:</strong> Vẽ ERD</p>
+                   <img src="../img/ERD.png" style="width: 100%;" alt="">
+         
+                    <h3><i class="fas fa-arrows-alt-h"></i> 2.3. Quy tắc xác định bản số chính xác</h3>
+                    <p>Có 3 dạng chính:</p>
+                    <ul>
+                        <li><strong>1-1:</strong> Ví dụ: Một người có một căn cước. Cài đặt: đặt khóa ngoại ở một bảng.</li>
+                        <li><strong>1-n:</strong> Phổ biến nhất. Ví dụ: Một phòng ban có nhiều nhân viên; một nhân viên thuộc một phòng ban. Cài đặt: khóa ngoại từ bảng "n" trỏ về bảng "1".</li>
+                        <li><strong>n-n:</strong> Ví dụ: Học sinh – môn học. Cài đặt: tạo bảng trung gian.</li>
+                    </ul>
+                    <div class="warning-box">
+                        <p><strong>Lưu ý:</strong> Không được vẽ liên kết trực tiếp n-n trong lược đồ quan hệ được; bắt buộc phải tách bảng trung gian.</p>
+                    </div>
+       
+                    <h3><i class="fas fa-pen"></i> 2.4. Bài tập thực hành ERD</h3>
+                    <div class="note">
+                        <p><strong>Bài tập 1: Quản lý khách sạn</strong></p>
+                        <p>Khách (mã khách, tên, CMND). Phòng (số phòng, loại phòng, giá). Mỗi khách có thể thuê nhiều phòng (khác ngày). Mỗi phòng có thể được thuê bởi nhiều khách qua các thời điểm khác nhau. Một hợp đồng thuê ghi nhận một khách thuê một phòng từ ngày đến ngày. Hãy xác định thực thể, liên kết, bản số.</p>
+                        <p><strong>Bài tập 2: Quản lý nhân sự - dự án</strong></p>
+                        <p>Nhân viên (mã NV, tên, lương). Dự án (mã DA, tên DA, kinh phí). Một nhân viên có thể tham gia nhiều dự án, một dự án có nhiều nhân viên. Khi tham gia, cần lưu vai trò (trưởng nhóm, thành viên) và số giờ làm. Hãy vẽ ERD (chú ý bảng trung gian).</p>
+                    </div>
+                </section>
+
+                <!-- PHẦN 3: CHUYỂN ĐỔI ERD -->
+                <section id="map_rules" class="section">
+                    <h2><i class="fas fa-exchange-alt"></i> 3. CHUYỂN ĐỔI ERD THÀNH LƯỢC ĐỒ QUAN HỆ</h2>
+                    
+                    <h3>3.1. Các quy tắc chuyển đổi (mapping rules)</h3>
+                  
+                    
+                    <img src="../img/cd.PNG" style="width: 100%;" alt="">
+                
+                    <h3><i class="fas fa-code"></i> 3.2. Áp dụng cho ví dụ RA_DE</h3>
+                    <ul>
+                        <li>Thực thể mạnh: GIAO_VIEN → bảng GiaoVien (MaGV, HoTen, ChuyenMon)</li>
+                        <li>Thuộc tính đa trị SoDienThoai → bảng SoDienThoai_GV (MaGV, SoDienThoai) – PK: (MaGV, SoDienThoai)</li>
+                        <li>Thực thể mạnh: DE_THI → bảng DeThi (MaDe, TenDe, CapDo)</li>
+                        <li>Liên kết 1-n (GV ra nhiều đề): thêm khóa ngoại MaGV vào bảng DeThi. Thêm cả thuộc tính liên kết NgayRaDe vào bảng DeThi.</li>
+                    </ul>
+                    <img src="../img/erd2.PNG" style="width: 100%;" alt="">
+                    <div class="code-block">
+                        <div class="code-header"><span><i class="fas fa-code"></i> SQL</span><button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button></div>
+                        CREATE TABLE GiaoVien (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;MaGV INT PRIMARY KEY,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;HoTen VARCHAR(100),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;ChuyenMon VARCHAR(50)<br>
+                        );<br>
+                        <br>
+                        CREATE TABLE SoDienThoai_GV (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;MaGV INT,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;SoDienThoai VARCHAR(15),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;PRIMARY KEY (MaGV, SoDienThoai),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;FOREIGN KEY (MaGV) REFERENCES GiaoVien(MaGV)<br>
+                        );<br>
+                        <br>
+                        CREATE TABLE DeThi (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;MaDe INT PRIMARY KEY,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;TenDe VARCHAR(200),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;CapDo VARCHAR(5),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;MaGV INT,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;NgayRaDe DATE,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;FOREIGN KEY (MaGV) REFERENCES GiaoVien(MaGV)<br>
+                        );
+                    </div>
+                                  <h3><i class="fas fa-link"></i> 3.3. Ví dụ liên kết n-n (sinh viên - môn học)</h3>
+                    <p>ERD: SinhVien (MaSV, HoTen) - n-n - MonHoc (MaMH, TenMH)</p>
+                    <p>Thuộc tính liên kết: DiemThi.</p>
+                    <p><strong>Chuyển đổi:</strong></p>
+                    <ul>
+                        <li>Bảng SinhVien (MaSV, HoTen)</li>
+                        <li>Bảng MonHoc (MaMH, TenMH)</li>
+                        <li>Bảng trung gian DangKy (MaSV, MaMH, DiemThi) – PK: (MaSV, MaMH), FK: MaSV→SinhVien, MaMH→MonHoc.</li>
+                    </ul>
+                    <div class="warning-box">
+                        <p><strong>Không được bỏ bảng trung gian.</strong></p>
+                    </div>
+               
+                    <h3><i class="fas fa-tag"></i> 3.4. Lưu ý về đặt tên khóa ngoại</h3>
+                    <p>Nên đặt cùng tên với khóa chính của bảng tham chiếu để dễ nhận biết.</p>
+                    <p>Ví dụ: MaGV trong bảng DeThi là khóa ngoại, nên giữ tên MaGV.</p>
+                </section>
+
+                <!-- PHẦN 4: CHUẨN HÓA -->
+                <section id="1nf" class="section">
+                    <h2><i class="fas fa-layer-group"></i> 4. CHUẨN HÓA CƠ SỞ DỮ LIỆU</h2>
+                    
+                    <h3>4.1. Dạng chuẩn 1 (1NF)</h3>
+                 
+                    <img src="../img/1nf.png" style="width: 100%;" alt="">
+                    <h3><i class="fas fa-layer-group"></i> 4.2. Dạng chuẩn 2 (2NF)</h3>
+                    
+                    
+                    <img src="../img/2nf.png" style="width: 100%;" alt="">
+          
+                    <h3><i class="fas fa-layer-group"></i> 4.3. Dạng chuẩn 3 (3NF)</h3>
+                    
+                    <img src="../img/3nf.png" style="width: 100%;" alt="">
+          
+                    <h3><i class="fas fa-tasks"></i> 4.4. Quy trình chuẩn hóa một bảng (tóm tắt)</h3>
+                    <ol>
+                        <li>Kiểm tra 1NF: Nếu có cột đa trị → tách bảng riêng.</li>
+                        <li>Xác định khóa chính (có thể ghép) và các phụ thuộc hàm.</li>
+                        <li>Kiểm tra 2NF: Nếu khóa ghép và có thuộc tính phụ thuộc một phần → tách bảng.</li>
+                        <li>Kiểm tra 3NF: Nếu có phụ thuộc bắc cầu → tách bảng.</li>
+                    </ol>
+                </section>
+
+                <section id="bt_chuanhoa" class="section">
+                    <h2><i class="fas fa-pen"></i> 4.5. Bài tập chuẩn hóa (có lời giải chi tiết ở phần 5)</h2>
+                    <div class="note">
+                        <p><strong>Đề bài:</strong> Cho bảng DIEMTHI (MaSV, HoTen, MaMH, TenMH, SoLanThi, Diem, NgayThi).</p>
+                        <p>Biết:</p>
+                        <ul>
+                            <li>Mỗi sinh viên có một họ tên.</li>
+                            <li>Mỗi môn học có một tên môn.</li>
+                            <li>Một sinh viên thi một môn có thể thi nhiều lần (SoLanThi đánh dấu lần thứ mấy) và mỗi lần có một điểm và ngày thi.</li>
+                        </ul>
+                        <p>Khóa chính: (MaSV, MaMH, SoLanThi). Hãy chuẩn hóa về 3NF.</p>
+                    </div>
+                </section>
+
+                <!-- PHẦN 5: BÀI TẬP -->
+                <section id="bt1" class="section">
+                    <h2><i class="fas fa-plane"></i> Bài 1: Xây dựng ERD và chuyển đổi cho hệ thống đặt vé máy bay</h2>
+                    <p><strong>Yêu cầu:</strong></p>
+                    <ul>
+                        <li>Hành khách (mã HK, họ tên, số CMND, số điện thoại – có thể nhiều số).</li>
+                        <li>Chuyến bay (mã chuyến, điểm đi, điểm đến, giờ khởi hành, giờ đến).</li>
+                        <li>Một hành khách có thể đặt nhiều vé (nhiều chuyến bay khác nhau). Mỗi vé thuộc về một hành khách và một chuyến bay.</li>
+                        <li>Vé có mã vé, ngày đặt, hạng vé (phổ thông, thương gia), giá vé.</li>
+                    </ul>
+                    <p><strong>Giải:</strong></p>
+                    <p><strong>Bước 1 – Xác định thực thể:</strong> HANHKHACH, CHUYENBAY, VE (vé có mã vé riêng, là thực thể độc lập).</p>
+                    <p><strong>Bước 2 – Thuộc tính:</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>Thực thể</th><th>Thuộc tính</th></tr></thead>
+                            <tbody>
+                                <tr><td>HANHKHACH</th><td>MaHK (PK), HoTen, CMND, SoDienThoai (đa trị)</th></tr>
+                                <tr><td>CHUYENBAY</th><td>MaCB (PK), DiemDi, DiemDen, GioKhoiHanh, GioDen</th></tr>
+                                <tr><td>VE</th><td>MaVe (PK), NgayDat, HangVe, GiaVe</th></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <strong>Bước 3 – Liên kết và bản số:</strong> 
+<ul>                        <li>HANHKHACH – VE: 1-n (một khách nhiều vé); 
+</li><li>CHUYENBAY – VE: 1-n (một chuyến bay có nhiều vé được đặt); </li>
+
+                        <li>VE là thực thể con, liên kết với cả hai. </li>
+
+                        <li>Không có liên kết trực tiếp giữa HANHKHACH và CHUYENBAY.</li>
+</ul>                    <p><strong>Bước 4 – Sơ đồ ER</strong></p>
+                        <img style="width: 100%;" src="../img/erbt.png" alt="">
+                       <p><strong>Bước 5 – Lược đồ quan hệ:</strong></p>
+                        <img src="../img/quanhe.PNG" alt="">
+
+                       <p><strong>Bước 6 – Chuyển sang bảng:</strong></p>
+
+                    <div class="code-block">
+                        <div class="code-header"><span><i class="fas fa-code"></i> SQL</span><button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button></div>
+                       <pre>
+-- Tạo CSDL
+CREATE DATABASE QuanLyVeMayBay;
+
+USE QuanLyVeMayBay;
+
+-- Bảng Hành Khách
+CREATE TABLE HanhKhach (
+    MaHK VARCHAR(10) PRIMARY KEY,
+    HoTen NVARCHAR(100),
+    CMND VARCHAR(20)
+);
+
+-- Bảng Số Điện Thoại
+CREATE TABLE SoDienThoai (
+    MaHK VARCHAR(10),
+    SDT VARCHAR(15),
+
+    PRIMARY KEY (MaHK, SDT),
+
+    FOREIGN KEY (MaHK)  REFERENCES HanhKhach(MaHK)
+);
+
+-- Bảng Chuyến Bay
+CREATE TABLE ChuyenBay (
+    MaCB VARCHAR(10) PRIMARY KEY,
+    DiemDi NVARCHAR(100),
+    DiemDen NVARCHAR(100),
+    GioKhoiHanh DATETIME,
+    GioDen DATETIME
+);
+
+-- Bảng Vé
+CREATE TABLE Ve (
+    MaVe VARCHAR(10) PRIMARY KEY,
+    NgayDat DATE,
+    HangVe NVARCHAR(50),
+    GiaVe DECIMAL(18,2),
+
+    MaHK VARCHAR(10),
+    MaCB VARCHAR(10),
+
+    FOREIGN KEY (MaHK) REFERENCES HanhKhach(MaHK),
+
+    FOREIGN KEY (MaCB) REFERENCES ChuyenBay(MaCB)
+);
+                       </pre>
+                    </div>
+                </section>
+
+                <section id="bt2" class="section">
+                    <h2><i class="fas fa-users"></i> Bài 2: Chuẩn hóa bảng (giải chi tiết)</h2>
+                    <p><strong>Đề bài:</strong> Bảng NHANVIEN_DUAN (MaNV, TenNV, MaDA, TenDA, NgayBD, NgayKT, SoGio).</p>
+                    <p><strong>Quy tắc:</strong></p>
+                    <ul>
+                        <li>Một nhân viên có một tên (MaNV→TenNV).</li>
+                        <li>Một dự án có một tên (MaDA→TenDA).</li>
+                        <li>Mỗi nhân viên tham gia một dự án trong một khoảng thời gian (NgayBD, NgayKT) và có số giờ làm.</li>
+                        <li>Một nhân viên có thể tham gia nhiều dự án. Một dự án có nhiều nhân viên.</li>
+                    </ul>
+                    <p>Khóa chính: (MaNV, MaDA).</p>
+                    <p><strong>Phân tích:</strong> Phụ thuộc hàm: MaNV → TenNV, MaDA → TenDA, (MaNV, MaDA) → NgayBD, NgayKT, SoGio.</p>
+                    <p>Vi phạm 2NF vì TenNV phụ thuộc một phần vào MaNV, TenDA phụ thuộc một phần vào MaDA. Không có phụ thuộc bắc cầu.</p>
+                    <p><strong>Chuẩn hóa về 3NF:</strong> Tách thành 3 bảng:</p>
+                    <div class="code-block">
+                        <div class="code-header"><span><i class="fas fa-code"></i> SQL</span><button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button></div>
+                        NhanVien (MaNV, TenNV) – PK: MaNV<br>
+                        DuAn (MaDA, TenDA) – PK: MaDA<br>
+                        PhanCong (MaNV, MaDA, NgayBD, NgayKT, SoGio) – PK: (MaNV, MaDA), FK: MaNV→NhanVien, MaDA→DuAn
+                    </div>
+                </section>
+
+                <!-- PHẦN 6: ĐỀ ÁN TỔNG HỢP -->
+                <section id="doan" class="section">
+                    <h2><i class="fas fa-graduation-cap"></i> 6. ĐỀ ÁN TỔNG HỢP – QUẢN LÝ TUYỂN SINH</h2>
+                    
+                    <h3>6.1. Mô tả bài toán</h3>
+                    <p>Một trường đại học tổ chức tuyển sinh theo phương thức xét tuyển dựa trên điểm thi THPT. Hệ thống cần quản lý:</p>
+                    <ul>
+                        <li><strong>Thí sinh:</strong> Mỗi thí sinh có Số báo danh (SBD, duy nhất), họ tên, ngày sinh, giới tính, quê quán, số điện thoại (có thể nhiều số).</li>
+                        <li><strong>Trường ĐH:</strong> Mã trường, tên trường, địa chỉ.</li>
+                        <li><strong>Ngành học:</strong> Mã ngành, tên ngành, điểm chuẩn, chỉ tiêu, thuộc về một trường.</li>
+                        <li><strong>Đăng ký nguyện vọng:</strong> Mỗi thí sinh đăng ký một danh sách các nguyện vọng (có thứ tự ưu tiên 1,2,3,...). Mỗi nguyện vọng gắn với một ngành.</li>
+                        <li><strong>Kết quả thi:</strong> Thí sinh có tổng điểm thi (điểm 3 môn). Điểm chuẩn của ngành được xác định bởi trường.</li>
+                        <li><strong>Kết quả trúng tuyển:</strong> Dựa trên điểm thi, so với điểm chuẩn và thứ tự nguyện vọng. Cần lưu trạng thái trúng tuyển (đậu/trượt) cho từng nguyện vọng.</li>
+                    </ul>
+
+                    <h3>6.2. Yêu cầu thiết kế</h3>
+                    <ul>
+                        <li>Vẽ ERD chi tiết (chỉ rõ bản số, thuộc tính khóa, thuộc tính đa trị).</li>
+                        <li>Chuyển thành lược đồ quan hệ (các bảng, khóa chính, khóa ngoại).</li>
+                        <li>Chuẩn hóa về 3NF.</li>
+                    </ul>
+
+                    <h3>6.3. Gợi ý ERD và bảng</h3>
+                    <p><strong>Các thực thể chính:</strong> THI_SINH, TRUONG, NGANH, NGUYEN_VONG (bảng trung gian giữa TS và NGANH, có thuộc tính ThuTu, TrangThaiTrungTuyen).</p>
+                    <p>(Có thể bỏ qua bảng KET_QUA_THI vì điểm được lưu trực tiếp trong THI_SINH).</p>
+                    <p><strong>Thuộc tính đa trị:</strong> SoDienThoai của THI_SINH → tách bảng SDT (SBD, SDT).</p>
+                    <p><strong>Bản số:</strong></p>
+                    <ul>
+                        <li>TRUONG – NGANH: 1-n (một trường có nhiều ngành).</li>
+                        <li>THI_SINH – NGUYEN_VONG: 1-n (một TS có nhiều NV).</li>
+                        <li>NGANH – NGUYEN_VONG: 1-n (một ngành có nhiều NV đăng ký).</li>
+                    </ul>
+                    <p>(Lưu ý: NGUYEN_VONG là bảng trung gian hóa giải liên kết n-n giữa THI_SINH và NGANH).</p>
+                    
+                    <p><strong>Lược đồ 3NF:</strong></p>
+                    <div class="code-block">
+                        <div class="code-header"><span><i class="fas fa-code"></i> SQL</span><button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button></div>
+                        <span class="comment">-- 1. Thí sinh</span><br>
+                        CREATE TABLE ThiSinh (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;SBD VARCHAR(10) PRIMARY KEY,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;HoTen VARCHAR(100),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;NgaySinh DATE,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;GioiTinh VARCHAR(3),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;QueQuan VARCHAR(200),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;DiemThi DECIMAL(5,2)<br>
+                        );<br>
+                        <br>
+                        <span class="comment">-- 2. Số điện thoại thí sinh (thuộc tính đa trị)</span><br>
+                        CREATE TABLE SDT_ThiSinh (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;SBD VARCHAR(10),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;SoDienThoai VARCHAR(15),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;PRIMARY KEY (SBD, SoDienThoai),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;FOREIGN KEY (SBD) REFERENCES ThiSinh(SBD)<br>
+                        );<br>
+                        <br>
+                        <span class="comment">-- 3. Trường ĐH</span><br>
+                        CREATE TABLE Truong (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;MaTruong VARCHAR(10) PRIMARY KEY,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;TenTruong VARCHAR(200),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;DiaChi VARCHAR(300)<br>
+                        );<br>
+                        <br>
+                        <span class="comment">-- 4. Ngành học</span><br>
+                        CREATE TABLE Nganh (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;MaNganh VARCHAR(10) PRIMARY KEY,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;TenNganh VARCHAR(200),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;DiemChuan DECIMAL(5,2),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;ChiTieu INT,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;MaTruong VARCHAR(10),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;FOREIGN KEY (MaTruong) REFERENCES Truong(MaTruong)<br>
+                        );<br>
+                        <br>
+                        <span class="comment">-- 5. Nguyện vọng (bảng trung gian)</span><br>
+                        CREATE TABLE NguyenVong (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;SBD VARCHAR(10),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;MaNganh VARCHAR(10),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;ThuTu INT, <span class="comment">-- 1,2,3,...</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;TrangThai VARCHAR(20) CHECK (TrangThai IN ('Đậu', 'Trượt', 'Chưa xét')),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;PRIMARY KEY (SBD, MaNganh),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;FOREIGN KEY (SBD) REFERENCES ThiSinh(SBD),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;FOREIGN KEY (MaNganh) REFERENCES Nganh(MaNganh)<br>
+                        );
+                    </div>
+                    <p><strong>Chuẩn hóa:</strong> Lược đồ trên đã đạt 3NF vì:</p>
+                    <ul>
+                        <li>Không có thuộc tính đa trị (đã tách bảng SDT).</li>
+                        <li>Các bảng đều có khóa chính đơn hoặc ghép, không có phụ thuộc một phần (do không có thuộc tính không khóa phụ thuộc vào một phần khóa ghép – kiểm tra từng bảng).</li>
+                        <li>Không có phụ thuộc bắc cầu (ví dụ: điểm chuẩn phụ thuộc vào MaNganh, MaNganh được gắn trực tiếp với Nguyện vọng, không có trung gian).</li>
+                    </ul>
+
+                    <h3>6.4. Câu hỏi mở rộng</h3>
+                    <div class="note">
+                        <p><strong>Làm thế nào để đảm bảo một thí sinh chỉ đăng ký tối đa 3 nguyện vọng?</strong> (Dùng trigger hoặc check ràng buộc ở tầng ứng dụng)</p>
+                        <p><strong>Nếu cần lưu lịch sử thay đổi điểm chuẩn theo năm, bạn sẽ sửa thiết kế thế nào?</strong> (Thêm bảng DotTuyenSinh và liên kết)</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            <p><i class="fas fa-database"></i> Thiết kế CSDL - ERD - Chuẩn hóa | Quy trình thiết kế cơ sở dữ liệu chuẩn chỉnh</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                    
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    document.querySelector('.main-content').scrollTop = 0;
+                });
+            });
+        });
+
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            
+            button.innerHTML = '<i class="fas fa-check"></i> Đã copy!';
+            button.style.background = '#27ae60';
+            
+            navigator.clipboard.writeText(text).then(() => {
+                setTimeout(() => {
+                    button.innerHTML = '<i class="far fa-copy"></i> Copy';
+                    button.style.background = '#555';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>
