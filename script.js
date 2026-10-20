@@ -2,22 +2,11 @@
 // ======================================================
 // BACKEND JAVA ROADMAP - 65 LESSONS
 // ======================================================
-
 const lessons = [
 
     // ==================================================
-    // PHASE 1 - JAVA CORE
+    // PHASE 1 - JAVA CORE (Buổi 1 - 10)
     // ==================================================
-
-    // {
-    //     id: 1,
-    //     phase: 1,
-    //     category: "Java Core",
-    //     title: "Programming Thinking",
-    //     description: "Tư duy lập trình, thuật toán, Flowchart, Pseudocode và phân tích bài toán.",
-    //     duration: 120,
-    //     icon: "fa-brain"
-    // },
 
     {
         id: 1,
@@ -103,31 +92,32 @@ const lessons = [
         id: 9,
         phase: 1,
         category: "Java Core",
-        title: "Date Time ",
+        title: "Date Time",
         description: "LocalDate, LocalDateTime, DateTimeFormatter và xử lý Exception.",
         duration: 120,
         icon: "fa-calendar"
     },
+
     {
         id: 10,
         phase: 1,
         category: "Java Core",
         title: "Stream API",
-        description: ".",
+        description: "Lambda Expression, Functional Interface, Stream, filter, map, reduce và collect.",
         duration: 120,
-        icon: "fa-calendar"
+        icon: "fa-water"
     },
 
 
     // ==================================================
-    // PHASE 2 - SQL DATABASE
+    // PHASE 2 - SQL DATABASE (Buổi 11 - 15)
     // ==================================================
 
     {
         id: 11,
         phase: 2,
         category: "SQL",
-        title: " Database introduce",
+        title: "Database Introduce",
         description: "DBMS, RDBMS, MySQL, Data Types, Constraint và MySQL Workbench.",
         duration: 120,
         icon: "fa-database"
@@ -137,17 +127,18 @@ const lessons = [
         id: 12,
         phase: 2,
         category: "SQL",
-        title: "Database relationship",
-        description: "",
+        title: "Database Relationship",
+        description: "One-to-One, One-to-Many, Many-to-Many và khóa ngoại.",
         duration: 120,
         icon: "fa-table"
     },
+
     {
         id: 13,
         phase: 2,
         category: "SQL",
-        title: "Database design",
-        description: "",
+        title: "Database Design",
+        description: "ERD, chuẩn hóa dữ liệu (1NF, 2NF, 3NF) và thiết kế Schema.",
         duration: 120,
         icon: "fa-table"
     },
@@ -156,7 +147,7 @@ const lessons = [
         id: 14,
         phase: 2,
         category: "SQL",
-        title: "JDBC basic",
+        title: "JDBC Basic",
         description: "GROUP BY, HAVING, Aggregate Function, DISTINCT và Alias.",
         duration: 120,
         icon: "fa-chart-column"
@@ -166,124 +157,30 @@ const lessons = [
         id: 15,
         phase: 2,
         category: "SQL",
-        title: "JDBC ADVANCED & DAO",
+        title: "JDBC Advanced & DAO",
         description: "INNER JOIN, LEFT JOIN, RIGHT JOIN, SELF JOIN, UNION và Subquery.",
         duration: 120,
         icon: "fa-link"
     },
 
-    // {
-    //     id: 16,
-    //     phase: 2,
-    //     category: "SQL",
-    //     // title: "Thiết kế CSDL",
-    //     description: "ERD, Relationship, Primary Key, Foreign Key và chuẩn hóa 1NF, 2NF, 3NF.",
-    //     duration: 120,
-    //     icon: "fa-diagram-project"
-    // },
-
-    // {
-    //     id: 16,
-    //     phase: 2,
-    //     category: "SQL",
-    //     title: "View, Index & Transaction",
-    //     description: "VIEW, INDEX, Transaction, COMMIT, ROLLBACK, Stored Procedure và Mini Project SQL.",
-    //     duration: 120,
-    //     icon: "fa-server"
-    // },
-
 
     // ==================================================
-    // PHASE 3 - SERVLET JSP
+    // PHASE 4 - SPRING BOOT (LÝ THUYẾT) (Buổi 16 - 34)
     // ==================================================
 
     {
-        id: 16,
-        phase: 3,
-        category: "Servlet",
-        title: "Tổng quan Java Web",
+        id: 17,
+        phase: 4,
+        category: "Spring Boot",
+        title: "Tổng quan Java Web  - Spring Framework & Spring Boot",
         description: "Client - Server, HTTP, HTTPS, Web Server, Servlet Container và Tomcat.",
         duration: 120,
         icon: "fa-globe"
     },
 
-    {
-        id: 17,
-        phase: 3,
-        category: "Servlet",
-        title: "Request & Response",
-        description: "HttpServletRequest, HttpServletResponse, Form, Forward và Redirect.",
-        duration: 120,
-        icon: "fa-right-left"
-    },
 
     {
         id: 18,
-        phase: 3,
-        category: "Servlet",
-        title: "JSP",
-        description: "JSP, EL, JSTL và truyền dữ liệu từ Servlet sang JSP.",
-        duration: 120,
-        icon: "fa-file-code"
-    },
-
-    {
-        id: 19,
-        phase: 3,
-        category: "Servlet",
-        title: "MVC với Servlet",
-        description: "DAO, Model, Controller, JDBC và CRUD.",
-        duration: 120,
-        icon: "fa-layer-group"
-    },
-
-    {
-        id: 20,
-        phase: 3,
-        category: "Servlet",
-        title: "Servlet API",
-        description: "ServletConfig, ServletContext, Session, Cookie và Filter.",
-        duration: 120,
-        icon: "fa-gears"
-    },
-
-    // {
-    //     id: 22,
-    //     phase: 3,
-    //     category: "Servlet",
-    //     title: "Mini Project Servlet - Phần 1",
-    //     description: "Xây dựng cấu trúc Web Application với Servlet, JSP và JDBC.",
-    //     duration: 120,
-    //     icon: "fa-diagram-project"
-    // },
-
-    // {
-    //     id: 23,
-    //     phase: 3,
-    //     category: "Servlet",
-    //     title: "Mini Project Servlet - Phần 2",
-    //     description: "Hoàn thiện CRUD, MVC và triển khai ứng dụng Servlet.",
-    //     duration: 120,
-    //     icon: "fa-rocket"
-    // },
-
-
-    // ==================================================
-    // PHASE 4 - SPRING BOOT
-    // ==================================================
-
-    {
-        id: 24,
-        phase: 4,
-        category: "Spring Boot",
-        title: "Giới thiệu Spring Framework & Spring Boot",
-        description: "Spring Framework, Spring Boot, Maven và Project Structure.",
-        duration: 120,
-        icon: "fa-leaf"
-    },
-
-    {
-        id: 25,
         phase: 4,
         category: "Spring Boot",
         title: "IoC Container & Dependency Injection",
@@ -293,7 +190,7 @@ const lessons = [
     },
 
     {
-        id: 26,
+        id: 19,
         phase: 4,
         category: "Spring Boot",
         title: "Xây dựng RESTful API với Spring Boot",
@@ -303,7 +200,7 @@ const lessons = [
     },
 
     {
-        id: 27,
+        id: 20,
         phase: 4,
         category: "Spring Boot",
         title: "Request Mapping & Response Handling",
@@ -313,7 +210,7 @@ const lessons = [
     },
 
     {
-        id: 28,
+        id: 21,
         phase: 4,
         category: "Spring Boot",
         title: "ORM, JPA & Hibernate Fundamentals",
@@ -323,7 +220,7 @@ const lessons = [
     },
 
     {
-        id: 29,
+        id: 22,
         phase: 4,
         category: "Spring Boot",
         title: "Entity Mapping",
@@ -333,7 +230,7 @@ const lessons = [
     },
 
     {
-        id: 30,
+        id: 23,
         phase: 4,
         category: "Spring Boot",
         title: "Repository Pattern với Spring Data JPA",
@@ -343,7 +240,7 @@ const lessons = [
     },
 
     {
-        id: 31,
+        id: 24,
         phase: 4,
         category: "Spring Boot",
         title: "Service Layer & Business Logic",
@@ -353,7 +250,7 @@ const lessons = [
     },
 
     {
-        id: 32,
+        id: 25,
         phase: 4,
         category: "Spring Boot",
         title: "One-to-One Relationship Mapping - Phần 1",
@@ -363,7 +260,7 @@ const lessons = [
     },
 
     {
-        id: 33,
+        id: 26,
         phase: 4,
         category: "Spring Boot",
         title: "One-to-One Relationship Mapping - Phần 2",
@@ -373,7 +270,7 @@ const lessons = [
     },
 
     {
-        id: 34,
+        id: 27,
         phase: 4,
         category: "Spring Boot",
         title: "DTO Pattern, Validation & Entity Mapping",
@@ -383,7 +280,7 @@ const lessons = [
     },
 
     {
-        id: 35,
+        id: 28,
         phase: 4,
         category: "Spring Boot",
         title: "One-to-Many & Many-to-One - Phần 1",
@@ -393,7 +290,7 @@ const lessons = [
     },
 
     {
-        id: 36,
+        id: 29,
         phase: 4,
         category: "Spring Boot",
         title: "One-to-Many & Many-to-One - Phần 2",
@@ -403,7 +300,7 @@ const lessons = [
     },
 
     {
-        id: 37,
+        id: 30,
         phase: 4,
         category: "Spring Boot",
         title: "Cascade Operations & Fetch Strategies",
@@ -413,7 +310,7 @@ const lessons = [
     },
 
     {
-        id: 38,
+        id: 31,
         phase: 4,
         category: "Spring Boot",
         title: "Many-to-Many Relationship - Phần 1",
@@ -423,7 +320,7 @@ const lessons = [
     },
 
     {
-        id: 39,
+        id: 32,
         phase: 4,
         category: "Spring Boot",
         title: "Many-to-Many Relationship - Phần 2",
@@ -433,7 +330,7 @@ const lessons = [
     },
 
     {
-        id: 40,
+        id: 33,
         phase: 4,
         category: "Spring Boot",
         title: "Thư viện & Công cụ hỗ trợ Spring Boot",
@@ -443,7 +340,7 @@ const lessons = [
     },
 
     {
-        id: 41,
+        id: 34,
         phase: 4,
         category: "Spring Boot",
         title: "Transaction Management & Entity Lifecycle",
@@ -452,73 +349,13 @@ const lessons = [
         icon: "fa-arrows-rotate"
     },
 
-    {
-        id: 42,
-        phase: 4,
-        category: "Project",
-        title: "Mini Project 1 - RESTful API - Phần 1",
-        description: "Khởi tạo project Spring Boot, MySQL và xây dựng Entity.",
-        duration: 120,
-        icon: "fa-diagram-project"
-    },
-
-    {
-        id: 43,
-        phase: 4,
-        category: "Project",
-        title: "Mini Project 1 - RESTful API - Phần 2",
-        description: "Xây dựng Repository, Service và Controller.",
-        duration: 120,
-        icon: "fa-code"
-    },
-
-    {
-        id: 44,
-        phase: 4,
-        category: "Project",
-        title: "Mini Project 1 - RESTful API - Phần 3",
-        description: "CRUD API, DTO và Validation.",
-        duration: 120,
-        icon: "fa-server"
-    },
-
-    {
-        id: 45,
-        phase: 4,
-        category: "Project",
-        title: "Mini Project 1 - RESTful API - Phần 4",
-        description: "Relationship, Search và Pagination.",
-        duration: 120,
-        icon: "fa-magnifying-glass"
-    },
-
-    {
-        id: 46,
-        phase: 4,
-        category: "Project",
-        title: "Mini Project 1 - RESTful API - Phần 5",
-        description: "Exception Handling và hoàn thiện API.",
-        duration: 120,
-        icon: "fa-triangle-exclamation"
-    },
-
-    {
-        id: 47,
-        phase: 4,
-        category: "Project",
-        title: "Mini Project 1 - RESTful API - Phần 6",
-        description: "Test API bằng Postman và hoàn thiện Mini Project.",
-        duration: 120,
-        icon: "fa-check-double"
-    },
-
 
     // ==================================================
-    // PHASE 5 - SECURITY JWT
+    // PHASE 5 - SECURITY JWT (Buổi 35 - 43)
     // ==================================================
 
     {
-        id: 48,
+        id: 35,
         phase: 5,
         category: "Security",
         title: "Spring Security",
@@ -528,7 +365,7 @@ const lessons = [
     },
 
     {
-        id: 49,
+        id: 36,
         phase: 5,
         category: "Security",
         title: "Authentication",
@@ -538,7 +375,7 @@ const lessons = [
     },
 
     {
-        id: 50,
+        id: 37,
         phase: 5,
         category: "Security",
         title: "Password Encoder",
@@ -548,7 +385,7 @@ const lessons = [
     },
 
     {
-        id: 51,
+        id: 38,
         phase: 5,
         category: "Security",
         title: "Authorization",
@@ -558,7 +395,7 @@ const lessons = [
     },
 
     {
-        id: 52,
+        id: 39,
         phase: 5,
         category: "Security",
         title: "JWT",
@@ -568,7 +405,7 @@ const lessons = [
     },
 
     {
-        id: 53,
+        id: 40,
         phase: 5,
         category: "Security",
         title: "JWT Filter",
@@ -578,7 +415,7 @@ const lessons = [
     },
 
     {
-        id: 54,
+        id: 41,
         phase: 5,
         category: "Security",
         title: "Refresh Token",
@@ -588,7 +425,7 @@ const lessons = [
     },
 
     {
-        id: 55,
+        id: 42,
         phase: 5,
         category: "Security",
         title: "Method Security",
@@ -598,7 +435,7 @@ const lessons = [
     },
 
     {
-        id: 56,
+        id: 43,
         phase: 5,
         category: "Project",
         title: "Mini Project Security",
@@ -609,11 +446,76 @@ const lessons = [
 
 
     // ==================================================
-    // PHASE 6 - ADVANCED
+    // PHASE 4 - MINI PROJECT 1 - RESTFUL API (Buổi 44 - 49)
     // ==================================================
 
     {
-        id: 57,
+        id: 44,
+        phase: 4,
+        category: "Project",
+        title: "Mini Project 1 - RESTful API - Phần 1",
+        description: "Khởi tạo project Spring Boot, MySQL và xây dựng Entity.",
+        duration: 120,
+        icon: "fa-diagram-project"
+    },
+
+    {
+        id: 45,
+        phase: 4,
+        category: "Project",
+        title: "Mini Project 1 - RESTful API - Phần 2",
+        description: "Xây dựng Repository, Service và Controller.",
+        duration: 120,
+        icon: "fa-code"
+    },
+
+    {
+        id: 46,
+        phase: 4,
+        category: "Project",
+        title: "Mini Project 1 - RESTful API - Phần 3",
+        description: "CRUD API, DTO và Validation.",
+        duration: 120,
+        icon: "fa-server"
+    },
+
+    {
+        id: 47,
+        phase: 4,
+        category: "Project",
+        title: "Mini Project 1 - RESTful API - Phần 4",
+        description: "Relationship, Search và Pagination.",
+        duration: 120,
+        icon: "fa-magnifying-glass"
+    },
+
+    {
+        id: 48,
+        phase: 4,
+        category: "Project",
+        title: "Mini Project 1 - RESTful API - Phần 5",
+        description: "Exception Handling và hoàn thiện API.",
+        duration: 120,
+        icon: "fa-triangle-exclamation"
+    },
+
+    {
+        id: 49,
+        phase: 4,
+        category: "Project",
+        title: "Mini Project 1 - RESTful API - Phần 6",
+        description: "Test API bằng Postman và hoàn thiện Mini Project.",
+        duration: 120,
+        icon: "fa-check-double"
+    },
+
+
+    // ==================================================
+    // PHASE 6 - ADVANCED (Buổi 50 - 54)
+    // ==================================================
+
+    {
+        id: 50,
         phase: 6,
         category: "Advanced",
         title: "Upload File & Email",
@@ -623,7 +525,7 @@ const lessons = [
     },
 
     {
-        id: 58,
+        id: 51,
         phase: 6,
         category: "Advanced",
         title: "AOP & Logging",
@@ -633,7 +535,7 @@ const lessons = [
     },
 
     {
-        id: 59,
+        id: 52,
         phase: 6,
         category: "Advanced",
         title: "Redis Cache",
@@ -643,7 +545,7 @@ const lessons = [
     },
 
     {
-        id: 60,
+        id: 53,
         phase: 6,
         category: "Advanced",
         title: "Scheduling, Async & Docker",
@@ -653,7 +555,7 @@ const lessons = [
     },
 
     {
-        id: 61,
+        id: 54,
         phase: 6,
         category: "Advanced",
         title: "Testing",
@@ -664,11 +566,11 @@ const lessons = [
 
 
     // ==================================================
-    // PHASE 7 - ENTERPRISE PROJECT
+    // PHASE 7 - ENTERPRISE PROJECT (Buổi 55 - 58)
     // ==================================================
 
     {
-        id: 62,
+        id: 55,
         phase: 7,
         category: "Project",
         title: "Phân tích & Thiết kế dự án",
@@ -678,7 +580,7 @@ const lessons = [
     },
 
     {
-        id: 63,
+        id: 56,
         phase: 7,
         category: "Project",
         title: "Xây dựng Backend",
@@ -688,7 +590,7 @@ const lessons = [
     },
 
     {
-        id: 64,
+        id: 57,
         phase: 7,
         category: "Project",
         title: "Security & Chức năng nâng cao",
@@ -698,7 +600,7 @@ const lessons = [
     },
 
     {
-        id: 65,
+        id: 58,
         phase: 7,
         category: "Project",
         title: "Hoàn thiện & Deploy",
