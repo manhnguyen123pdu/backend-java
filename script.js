@@ -169,7 +169,7 @@ const lessons = [
     // ==================================================
 
     {
-        id: 17,
+        id: 18,
         phase: 4,
         category: "Spring Boot",
         title: "Tổng quan Java Web  - Spring Framework & Spring Boot",
@@ -179,15 +179,15 @@ const lessons = [
     },
 
 
-    {
-        id: 18,
-        phase: 4,
-        category: "Spring Boot",
-        title: "IoC Container & Dependency Injection",
-        description: "IoC Container, Bean, Component, Service, Repository và Autowired.",
-        duration: 120,
-        icon: "fa-diagram-project"
-    },
+    // {
+    //     id: 18,
+    //     phase: 4,
+    //     category: "Spring Boot",
+    //     title: "IoC Container & Dependency Injection",
+    //     description: "IoC Container, Bean, Component, Service, Repository và Autowired.",
+    //     duration: 120,
+    //     icon: "fa-diagram-project"
+    // },
 
     {
         id: 19,

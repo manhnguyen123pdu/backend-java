@@ -1,0 +1,4101 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Tổng quan Java Web  - Spring Framework & Spring Boot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #17a2b8;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            min-height: 80vh;
+        }
+
+        .sidebar {
+            background: var(--light);
+            padding: 20px;
+            border-right: 3px solid var(--secondary);
+            height: 80vh;
+            overflow-y: auto;
+            position: sticky;
+            top: 0;
+        }
+
+        .nav-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--secondary);
+            color: white;
+            transform: translateX(5px);
+            border-color: var(--secondary);
+        }
+
+        .nav-link1 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .main-content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 25px 0 15px;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent);
+        }
+
+        h4 {
+            color: var(--info);
+            margin: 20px 0 10px;
+        }
+
+        h5 {
+            color: var(--dark);
+            margin: 15px 0 8px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul,
+        ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.4;
+            border: 2px solid #444;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        .class-name {
+            color: #4ec9b0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: var(--secondary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid var(--info);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+        }
+
+        .btn-run {
+            background: var(--success);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            border-left: 4px solid var(--warning);
+            display: none;
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        .result-content {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #e9ecef;
+            white-space: pre-wrap;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 3px solid var(--secondary);
+            }
+        }
+
+        .visual-array {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .array-item {
+            width: 60px;
+            height: 60px;
+            background: var(--secondary);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .array-index {
+            position: absolute;
+            top: -25px;
+            font-size: 12px;
+            color: var(--dark);
+        }
+
+        .array-value {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .algorithm-steps {
+            background: #f0f7ff;
+            border-left: 4px solid #4dabf7;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .algorithm-steps ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .algorithm-steps li {
+            margin-bottom: 5px;
+        }
+
+        .method-demo {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .demo .wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .demo .array {
+            display: flex;
+        }
+
+        .demo .item {
+            width: 100px;
+            padding: 15px;
+            margin: 5px;
+            background: white;
+            color: black;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.4s;
+        }
+
+        .demo .active {
+            background: #ffcc00;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .demo .arrow {
+            position: absolute;
+            top: -35px;
+            font-size: 28px;
+            transition: 0.4s;
+        }
+
+        .demo .index {
+            margin-top: 30px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        pre{
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-leaf"></i> Tổng quan Java Web - Spring Framework & Spring Boot</h1>
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#ioc-di-1" class="nav-link"><i class="fas fa-info-circle"></i> Tổng quan về IoC và Dependency Injection</a></li>
+                    <li class="nav-item"><a href="#ioc-di-2" class="nav-link"><i class="fas fa-cube"></i> IoC Container trong Spring</a></li>
+                    <li class="nav-item"><a href="#ioc-di-3" class="nav-link"><i class="fas fa-tags"></i> Khai báo và quản lý Bean</a></li>
+                    <li class="nav-item"><a href="#ioc-di-4" class="nav-link"><i class="fas fa-syringe"></i>  Dependency Injection trong Spring</a></li>
+                    <li class="nav-item"><a href="#ioc-di-5" class="nav-link"><i class="fas fa-code-branch"></i> Làm việc với Interface và Dependency Injection</a></li>
+                    <li class="nav-item"><a href="#ioc-di-6" class="nav-link"><i class="fas fa-layer-group"></i>  Cấu hình và phạm vi hoạt động của Bean</a></li>
+                    <li class="nav-item"><a href="#ioc-di-7" class="nav-link"><i class="fas fa-sync-alt"></i> Vòng đời của Bean</a></li>
+                    <li class="nav-item"><a href="#ioc-di-8" class="nav-link"><i class="fas fa-laptop-code"></i> Thực hành xây dựng ứng dụng Spring Boot</a></li>
+                    <li class="nav-item"><a href="#ioc-di-9" class="nav-link"><i class="fas fa-check-double"></i>  Tổng kết và bài tập</a></li>
+                    
+                </ul>
+            </nav>
+            <main class="main-content">
+
+<section id="ioc-di-1" class="section active">
+    <h2><i class="fas fa-exchange-alt"></i> TỔNG QUAN VỀ IoC VÀ DEPENDENCY INJECTION</h2>
+
+    <h3>1.1. IoC (Inversion of Control) là gì?</h3>
+
+    <h4>1.1.1. Khái niệm IoC</h4>
+    <p>IoC là viết tắt của Inversion of Control, có nghĩa là đảo ngược quyền điều khiển.</p>
+
+    <p>Trong lập trình hướng đối tượng truyền thống, lập trình viên thường chủ động tạo đối tượng, lựa chọn đối tượng nào được sử dụng và quản lý cách các đối tượng phụ thuộc vào nhau.</p>
+
+    <p>Khi ứng dụng phát triển lớn hơn, việc tự tạo và quản lý tất cả đối tượng có thể khiến mã nguồn trở nên phức tạp. Các lớp bị phụ thuộc chặt chẽ vào nhau, gây khó khăn khi thay đổi, kiểm thử và bảo trì.</p>
+
+    <p>IoC là một nguyên lý thiết kế trong đó quyền điều khiển một số hoạt động được chuyển từ mã ứng dụng sang một thành phần bên ngoài chịu trách nhiệm điều phối.</p>
+
+    <p>Trong Spring Boot, Spring IoC Container đảm nhận việc khởi tạo, quản lý các Bean và kết nối những dependency cần thiết giữa chúng.</p>
+
+    <p>Để hiểu rõ nguyên lý này, hãy xét ví dụ sau.</p>
+
+    <h4>1.1.2. Cách quản lý đối tượng truyền thống</h4>
+    <p>Giả sử chúng ta xây dựng một ứng dụng gửi thông báo cho người dùng qua email.</p>
+
+    <p>Trước tiên, tạo lớp <code>EmailService</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class EmailService {
+
+    public void sendEmail() {
+        System.out.println("Sending email...");
+    }
+}</pre>
+    </div>
+
+    <p>Lớp <code>EmailService</code> chịu trách nhiệm thực hiện thao tác gửi email. Trong ví dụ này, phương thức chỉ in thông báo ra màn hình để minh họa.</p>
+
+    <p>Tiếp theo, tạo lớp <code>NotificationService</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class NotificationService {
+
+    private final EmailService emailService =
+            new EmailService();
+
+    public void notifyUser() {
+        emailService.sendEmail();
+    }
+}</pre>
+    </div>
+
+    <p>Phân tích đoạn code:</p>
+    <ul>
+        <li><code>private final EmailService emailService</code>: khai báo một thuộc tính để lưu đối tượng <code>EmailService</code>.</li>
+        <li><code>new EmailService()</code>: chủ động tạo đối tượng <code>EmailService</code> ngay bên trong <code>NotificationService</code>.</li>
+        <li><code>notifyUser()</code>: gọi phương thức gửi email thông qua đối tượng đã tạo.</li>
+    </ul>
+
+    <p>Cách triển khai này vẫn hoạt động bình thường. Tuy nhiên, <code>NotificationService</code> đang trực tiếp quyết định cách tạo dependency của chính nó.</p>
+
+    <p>Nếu sau này muốn chuyển sang gửi SMS, chẳng hạn bằng lớp <code>SmsService</code>, chúng ta có thể phải sửa lại cách khởi tạo và sử dụng dependency trong <code>NotificationService</code>.</p>
+
+    <p>Vấn đề không nằm ở từ khóa <code>new</code> tự thân, mà nằm ở việc lớp nghiệp vụ phải tự quản lý quá nhiều chi tiết khởi tạo và phụ thuộc vào một cách triển khai cụ thể.</p>
+
+    <h4>1.1.3. IoC trong Spring Boot</h4>
+    <p>Spring cung cấp cơ chế để chuyển trách nhiệm tạo và kết nối các đối tượng sang Spring IoC Container.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Service;
+
+@Service
+public class EmailService {
+
+    public void sendEmail() {
+        System.out.println("Sending email...");
+    }
+}</pre>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Service;
+
+@Service
+public class NotificationService {
+
+    private final EmailService emailService;
+
+    public NotificationService(
+            EmailService emailService) {
+        this.emailService = emailService;
+    }
+
+    public void notifyUser() {
+        emailService.sendEmail();
+    }
+}</pre>
+    </div>
+
+    <p>Ở ví dụ này, <code>NotificationService</code> không còn trực tiếp tạo <code>EmailService</code> bằng <code>new</code>.</p>
+
+    <p>Thay vào đó:</p>
+    <ol>
+        <li>Spring phát hiện <code>EmailService</code> và đăng ký Bean tương ứng.</li>
+        <li>Spring phát hiện <code>NotificationService</code>.</li>
+        <li>Khi tạo <code>NotificationService</code>, Spring cung cấp Bean <code>EmailService</code> thông qua constructor.</li>
+        <li><code>NotificationService</code> sử dụng dependency được cung cấp để thực hiện công việc.</li>
+    </ol>
+
+    <p>Luồng hoạt động có thể biểu diễn như sau:</p>
+
+    <div class="info-box">
+        <pre>Spring IoC Container
+        |
+        | Quản lý các Bean
+        v
+EmailService
+        |
+        | Bean được cung cấp
+        v
+NotificationService
+        |
+        | Bean cần dependency
+        v
+Spring kết nối EmailService vào NotificationService thông qua constructor.</pre>
+    </div>
+
+    <p>Bản chất của IoC: lớp nghiệp vụ không còn phải tự quyết định toàn bộ cách tạo và kết nối các đối tượng phụ thuộc. Trách nhiệm đó được chuyển cho cơ chế quản lý bên ngoài, trong trường hợp này là Spring Container.</p>
+
+    <p>Cần lưu ý rằng IoC là một nguyên lý thiết kế tổng quát, không phải tính năng chỉ tồn tại trong Spring. Spring là một framework cung cấp cơ chế triển khai IoC rất phổ biến trong Java.</p>
+
+    <h3>1.2. Dependency Injection (DI) là gì?</h3>
+
+    <h4>1.2.1. Khái niệm Dependency</h4>
+    <p>Dependency có nghĩa là sự phụ thuộc giữa các thành phần trong chương trình.</p>
+
+    <p>Một lớp được gọi là phụ thuộc vào lớp khác khi nó cần sử dụng chức năng hoặc dữ liệu do lớp đó cung cấp để thực hiện nhiệm vụ của mình.</p>
+
+    <p>Ví dụ, trong ứng dụng quản lý sản phẩm:</p>
+    <ul>
+        <li><code>ProductController</code> cần <code>ProductService</code> để xử lý yêu cầu từ người dùng.</li>
+        <li><code>ProductService</code> cần <code>ProductRepository</code> để truy cập dữ liệu sản phẩm.</li>
+        <li><code>ProductRepository</code> có thể sử dụng cơ chế truy cập cơ sở dữ liệu để truy vấn MySQL.</li>
+    </ul>
+
+    <p>Có thể biểu diễn mối quan hệ phụ thuộc như sau:</p>
+
+    <div class="info-box">
+        <pre>ProductController
+        |
+        v
+ProductService
+        |
+        v
+ProductRepository</pre>
+    </div>
+
+    <p>Mỗi thành phần sử dụng chức năng do thành phần phía dưới cung cấp.</p>
+
+    <p>Đây là một cấu trúc phổ biến trong ứng dụng Backend Spring Boot. Sơ đồ thể hiện quan hệ phụ thuộc về mặt sử dụng chức năng, không có nghĩa mọi lớp đều phải trực tiếp tạo đối tượng của lớp phía dưới.</p>
+
+    <h4>1.2.2. Dependency Injection là gì?</h4>
+    <p>DI là viết tắt của Dependency Injection, có nghĩa là tiêm sự phụ thuộc.</p>
+
+    <p>Đây là kỹ thuật trong đó một đối tượng nhận những dependency mà nó cần từ bên ngoài, thay vì tự tạo và quản lý toàn bộ các dependency đó.</p>
+
+    <p>Trong Spring, IoC Container thường đảm nhận việc cung cấp các dependency thông qua cơ chế Dependency Injection.</p>
+
+    <p>Hãy so sánh hai cách triển khai.</p>
+
+    <p><strong>Cách 1: Tự tạo dependency</strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class ProductService {
+
+    private final ProductRepository repository =
+            new ProductRepository();
+
+}</pre>
+    </div>
+
+    <p>Ở đây, <code>ProductService</code> tự tạo <code>ProductRepository</code>. Điều này khiến lớp Service phụ thuộc trực tiếp vào cách khởi tạo cụ thể của Repository.</p>
+
+    <p><strong>Cách 2: Nhận dependency từ bên ngoài</strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class ProductService {
+
+    private final ProductRepository repository;
+
+    public ProductService(ProductRepository repository) {
+        this.repository = repository;
+    }
+}</pre>
+    </div>
+
+    <p>Trong cách thứ hai, <code>ProductService</code> nhận <code>ProductRepository</code> thông qua constructor.</p>
+
+    <p>Lớp này không cần tự tạo Repository. Thành phần bên ngoài chịu trách nhiệm khởi tạo đối tượng và cung cấp dependency phù hợp.</p>
+
+    <p>Nếu hai lớp được Spring quản lý như Bean, Spring có thể tự động thực hiện việc kết nối đó.</p>
+
+    <h4>1.2.3. Các thành phần trong Dependency Injection</h4>
+    <p>DI có ba thành phần cơ bản:</p>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Thành phần</th>
+                    <th>Vai trò</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Client</td><td>Đối tượng cần sử dụng dependency</td></tr>
+                <tr><td>Dependency</td><td>Đối tượng cung cấp chức năng cho client</td></tr>
+                <tr><td>Injector</td><td>Thành phần cung cấp dependency cho client</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Áp dụng vào ví dụ trên:</p>
+    <ul>
+        <li><code>ProductService</code> là client.</li>
+        <li><code>ProductRepository</code> là dependency.</li>
+        <li>Spring IoC Container đóng vai trò cung cấp và kết nối dependency.</li>
+    </ul>
+
+    <p>Điểm quan trọng là client không cần tự chịu trách nhiệm tạo dependency. Nó chỉ cần khai báo những gì mình cần và sử dụng những gì được cung cấp.</p>
+
+    <h4>1.2.4. DI có bắt buộc phải sử dụng Spring không?</h4>
+    <p>Không.</p>
+
+    <p>Dependency Injection là một kỹ thuật thiết kế có thể thực hiện bằng Java thuần.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class EmailService {
+
+    public void sendEmail() {
+        System.out.println("Sending email...");
+    }
+}</pre>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class NotificationService {
+
+    private final EmailService emailService;
+
+    public NotificationService(EmailService emailService) {
+        this.emailService = emailService;
+    }
+}</pre>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class Main {
+
+    public static void main(String[] args) {
+
+        EmailService emailService = new EmailService();
+
+        NotificationService notificationService =
+                new NotificationService(emailService);
+    }
+}</pre>
+    </div>
+
+    <p>Trong ví dụ này, <code>Main</code> tạo <code>EmailService</code> rồi truyền đối tượng đó vào constructor của <code>NotificationService</code>.</p>
+
+    <p>Đây vẫn là Dependency Injection, mặc dù chưa sử dụng Spring.</p>
+
+    <p>Khi ứng dụng có nhiều thành phần, việc tự tạo và kết nối từng đối tượng có thể trở nên phức tạp. Spring giúp tự động hóa công việc này thông qua IoC Container.</p>
+
+    <h3>1.3. Mối quan hệ giữa IoC và DI</h3>
+    <p>IoC và DI có liên quan chặt chẽ với nhau nhưng không phải là hai khái niệm đồng nghĩa.</p>
+
+    <p>IoC là nguyên lý; DI là một kỹ thuật phổ biến để triển khai nguyên lý đó.</p>
+
+    <p>IoC nói về việc chuyển giao quyền điều khiển một số hoạt động cho một thành phần bên ngoài. DI tập trung vào cách cung cấp các dependency cần thiết cho đối tượng.</p>
+
+    <p>Trong Spring Boot, hai khái niệm này phối hợp với nhau như sau:</p>
+
+    <div class="info-box">
+        <pre>IoC
+Nguyên lý đảo ngược quyền điều khiển
+        |
+        v
+Spring IoC Container
+Quản lý và điều phối các Bean
+        |
+        v
+Dependency Injection
+Cung cấp dependency cho các Bean</pre>
+    </div>
+
+    <p>Ví dụ, <code>ProductService</code> cần <code>ProductRepository</code>.</p>
+
+    <p>Nếu không dùng cơ chế quản lý dependency, <code>ProductService</code> có thể tự tạo Repository bằng <code>new</code>.</p>
+
+    <p>Nếu sử dụng Spring:</p>
+    <ol>
+        <li>Chúng ta khai báo các thành phần cần được quản lý.</li>
+        <li>Spring Container phát hiện và đăng ký các Bean phù hợp.</li>
+        <li>Spring phân tích dependency mà <code>ProductService</code> yêu cầu.</li>
+        <li>Spring cung cấp <code>ProductRepository</code> khi tạo <code>ProductService</code>.</li>
+    </ol>
+
+    <p>Như vậy, IoC là nguyên lý tổng quát, còn DI là cơ chế kết nối đối tượng quan trọng mà Spring sử dụng để thực hiện nguyên lý đó.</p>
+
+    <p>Cũng cần hiểu rằng IoC không chỉ được triển khai bằng DI. Trong các loại framework khác, IoC có thể được thể hiện qua những cơ chế như callback, event handling hoặc việc framework gọi các phương thức do ứng dụng định nghĩa.</p>
+
+    <h3>1.4. Vì sao Spring Boot sử dụng IoC và DI?</h3>
+    <p>Spring Boot được sử dụng để xây dựng các ứng dụng Backend có nhiều thành phần phối hợp với nhau. Nếu mỗi lớp tự tạo và quản lý các đối tượng mà nó cần, ứng dụng sẽ khó mở rộng và bảo trì khi số lượng thành phần tăng lên.</p>
+
+    <p>IoC và DI giải quyết vấn đề này theo nhiều cách.</p>
+
+    <h4>1.4.1. Giảm sự phụ thuộc chặt chẽ giữa các lớp</h4>
+    <p>Giả sử <code>NotificationService</code> trực tiếp tạo <code>EmailService</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class NotificationService {
+
+    private final EmailService emailService =
+            new EmailService();
+}</pre>
+    </div>
+
+    <p>Lớp này bị gắn với cách triển khai cụ thể <code>EmailService</code>.</p>
+
+    <p>Khi muốn chuyển sang một phương thức gửi thông báo khác, chúng ta có thể phải sửa đổi lớp <code>NotificationService</code>.</p>
+
+    <p>Một thiết kế linh hoạt hơn là phụ thuộc vào interface:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public interface NotificationSender {
+
+    void send(String message);
+}</pre>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class EmailSender implements NotificationSender {
+
+    @Override
+    public void send(String message) {
+        System.out.println("Email: " + message);
+    }
+}</pre>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class SmsSender implements NotificationSender {
+
+    @Override
+    public void send(String message) {
+        System.out.println("SMS: " + message);
+    }
+}</pre>
+    </div>
+
+    <p>Lớp nghiệp vụ có thể phụ thuộc vào interface <code>NotificationSender</code> thay vì phụ thuộc trực tiếp vào một lớp cụ thể:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class NotificationService {
+
+    private final NotificationSender sender;
+
+    public NotificationService(NotificationSender sender) {
+        this.sender = sender;
+    }
+
+    public void notifyUser(String message) {
+        sender.send(message);
+    }
+}</pre>
+    </div>
+
+    <p>Bây giờ, <code>NotificationService</code> không cần biết chi tiết gửi email hay SMS. Nó chỉ cần một đối tượng thực hiện đúng hợp đồng <code>NotificationSender</code>.</p>
+
+    <p>Khi kết hợp thiết kế này với Spring DI, chúng ta có thể cấu hình implementation phù hợp mà không phải viết lại logic nghiệp vụ.</p>
+
+    <h4>1.4.2. Dễ thay đổi và mở rộng ứng dụng</h4>
+    <p>Khi hệ thống có thêm chức năng, chúng ta có thể xây dựng thêm các implementation mới mà không cần thay đổi tất cả lớp đang sử dụng interface.</p>
+
+    <p>Ví dụ:</p>
+    <ul>
+        <li>Ban đầu, ứng dụng chỉ gửi email.</li>
+        <li>Sau đó, ứng dụng bổ sung gửi SMS.</li>
+        <li>Tiếp theo, ứng dụng bổ sung thông báo qua một dịch vụ bên thứ ba.</li>
+    </ul>
+
+    <p>Nếu thiết kế tốt, phần lớn thay đổi sẽ nằm ở implementation hoặc cấu hình lựa chọn Bean, thay vì lan rộng đến toàn bộ hệ thống.</p>
+
+    <p>Tuy nhiên, DI không tự động làm cho mọi thiết kế trở nên linh hoạt. Mức độ linh hoạt còn phụ thuộc vào cách tổ chức interface, trách nhiệm của các lớp và mối quan hệ phụ thuộc trong chương trình.</p>
+
+    <h4>1.4.3. Hỗ trợ kiểm thử đơn vị (Unit Testing)</h4>
+    <p>Giả sử <code>ProductService</code> cần sử dụng <code>ProductRepository</code> để lấy dữ liệu sản phẩm.</p>
+
+    <p>Nếu <code>ProductService</code> tự tạo Repository, việc thay thế Repository bằng một đối tượng giả lập khi kiểm thử sẽ khó khăn hơn.</p>
+
+    <p>Khi sử dụng DI, chúng ta có thể truyền một mock vào Service.</p>
+
+    <p>Ví dụ minh họa với Mockito:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@ExtendWith(MockitoExtension.class)
+class ProductServiceTest {
+
+    @Mock
+    private ProductRepository productRepository;
+
+    @InjectMocks
+    private ProductService productService;
+
+    @Test
+    void shouldGetProduct() {
+        // Cấu hình mock và kiểm tra kết quả
+    }
+}</pre>
+    </div>
+
+    <p>Trong ví dụ:</p>
+    <ul>
+        <li><code>@Mock</code> tạo một đối tượng giả lập <code>ProductRepository</code>.</li>
+        <li><code>@InjectMocks</code> tạo <code>ProductService</code> và đưa các mock phù hợp vào đối tượng này.</li>
+        <li><code>@ExtendWith(MockitoExtension.class)</code> tích hợp Mockito với JUnit Jupiter.</li>
+    </ul>
+
+    <p>Lúc này, chúng ta có thể kiểm thử logic của <code>ProductService</code> mà không cần kết nối MySQL thật, miễn là các phụ thuộc được mock đầy đủ và bài kiểm thử không yêu cầu tài nguyên bên ngoài.</p>
+
+    <p>Lưu ý rằng <code>@InjectMocks</code> là annotation của Mockito, không phải của Spring. Ví dụ này minh họa lợi ích thiết kế của DI đối với Unit Testing.</p>
+
+    <h4>1.4.4. Tập trung quản lý đối tượng</h4>
+    <p>Trong một ứng dụng Spring Boot, có thể tồn tại hàng chục hoặc hàng trăm Bean:</p>
+    <ul>
+        <li>Controller.</li>
+        <li>Service.</li>
+        <li>Repository.</li>
+        <li>Thành phần gửi email.</li>
+        <li>Thành phần xử lý bảo mật.</li>
+        <li>Các đối tượng hỗ trợ kết nối dịch vụ bên ngoài.</li>
+    </ul>
+
+    <p>Nếu từng lớp phải tự tạo và quản lý các đối tượng phụ thuộc, việc kiểm soát hệ thống sẽ trở nên phức tạp.</p>
+
+    <p>Spring IoC Container tập trung việc quản lý các Bean, bao gồm khởi tạo, kết nối dependency và quản lý vòng đời theo cấu hình.</p>
+
+    <p>Nhờ đó, lập trình viên có thể tập trung nhiều hơn vào nghiệp vụ thay vì phải tự viết mã khởi tạo và kết nối mọi đối tượng.</p>
+
+    <h4>1.4.5. Tận dụng hệ sinh thái Spring</h4>
+    <p>IoC và DI là nền tảng cho nhiều cơ chế trong hệ sinh thái Spring.</p>
+
+    <p>Chẳng hạn:</p>
+    <ul>
+        <li>Spring MVC sử dụng các Bean để xử lý yêu cầu web.</li>
+        <li>Spring Data cung cấp các thành phần truy cập dữ liệu.</li>
+        <li>Spring Security cung cấp các thành phần phục vụ xác thực và phân quyền.</li>
+        <li>Spring quản lý các thành phần cấu hình ứng dụng và những dependency liên quan.</li>
+    </ul>
+
+    <p>Khi hiểu IoC và DI, chúng ta sẽ dễ hiểu hơn cách các thành phần của Spring Boot được khởi tạo, kết nối và sử dụng trong một ứng dụng thực tế.</p>
+
+    <h3>1.5. So sánh cách quản lý đối tượng truyền thống với Spring</h3>
+    <p>Để tổng hợp kiến thức, hãy so sánh hai cách xây dựng một <code>ProductService</code> cần <code>ProductRepository</code>.</p>
+
+    <h4>1.5.1. Cách truyền thống: tự tạo đối tượng</h4>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class ProductRepository {
+
+    public String findProductName() {
+        return "Laptop Dell";
+    }
+}</pre>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class ProductService {
+
+    private final ProductRepository repository =
+            new ProductRepository();
+
+    public String getProductName() {
+        return repository.findProductName();
+    }
+}</pre>
+    </div>
+
+    <p>Ở đây, <code>ProductService</code> tự tạo <code>ProductRepository</code>.</p>
+
+    <p>Ưu điểm là đơn giản, dễ hiểu và phù hợp với những chương trình nhỏ.</p>
+
+    <p>Tuy nhiên, khi hệ thống phát triển, lớp Service có thể phải tự xử lý nhiều chi tiết khởi tạo và khó thay thế dependency khi kiểm thử hoặc mở rộng.</p>
+
+    <h4>1.5.2. Cách sử dụng Spring DI</h4>
+    <p>Đầu tiên, khai báo Repository:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Repository;
+
+@Repository
+public class ProductRepository {
+
+    public String findProductName() {
+        return "Laptop Dell";
+    }
+}</pre>
+    </div>
+
+    <p>Tiếp theo, khai báo Service:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Service;
+
+@Service
+public class ProductService {
+
+    private final ProductRepository repository;
+
+    public ProductService(ProductRepository repository) {
+        this.repository = repository;
+    }
+
+    public String getProductName() {
+        return repository.findProductName();
+    }
+}</pre>
+    </div>
+
+    <p>Với cấu hình Component Scanning phù hợp, Spring sẽ đăng ký hai lớp thành Bean và cung cấp <code>ProductRepository</code> cho <code>ProductService</code> thông qua constructor.</p>
+
+    <p>Trong ví dụ này, chúng ta không cần viết <code>new ProductRepository()</code> bên trong <code>ProductService</code>.</p>
+
+    <h4>1.5.3. Bảng so sánh tổng hợp</h4>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tiêu chí</th>
+                    <th>Tự quản lý đối tượng</th>
+                    <th>Spring IoC và DI</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Tạo đối tượng</td><td>Lập trình viên chủ động tạo</td><td>Spring có thể tạo và quản lý Bean</td></tr>
+                <tr><td>Kết nối dependency</td><td>Thường viết trực tiếp trong code</td><td>Có thể được Spring tự động thực hiện</td></tr>
+                <tr><td>Quản lý đối tượng</td><td>Do code ứng dụng đảm nhận</td><td>Spring Container quản lý Bean đã đăng ký</td></tr>
+                <tr><td>Thay thế dependency</td><td>Có thể phải sửa code tạo đối tượng</td><td>Thuận tiện hơn khi thiết kế qua interface</td></tr>
+                <tr><td>Unit Testing</td><td>Có thể cần thay đổi cách khởi tạo để thay dependency</td><td>Dễ truyền mock qua constructor</td></tr>
+                <tr><td>Quy mô ứng dụng</td><td>Đơn giản với chương trình nhỏ</td><td>Phù hợp với ứng dụng nhiều thành phần</td></tr>
+                <tr><td>Cấu hình</td><td>Thường nằm trong code khởi tạo</td><td>Có thể tập trung trong cấu hình Spring</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Cần nhấn mạnh rằng Spring không loại bỏ hoàn toàn việc sử dụng <code>new</code>. Chính Spring hoặc các phương thức cấu hình vẫn có thể sử dụng <code>new</code> để tạo đối tượng. Điểm khác biệt là trách nhiệm khởi tạo và kết nối những đối tượng được quản lý được chuyển sang container, thay vì để từng lớp nghiệp vụ tự tạo mọi dependency của nó.</p>
+
+    <h3>Tổng kết Bài 1</h3>
+    <p>Có thể ghi nhớ ba khái niệm cốt lõi:</p>
+
+    <ul>
+        <li><strong>IoC (Inversion of Control):</strong> nguyên lý chuyển giao quyền điều khiển một số hoạt động từ code ứng dụng sang một thành phần bên ngoài.</li>
+        <li><strong>DI (Dependency Injection):</strong> kỹ thuật cung cấp dependency cho một đối tượng từ bên ngoài thay vì để đối tượng tự tạo dependency đó.</li>
+        <li><strong>Spring IoC Container:</strong> thành phần của Spring chịu trách nhiệm quản lý Bean và thực hiện việc kết nối dependency theo cấu hình.</li>
+    </ul>
+
+    <p>Luồng tổng quát trong một ứng dụng Spring Boot:</p>
+
+    <div class="info-box">
+        <pre>Khai báo các thành phần
+Ví dụ: @Service, @Repository
+        |
+        v
+Spring IoC Container
+Phát hiện, tạo và quản lý Bean
+        |
+        v
+Dependency Injection
+Cung cấp dependency cần thiết
+        |
+        v
+Các thành phần phối hợp hoạt động
+Controller → Service → Repository</pre>
+    </div>
+
+    <p>Nắm vững phần này sẽ giúp người học hiểu vì sao trong Spring Boot chúng ta thường khai báo các lớp bằng annotation, sử dụng constructor để nhận dependency và để Spring Container quản lý các Bean thay vì tự tạo mọi đối tượng bằng <code>new</code>.</p>
+
+    <div class="success-box">
+        <h5>Ghi nhớ trọng tâm</h5>
+        <ul>
+            <li><strong>IoC</strong> là nguyên lý đảo ngược quyền điều khiển — chuyển trách nhiệm tạo và quản lý đối tượng cho container.</li>
+            <li><strong>DI</strong> là kỹ thuật tiêm dependency từ bên ngoài vào đối tượng, thay vì đối tượng tự tạo.</li>
+            <li><strong>Spring IoC Container</strong> quản lý Bean và thực hiện DI; đây là nền tảng của Spring Boot.</li>
+            <li>Ba thành phần của DI: <strong>Client</strong> (cần dependency), <strong>Dependency</strong> (cung cấp chức năng), <strong>Injector</strong> (cung cấp dependency — Spring Container).</li>
+            <li><strong>DI không bắt buộc phải dùng Spring</strong> — có thể thực hiện bằng Java thuần qua constructor injection.</li>
+            <li>Lợi ích của IoC/DI: giảm phụ thuộc chặt, dễ mở rộng, dễ Unit Test với Mockito (<code>@Mock</code>, <code>@InjectMocks</code>), tập trung quản lý Bean, tận dụng hệ sinh thái Spring.</li>
+            <li><strong>Constructor Injection</strong> là cách phổ biến và được khuyến nghị trong Spring Boot hiện đại.</li>
+            <li>Spring <strong>không loại bỏ</strong> hoàn toàn <code>new</code> — chỉ chuyển trách nhiệm khởi tạo/kết nối đối tượng được quản lý sang container.</li>
+        </ul>
+    </div>
+</section>
+
+<section id="ioc-di-2" class="section">
+    <h2><i class="fas fa-boxes"></i> BÀI 2. IoC CONTAINER TRONG SPRING</h2>
+
+    <p>IoC Container là một trong những thành phần nền tảng của Spring Framework. Để hiểu cách Spring Boot tự động tạo đối tượng, tiêm dependency và quản lý các thành phần trong ứng dụng, chúng ta cần hiểu rõ cách Container hoạt động.</p>
+
+    <p>Trong bài học này, chúng ta sẽ tìm hiểu từ khái niệm IoC Container, Spring Bean, sự khác biệt giữa Bean và Java Object thông thường cho đến cách Spring khởi tạo, quản lý và kết thúc vòng đời của Bean.</p>
+
+    <h3>2.1. IoC Container là gì?</h3>
+
+    <h4>2.1.1. Khái niệm IoC Container</h4>
+    <p>IoC Container là thành phần của Spring chịu trách nhiệm khởi tạo, quản lý các Bean và kết nối những dependency cần thiết giữa chúng.</p>
+
+    <p>Trong Java thông thường, lập trình viên có thể trực tiếp tạo đối tượng bằng từ khóa <code>new</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>EmailService emailService = new EmailService();</pre>
+    </div>
+
+    <p>Đối tượng <code>emailService</code> được tạo trực tiếp bởi đoạn code trên. Nếu một lớp khác cũng cần <code>EmailService</code>, lập trình viên thường phải chủ động tạo hoặc truyền đối tượng đó vào lớp sử dụng.</p>
+
+    <p>Trong Spring, chúng ta có thể khai báo một lớp cần được quản lý:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Service;
+
+@Service
+public class EmailService {
+
+    public void sendEmail() {
+        System.out.println("Sending email...");
+    }
+}</pre>
+    </div>
+
+    <p>Khi ứng dụng khởi động, Spring có thể phát hiện lớp <code>EmailService</code> thông qua Component Scanning và đăng ký đối tượng tương ứng thành một Bean trong IoC Container.</p>
+
+    <p>Nếu một lớp khác cần <code>EmailService</code>, Spring có thể cung cấp Bean đó thông qua Dependency Injection.</p>
+
+    <p>Như vậy, thay vì để từng lớp tự chịu trách nhiệm tạo và kết nối tất cả đối tượng phụ thuộc, chúng ta giao phần việc này cho Spring Container.</p>
+
+    <h4>2.1.2. IoC Container hoạt động ở đâu trong ứng dụng?</h4>
+    <p>Hãy xem cấu trúc đơn giản của một ứng dụng Backend Spring Boot:</p>
+
+    <div class="info-box">
+        <pre>Spring Boot Application
+        |
+        | Điểm khởi động ứng dụng
+        v
+Spring IoC Container
+        |
+        +-- ProductRepository
+        |
+        +-- ProductService
+        |
+        +-- ProductController
+        |
+        v
+Container quản lý các Bean và kết nối dependency giữa chúng.</pre>
+    </div>
+
+    <p>Trong mô hình này:</p>
+    <ul>
+        <li><code>ProductController</code> tiếp nhận các yêu cầu HTTP.</li>
+        <li><code>ProductService</code> xử lý nghiệp vụ.</li>
+        <li><code>ProductRepository</code> chịu trách nhiệm truy cập dữ liệu.</li>
+        <li>Spring Container quản lý các Bean đã đăng ký và cung cấp dependency cho những thành phần cần chúng.</li>
+    </ul>
+
+    <p>Container không phải là một database hay một vùng lưu trữ đối tượng mà lập trình viên trực tiếp truy vấn. Đây là thành phần quản lý các đối tượng trong bộ nhớ và điều phối cách các thành phần của Spring được kết nối với nhau.</p>
+
+    <h4>2.1.3. Spring tạo IoC Container như thế nào?</h4>
+    <p>Trong ứng dụng Spring Boot, chúng ta thường khởi động chương trình bằng đoạn code sau:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}</pre>
+    </div>
+
+    <p>Giải thích:</p>
+    <ul>
+        <li><code>@SpringBootApplication</code> đánh dấu lớp khởi động và bật các cơ chế cấu hình chính của Spring Boot, trong đó có Component Scanning mặc định.</li>
+        <li><code>main()</code> là điểm bắt đầu thực thi của ứng dụng Java.</li>
+        <li><code>SpringApplication.run(...)</code> khởi động ứng dụng Spring Boot và xây dựng ApplicationContext phù hợp với loại ứng dụng.</li>
+    </ul>
+
+    <p>Trong quá trình khởi động, Spring chuẩn bị Container, đọc cấu hình, phát hiện các thành phần cần quản lý, đăng ký Bean và thực hiện việc khởi tạo các Bean theo cơ chế của Spring.</p>
+
+    <p>Đối với ứng dụng Spring Boot sử dụng cấu hình mặc định thông thường, Container mà chúng ta làm việc trực tiếp là một triển khai của <code>ApplicationContext</code>.</p>
+
+    <h3>2.2. Vai trò của IoC Container</h3>
+    <p>IoC Container không chỉ tạo đối tượng. Nó đảm nhận nhiều công việc quan trọng trong quá trình vận hành ứng dụng Spring.</p>
+
+    <h4>2.2.1. Khởi tạo Bean</h4>
+    <p>Container chịu trách nhiệm tạo các đối tượng đã được đăng ký làm Bean.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Service;
+
+@Service
+public class ProductService {
+
+    public void displayProducts() {
+        System.out.println("Displaying products...");
+    }
+}</pre>
+    </div>
+
+    <p>Khi <code>ProductService</code> được Spring phát hiện và đăng ký, Container có thể tạo đối tượng tương ứng mà chúng ta không cần tự viết <code>new ProductService()</code> tại nơi sử dụng.</p>
+
+    <p>Tuy nhiên, việc một lớp có annotation không có nghĩa nó chắc chắn được tạo thành Bean: lớp đó phải được phát hiện hoặc đăng ký thông qua một cơ chế cấu hình phù hợp.</p>
+
+    <h4>2.2.2. Tiêm các dependency</h4>
+    <p>Giả sử <code>ProductService</code> cần <code>ProductRepository</code>.</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Repository;
+
+@Repository
+public class ProductRepository {
+
+    public String findProductName() {
+        return "Laptop Dell";
+    }
+}</pre>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Service;
+
+@Service
+public class ProductService {
+
+    private final ProductRepository repository;
+
+    public ProductService(ProductRepository repository) {
+        this.repository = repository;
+    }
+
+    public String getProductName() {
+        return repository.findProductName();
+    }
+}</pre>
+    </div>
+
+    <p>Spring có thể cung cấp <code>ProductRepository</code> khi tạo <code>ProductService</code> thông qua constructor.</p>
+
+    <p>Ở đây, <code>ProductRepository</code> là dependency của <code>ProductService</code>.</p>
+
+    <p>Lập trình viên chỉ khai báo dependency cần thiết. Container chịu trách nhiệm tìm Bean phù hợp và truyền vào constructor.</p>
+
+    <p>Nếu không có Bean phù hợp hoặc có nhiều Bean gây xung đột, ứng dụng có thể gặp lỗi khi khởi động hoặc khi thực hiện việc lấy Bean, tùy tình huống cụ thể.</p>
+
+    <h4>2.2.3. Quản lý vòng đời Bean</h4>
+    <p>Một Bean có quá trình tồn tại trong ứng dụng: được tạo, có thể được cấu hình và khởi tạo, được sử dụng, rồi được xử lý khi Container đóng.</p>
+
+    <p>Spring hỗ trợ những cơ chế như:</p>
+    <ul>
+        <li>Thực hiện phương thức khởi tạo sau khi dependency đã được tiêm.</li>
+        <li>Gọi phương thức xử lý trước khi Bean bị hủy trong những trường hợp phù hợp.</li>
+        <li>Quản lý Bean theo phạm vi hoạt động (scope).</li>
+        <li>Thực hiện các callback trong quá trình khởi tạo và hủy Bean.</li>
+    </ul>
+
+    <p>Các nội dung này sẽ được trình bày chi tiết hơn ở mục 2.7.</p>
+
+    <h4>2.2.4. Quản lý cấu hình và các thành phần của ứng dụng</h4>
+    <p>Container còn làm việc cùng hệ thống cấu hình của Spring để tạo ra các Bean với những dependency phù hợp.</p>
+
+    <p>Ví dụ, một ứng dụng có thể cần:</p>
+    <ul>
+        <li>Một Bean gửi email.</li>
+        <li>Một Bean xử lý nghiệp vụ.</li>
+        <li>Một Bean thực hiện truy cập dữ liệu.</li>
+        <li>Các Bean phục vụ xác thực và phân quyền.</li>
+        <li>Các Bean hỗ trợ kết nối dịch vụ bên ngoài.</li>
+    </ul>
+
+    <p>Nhờ Container, các thành phần này có thể được đăng ký, cấu hình và kết nối tập trung theo quy tắc của ứng dụng.</p>
+
+    <h4>2.2.5. Hỗ trợ các tính năng của hệ sinh thái Spring</h4>
+    <p>Nhiều tính năng Spring hoạt động dựa trên Bean và Container, chẳng hạn:</p>
+    <ul>
+        <li>Spring MVC quản lý các Controller và những thành phần web liên quan.</li>
+        <li>Spring Security sử dụng các Bean cấu hình bảo mật và các thành phần xử lý xác thực.</li>
+        <li>Spring Data cung cấp các cơ chế truy cập dữ liệu và tích hợp chúng vào ứng dụng.</li>
+        <li>Spring hỗ trợ AOP để bổ sung các hành vi như logging hoặc xử lý giao dịch cho những thành phần phù hợp.</li>
+    </ul>
+
+    <p>Vì vậy, hiểu IoC Container sẽ giúp chúng ta hiểu tại sao Spring Boot có thể tự động kết nối nhiều thành phần mà không yêu cầu lập trình viên khởi tạo thủ công từng đối tượng.</p>
+
+    <h3>2.3. Bean là gì?</h3>
+
+    <h4>2.3.1. Định nghĩa Spring Bean</h4>
+    <p>Spring Bean là một đối tượng được Spring IoC Container khởi tạo, quản lý và cung cấp theo cấu hình của ứng dụng.</p>
+
+    <p>Trong Java, một lớp là bản thiết kế để tạo đối tượng. Spring Bean cũng là một đối tượng Java, nhưng có thêm điểm khác biệt quan trọng: đối tượng đó được đăng ký và quản lý bởi Container.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class Student {
+
+    private String name;
+
+    public Student(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+}</pre>
+    </div>
+
+    <p>Đây là một lớp Java bình thường. Bản thân việc khai báo lớp <code>Student</code> không làm nó trở thành Spring Bean.</p>
+
+    <p>Nếu chúng ta tạo đối tượng:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>Student student = new Student("Nguyen Van A");</pre>
+    </div>
+
+    <p>thì đối tượng này được tạo trực tiếp bởi code của chúng ta, không tự động được Spring quản lý.</p>
+
+    <p>Ngược lại, nếu muốn Spring quản lý <code>Student</code>, chúng ta có thể đăng ký Bean bằng Java Configuration:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public Student student() {
+        return new Student("Nguyen Van A");
+    }
+}</pre>
+    </div>
+
+    <p>Trong trường hợp này, phương thức <code>student()</code> khai báo một Bean để Spring Container quản lý.</p>
+
+    <h4>2.3.2. Những cách đăng ký Bean phổ biến</h4>
+    <p>Có hai cách phổ biến để đăng ký Bean trong ứng dụng Spring Boot.</p>
+
+    <p><strong>Cách 1: Sử dụng annotation trên lớp</strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Component;
+
+@Component
+public class StudentService {
+}</pre>
+    </div>
+
+    <p>Spring phát hiện lớp này thông qua Component Scanning nếu lớp nằm trong phạm vi quét phù hợp.</p>
+
+    <p>Các annotation chuyên biệt như <code>@Service</code> và <code>@Repository</code> cũng thường được sử dụng theo cách tương tự.</p>
+
+    <p><strong>Cách 2: Sử dụng <code>@Bean</code></strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public StudentService studentService() {
+        return new StudentService();
+    }
+}</pre>
+    </div>
+
+    <p>Ở đây, Bean được đăng ký thông qua phương thức cấu hình. Cách này hữu ích khi cần kiểm soát quá trình khởi tạo hoặc đăng ký các lớp thuộc thư viện bên ngoài.</p>
+
+    <p>Không nên đồng thời sử dụng cả <code>@Component</code> và một phương thức <code>@Bean</code> để đăng ký cùng một đối tượng nghiệp vụ nếu không có chủ đích rõ ràng, vì điều đó có thể tạo ra hai Bean riêng biệt.</p>
+
+    <h4>2.3.3. Bean có tên không?</h4>
+    <p>Có.</p>
+
+    <p>Mỗi Bean được đăng ký trong Container có một tên để có thể được tham chiếu trong cấu hình hoặc khi lấy Bean.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Component;
+
+@Component
+public class StudentService {
+}</pre>
+    </div>
+
+    <p>Theo quy tắc đặt tên mặc định, Bean này thường có tên <code>studentService</code>.</p>
+
+    <p>Với <code>@Bean</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Bean
+public StudentService studentService() {
+    return new StudentService();
+}</pre>
+    </div>
+
+    <p>Tên Bean mặc định cũng là <code>studentService</code>, tức tên phương thức khai báo Bean.</p>
+
+    <p>Chúng ta có thể chỉ định tên khác khi cần, ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Bean("mainStudentService")
+public StudentService studentService() {
+    return new StudentService();
+}</pre>
+    </div>
+
+    <p>Tên Bean giúp Spring tham chiếu và lựa chọn thành phần trong những tình huống cần phân biệt nhiều Bean.</p>
+
+    <h4>2.3.4. Một Bean có nhất thiết chỉ có một đối tượng duy nhất không?</h4>
+    <p>Không phải lúc nào cũng vậy.</p>
+
+    <p>Theo mặc định, Spring thường sử dụng scope <code>singleton</code> cho Bean. Trong phạm vi một IoC Container, Spring duy trì một đối tượng dùng chung cho Bean đó.</p>
+
+    <p>Tuy nhiên, Spring cũng hỗ trợ những scope khác, chẳng hạn <code>prototype</code>, trong đó Container có thể tạo đối tượng mới mỗi khi Bean được yêu cầu theo cơ chế tương ứng.</p>
+
+    <p>Do đó, khái niệm Bean không đồng nghĩa với một đối tượng luôn luôn tồn tại duy nhất trong mọi hoàn cảnh.</p>
+
+    <h3>2.4. Spring Bean và Java Object thông thường</h3>
+    <p>Đây là một trong những điểm quan trọng nhất cần nắm vững khi học Spring.</p>
+
+    <h4>2.4.1. Java Object thông thường</h4>
+    <p>Xét ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class ProductService {
+
+    public void display() {
+        System.out.println("Product Service");
+    }
+}</pre>
+    </div>
+
+    <p>Tạo đối tượng:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>ProductService service = new ProductService();</pre>
+    </div>
+
+    <p>Đối tượng <code>service</code> được tạo trực tiếp bằng Java.</p>
+
+    <p>Trong trường hợp này, chúng ta tự quyết định thời điểm tạo đối tượng và cách truyền các dependency cho nó. Spring không tự động quản lý đối tượng chỉ vì đối tượng thuộc một lớp Java nào đó.</p>
+
+    <h4>2.4.2. Spring Bean</h4>
+    <p>Nếu đánh dấu lớp bằng <code>@Service</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Service;
+
+@Service
+public class ProductService {
+
+    public void display() {
+        System.out.println("Product Service");
+    }
+}</pre>
+    </div>
+
+    <p>và lớp này được phát hiện trong quá trình Component Scanning, Spring sẽ đăng ký Bean tương ứng.</p>
+
+    <p>Một lớp khác có thể nhận Bean đó thông qua Constructor Injection:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Component;
+
+@Component
+public class ProductController {
+
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    public void showProducts() {
+        productService.display();
+    }
+}</pre>
+    </div>
+
+    <p>Trong trường hợp này, Spring chịu trách nhiệm cung cấp <code>ProductService</code> khi tạo <code>ProductController</code>.</p>
+
+    <h4>2.4.3. Bảng so sánh</h4>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tiêu chí</th>
+                    <th>Java Object thông thường</th>
+                    <th>Spring Bean</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Bản chất</td><td>Đối tượng Java</td><td>Cũng là đối tượng Java</td></tr>
+                <tr><td>Cách tạo</td><td>Có thể tạo bằng <code>new</code></td><td>Spring tạo hoặc đăng ký thông qua cấu hình</td></tr>
+                <tr><td>Ai quản lý?</td><td>Code ứng dụng hoặc thành phần tự tạo</td><td>Spring IoC Container</td></tr>
+                <tr><td>DI tự động</td><td>Không có nếu không sử dụng cơ chế DI riêng</td><td>Có thể được Spring thực hiện theo cấu hình</td></tr>
+                <tr><td>Vòng đời</td><td>Do code hoặc cơ chế tạo đối tượng quyết định</td><td>Được quản lý theo vòng đời và scope của Bean</td></tr>
+                <tr><td>Sử dụng Spring AOP</td><td>Không tự động được áp dụng</td><td>Có thể được áp dụng khi thỏa mãn điều kiện cấu hình</td></tr>
+                <tr><td>Phạm vi sử dụng</td><td>Mọi chương trình Java</td><td>Các đối tượng được đăng ký làm Bean trong Spring</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>2.4.4. Đối tượng tạo bằng <code>new</code> có thể trở thành Spring Bean không?</h4>
+    <p>Cần phân biệt hai tình huống.</p>
+
+    <p>Tình huống thứ nhất:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>ProductService service = new ProductService();</pre>
+    </div>
+
+    <p>Đối tượng này được tạo trực tiếp trong code và không tự động trở thành Bean.</p>
+
+    <p>Tình huống thứ hai:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Bean
+public ProductService productService() {
+    return new ProductService();
+}</pre>
+    </div>
+
+    <p>Mặc dù phương thức vẫn sử dụng <code>new</code>, đối tượng được trả về sẽ được đăng ký làm Bean theo cấu hình.</p>
+
+    <p>Vì vậy, không phải việc có sử dụng <code>new</code> hay không quyết định đối tượng có phải Spring Bean hay không; điều quyết định là đối tượng có được đăng ký và quản lý bởi Spring Container hay không.</p>
+
+    <h3>2.5. <code>BeanFactory</code> và <code>ApplicationContext</code></h3>
+    <p>Spring cung cấp các abstraction để quản lý và truy cập Bean. Hai tên quan trọng là <code>BeanFactory</code> và <code>ApplicationContext</code>.</p>
+
+    <h4>2.5.1. <code>BeanFactory</code> là gì?</h4>
+    <p><code>BeanFactory</code> là một interface cốt lõi trong Spring, cung cấp những chức năng cơ bản để quản lý và lấy Bean từ Container.</p>
+
+    <p>Ví dụ, một đối tượng triển khai <code>BeanFactory</code> có thể cung cấp Bean thông qua tên:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>Object bean = beanFactory.getBean("productService");</pre>
+    </div>
+
+    <p>Trong ứng dụng thực tế, chúng ta thường không cần tự khởi tạo <code>BeanFactory</code> để lấy từng Bean. Spring Boot sẽ cấu hình và quản lý Container phù hợp cho ứng dụng.</p>
+
+    <p>Điều cần ghi nhớ là <code>BeanFactory</code> đại diện cho cơ chế quản lý Bean cơ bản của Spring.</p>
+
+    <h4>2.5.2. <code>ApplicationContext</code> là gì?</h4>
+    <p><code>ApplicationContext</code> là một interface mở rộng chức năng của <code>BeanFactory</code>, cung cấp thêm nhiều tính năng phục vụ ứng dụng Spring.</p>
+
+    <p>Ngoài việc lấy Bean, <code>ApplicationContext</code> còn hỗ trợ những chức năng như:</p>
+    <ul>
+        <li>Quản lý và cung cấp tài nguyên cấu hình.</li>
+        <li>Hỗ trợ hệ thống sự kiện của ứng dụng.</li>
+        <li>Tích hợp với cơ chế quốc tế hóa (i18n).</li>
+        <li>Tích hợp với các cơ chế khác của Spring.</li>
+    </ul>
+
+    <p>Trong ứng dụng Spring Boot thông thường, <code>ApplicationContext</code> là abstraction mà chúng ta thường gặp khi nói về Spring Container.</p>
+
+    <h4>2.5.3. So sánh <code>BeanFactory</code> và <code>ApplicationContext</code></h4>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tiêu chí</th>
+                    <th><code>BeanFactory</code></th>
+                    <th><code>ApplicationContext</code></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Chức năng chính</td><td>Quản lý và cung cấp Bean cơ bản</td><td>Mở rộng các chức năng quản lý Bean</td></tr>
+                <tr><td>Quản lý Bean</td><td>Có</td><td>Có</td></tr>
+                <tr><td>Hệ thống sự kiện</td><td>Không cung cấp hệ thống sự kiện ứng dụng đầy đủ như ApplicationContext</td><td>Có</td></tr>
+                <tr><td>Hỗ trợ i18n</td><td>Không phải chức năng cốt lõi</td><td>Có</td></tr>
+                <tr><td>Tích hợp framework</td><td>Cơ bản</td><td>Phong phú hơn</td></tr>
+                <tr><td>Sử dụng trong Spring Boot</td><td>Ít khi thao tác trực tiếp ở mức ứng dụng thông thường</td><td>Rất phổ biến</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Một điểm kỹ thuật cần lưu ý: <code>ApplicationContext</code> không chỉ đơn giản là một Container khác hoàn toàn với <code>BeanFactory</code>. Nó mở rộng <code>BeanFactory</code>, đồng thời kết hợp thêm nhiều chức năng khác.</p>
+
+    <p>Ngoài ra, không nên khẳng định rằng <code>BeanFactory</code> luôn khởi tạo Bean theo một cách duy nhất hoặc mọi Bean của <code>ApplicationContext</code> đều được tạo ngay lập tức. Thời điểm khởi tạo phụ thuộc vào loại Bean, scope và cấu hình; với Bean singleton thông thường, <code>ApplicationContext</code> thường khởi tạo sớm trong quá trình hoàn tất khởi động.</p>
+
+    <h4>2.5.4. Lấy Bean thông qua <code>ApplicationContext</code></h4>
+    <p>Ví dụ sau minh họa cách lấy Bean bằng tên:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
+
+@Component
+public class DemoRunner {
+
+    private final ApplicationContext context;
+
+    public DemoRunner(ApplicationContext context) {
+        this.context = context;
+    }
+
+    public void runDemo() {
+        ProductService service =
+                context.getBean(ProductService.class);
+
+        service.display();
+    }
+}</pre>
+    </div>
+
+    <p>Trong đó:</p>
+    <ul>
+        <li><code>ApplicationContext</code> là Container mà Spring cung cấp.</li>
+        <li><code>getBean(ProductService.class)</code> yêu cầu lấy Bean theo kiểu.</li>
+        <li><code>service.display()</code> gọi phương thức của Bean đã lấy được.</li>
+    </ul>
+
+    <p>Đây là cách minh họa để hiểu Container. Trong code nghiệp vụ thông thường, nên ưu tiên Constructor Injection trực tiếp thay vì liên tục gọi <code>getBean()</code>, vì cách tiêm trực tiếp giúp thể hiện rõ dependency của lớp.</p>
+
+    <h3>2.6. Cách Spring Container tạo và quản lý Bean</h3>
+    <p>Để hiểu cách Spring hoạt động thực tế, chúng ta hãy theo dõi quá trình từ lúc ứng dụng khởi động cho đến khi các Bean sẵn sàng sử dụng.</p>
+
+    <h4>2.6.1. Bước 1: Khởi động ứng dụng</h4>
+    <p>Ứng dụng Spring Boot thường bắt đầu tại phương thức <code>main()</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public static void main(String[] args) {
+    SpringApplication.run(DemoApplication.class, args);
+}</pre>
+    </div>
+
+    <p>Lệnh này khởi động Spring Boot, chuẩn bị môi trường ứng dụng và xây dựng ApplicationContext phù hợp.</p>
+
+    <h4>2.6.2. Bước 2: Phát hiện và đăng ký Bean</h4>
+    <p>Spring đọc các cấu hình và thực hiện Component Scanning trong phạm vi đã xác định.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Service
+public class ProductService {
+}</pre>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Repository
+public class ProductRepository {
+}</pre>
+    </div>
+
+    <p>Nếu các lớp nằm trong phạm vi quét phù hợp, Spring có thể phát hiện chúng và đăng ký Bean tương ứng.</p>
+
+    <p>Các Bean cũng có thể được đăng ký thông qua phương thức <code>@Bean</code>, cấu hình chương trình hoặc những cơ chế khác của Spring.</p>
+
+    <h4>2.6.3. Bước 3: Phân tích dependency</h4>
+    <p>Giả sử có lớp:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Service
+public class ProductService {
+
+    private final ProductRepository repository;
+
+    public ProductService(ProductRepository repository) {
+        this.repository = repository;
+    }
+}</pre>
+    </div>
+
+    <p>Spring nhận biết rằng constructor của <code>ProductService</code> cần một đối tượng kiểu <code>ProductRepository</code>.</p>
+
+    <p>Nếu có một Bean phù hợp, Spring sẽ sử dụng Bean đó để tạo <code>ProductService</code>.</p>
+
+    <p>Nếu có nhiều Bean cùng phù hợp mà không có thông tin để lựa chọn, Spring có thể báo lỗi không xác định được dependency.</p>
+
+    <h4>2.6.4. Bước 4: Khởi tạo đối tượng và tiêm dependency</h4>
+    <p>Spring tạo đối tượng theo cơ chế khởi tạo tương ứng và truyền dependency vào constructor.</p>
+
+    <p>Sau khi quá trình tạo và khởi tạo Bean hoàn tất, <code>ProductService</code> có thể sử dụng <code>ProductRepository</code>.</p>
+
+    <p>Luồng đơn giản:</p>
+
+    <div class="info-box">
+        <pre>1. Khởi động Spring Boot
+        |
+        v
+2. Đọc cấu hình và đăng ký Bean
+        |
+        v
+3. Xác định dependency
+        |
+        v
+4. Tạo Bean và tiêm dependency
+        |
+        v
+5. Bean sẵn sàng sử dụng</pre>
+    </div>
+
+    <p>Đây là sơ đồ khái quát nhằm giúp người mới hình dung quy trình. Trong triển khai thực tế, Spring có thêm các bước như xử lý BeanPostProcessor, áp dụng cơ chế proxy trong những trường hợp cần thiết và các callback vòng đời.</p>
+
+    <h4>2.6.5. Ví dụ hoàn chỉnh</h4>
+    <p>Giả sử chúng ta có cấu trúc sau:</p>
+
+    <div class="info-box">
+        <pre>com.example.demo
+├── DemoApplication.java
+├── repository
+│   └── ProductRepository.java
+└── service
+    └── ProductService.java</pre>
+    </div>
+
+    <p><code>ProductRepository.java</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>package com.example.demo.repository;
+
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class ProductRepository {
+
+    public String findProductName() {
+        return "Laptop Dell";
+    }
+}</pre>
+    </div>
+
+    <p><code>ProductService.java</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>package com.example.demo.service;
+
+import com.example.demo.repository.ProductRepository;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ProductService {
+
+    private final ProductRepository repository;
+
+    public ProductService(ProductRepository repository) {
+        this.repository = repository;
+    }
+
+    public void displayProduct() {
+        System.out.println(repository.findProductName());
+    }
+}</pre>
+    </div>
+
+    <p><code>DemoApplication.java</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>package com.example.demo;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.example.demo.service.ProductService;
+
+@SpringBootApplication
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+
+    @org.springframework.context.annotation.Bean
+    CommandLineRunner run(ProductService productService) {
+        return args -&gt; productService.displayProduct();
+    }
+}</pre>
+    </div>
+
+    <p>Khi ứng dụng khởi động:</p>
+    <ol>
+        <li>Spring Boot tạo ApplicationContext.</li>
+        <li>Spring phát hiện <code>ProductRepository</code> và <code>ProductService</code>.</li>
+        <li>Spring tạo Bean <code>ProductRepository</code>.</li>
+        <li>Spring cung cấp <code>ProductRepository</code> cho constructor của <code>ProductService</code>.</li>
+        <li>Spring tạo Bean <code>CommandLineRunner</code> từ phương thức <code>run()</code>.</li>
+        <li>Sau khi ứng dụng khởi động thành công, <code>CommandLineRunner</code> thực thi và gọi <code>displayProduct()</code>.</li>
+    </ol>
+
+    <p>Kết quả minh họa trên console:</p>
+
+    <div class="info-box">
+        <pre>Laptop Dell</pre>
+    </div>
+
+    <p><code>CommandLineRunner</code> được dùng ở đây để minh họa việc sử dụng Bean sau khi khởi động, không phải thành phần bắt buộc trong mọi ứng dụng Spring Boot.</p>
+
+    <h3>2.7. Tổng quan vòng đời của Bean (Bean Lifecycle)</h3>
+
+    <h4>2.7.1. Bean Lifecycle là gì?</h4>
+    <p>Bean Lifecycle là vòng đời của một Spring Bean, từ khi Container tạo và khởi tạo Bean cho đến khi Bean được xử lý khi kết thúc vòng đời.</p>
+
+    <p>Vòng đời này quan trọng vì nhiều thành phần trong ứng dụng cần thực hiện một số công việc tại những thời điểm cụ thể.</p>
+
+    <p>Ví dụ:</p>
+    <ul>
+        <li>Khởi tạo một tài nguyên sau khi Bean được tạo.</li>
+        <li>Kiểm tra hoặc hoàn thiện cấu hình sau khi dependency đã được tiêm.</li>
+        <li>Đóng tài nguyên khi ứng dụng dừng.</li>
+        <li>Thực hiện các hành vi mở rộng thông qua cơ chế callback của Spring.</li>
+    </ul>
+
+    <p>Không phải Bean nào cũng cần tự khai báo tất cả các bước này. Spring cung cấp cơ chế để lập trình viên sử dụng khi cần thiết.</p>
+
+    <h4>2.7.2. Các giai đoạn chính</h4>
+    <p>Vòng đời của một Bean singleton thông thường có thể khái quát như sau:</p>
+
+    <div class="info-box">
+        <pre>1. Khởi tạo đối tượng
+        Constructor
+        |
+        v
+2. Tiêm dependency
+        Constructor Injection hoặc cơ chế tương ứng
+        |
+        v
+3. Xử lý trước và sau khởi tạo
+        Các cơ chế mở rộng của Spring
+        |
+        v
+4. Bean sẵn sàng sử dụng
+        |
+        v
+5. Hủy Bean
+        Khi Container đóng và Bean thuộc phạm vi được quản lý tương ứng</pre>
+    </div>
+
+    <p>Đây là sơ đồ tổng quát, không phải danh sách đầy đủ tất cả callback nội bộ. Với các Bean sử dụng <code>BeanPostProcessor</code>, <code>InitializingBean</code>, <code>DisposableBean</code> hoặc những cơ chế khác, quá trình thực tế có thể có thêm các bước.</p>
+
+    <h4>2.7.3. Phương thức khởi tạo với <code>@PostConstruct</code></h4>
+    <p><code>@PostConstruct</code> cho phép đánh dấu một phương thức cần được gọi sau khi Bean được tạo và các dependency cần thiết đã được tiêm, trong quá trình khởi tạo Bean.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import jakarta.annotation.PostConstruct;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ProductService {
+
+    @PostConstruct
+    public void init() {
+        System.out.println("ProductService initialized");
+    }
+}</pre>
+    </div>
+
+    <p>Khi Bean được khởi tạo theo quy trình thông thường của Spring, phương thức <code>init()</code> sẽ được gọi tại giai đoạn tương ứng.</p>
+
+    <p>Annotation <code>@PostConstruct</code> thuộc Jakarta Annotations, được sử dụng trong Spring Boot hiện đại thông qua package <code>jakarta.annotation</code>.</p>
+
+    <p>Nên dùng nó cho những công việc khởi tạo cần thiết, không nên biến nó thành nơi chứa toàn bộ logic nghiệp vụ của ứng dụng.</p>
+
+    <h4>2.7.4. Phương thức hủy với <code>@PreDestroy</code></h4>
+    <p><code>@PreDestroy</code> cho phép đánh dấu một phương thức cần được gọi trước khi Bean bị hủy trong quá trình đóng Container theo cơ chế quản lý tương ứng.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import jakarta.annotation.PreDestroy;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ProductService {
+
+    @PreDestroy
+    public void cleanup() {
+        System.out.println("ProductService is shutting down");
+    }
+}</pre>
+    </div>
+
+    <p>Trong ứng dụng thực tế, phương thức dọn dẹp có thể dùng để giải phóng tài nguyên do Bean trực tiếp quản lý.</p>
+
+    <p>Tuy nhiên, không nên mặc định rằng mọi Bean đều luôn được gọi <code>@PreDestroy</code>. Việc thực thi phụ thuộc vào scope và cách Bean được tạo, quản lý cũng như cách Container kết thúc.</p>
+
+    <h4>2.7.5. Một số điểm cần ghi nhớ về Bean Lifecycle</h4>
+    <ul>
+        <li>Constructor được thực hiện trong quá trình tạo đối tượng.</li>
+        <li>Dependency phải được cung cấp theo cơ chế khởi tạo đã cấu hình.</li>
+        <li>Các callback khởi tạo được gọi theo quy trình vòng đời của Spring.</li>
+        <li>Bean có thể được sử dụng trong suốt thời gian tồn tại phù hợp với scope của nó.</li>
+        <li>Các callback hủy được thực hiện khi Bean thuộc phạm vi quản lý tương ứng được hủy đúng quy trình.</li>
+    </ul>
+
+    <p>Với Bean singleton thông thường, Spring thường quản lý việc khởi tạo và hủy cùng với ApplicationContext. Đối với Bean <code>prototype</code>, Spring không quản lý đầy đủ giai đoạn hủy sau khi giao đối tượng cho client, nên lập trình viên có thể cần tự xử lý việc giải phóng tài nguyên.</p>
+
+    <p>Các nội dung về scope và vòng đời nâng cao sẽ được nghiên cứu sâu hơn trong phần riêng của khóa học.</p>
+
+    <h3>Tổng kết bài học</h3>
+    <p>Sau bài này, người học cần nắm được những điểm sau:</p>
+
+    <ol>
+        <li>IoC Container là thành phần quản lý Bean trong Spring.</li>
+        <li>Spring Bean là đối tượng được đăng ký và quản lý bởi Container.</li>
+        <li>Java Object thông thường không tự động trở thành Spring Bean.</li>
+        <li><code>BeanFactory</code> cung cấp cơ chế quản lý Bean cơ bản, còn <code>ApplicationContext</code> mở rộng thêm nhiều tính năng của Spring.</li>
+        <li>Spring có thể phát hiện Bean qua Component Scanning hoặc đăng ký thông qua <code>@Bean</code> và các cơ chế cấu hình khác.</li>
+        <li>Container có thể tự động cung cấp dependency cho các Bean theo cấu hình.</li>
+        <li>Bean Lifecycle mô tả các giai đoạn tạo, khởi tạo, sử dụng và hủy Bean.</li>
+    </ol>
+
+    <p>Kiến thức cần nhớ nhất: Spring không chỉ giúp tạo đối tượng nhanh hơn. Giá trị cốt lõi của IoC Container là tập trung việc quản lý các thành phần và kết nối dependency, giúp ứng dụng dễ tổ chức, mở rộng và kiểm thử hơn.</p>
+
+    <div class="success-box">
+        <h5>Ghi nhớ trọng tâm</h5>
+        <ul>
+            <li><strong>IoC Container</strong> quản lý Bean: khởi tạo, tiêm dependency, quản lý vòng đời, scope.</li>
+            <li><strong>Spring Bean</strong> là đối tượng Java được Container đăng ký và quản lý — khác với Java Object thông thường.</li>
+            <li>Cách đăng ký Bean: <code>@Component</code>, <code>@Service</code>, <code>@Repository</code>, <code>@Controller</code> hoặc <code>@Bean</code> trong lớp <code>@Configuration</code>.</li>
+            <li>Mỗi Bean có tên — mặc định theo tên lớp (camelCase) hoặc tên phương thức <code>@Bean</code>; có thể chỉ định qua <code>@Bean("name")</code>.</li>
+            <li><strong>Singleton</strong> (mặc định) tạo một đối tượng dùng chung; <strong>prototype</strong> tạo đối tượng mới mỗi lần yêu cầu.</li>
+            <li><strong><code>BeanFactory</code></strong> là abstraction cơ bản; <strong><code>ApplicationContext</code></strong> mở rộng với event, i18n, resource, AOP…</li>
+            <li>Ưu tiên <strong>Constructor Injection</strong> thay vì <code>getBean()</code> trong code nghiệp vụ.</li>
+            <li><strong>Bean Lifecycle</strong>: khởi tạo → tiêm dependency → callback khởi tạo (<code>@PostConstruct</code>) → sử dụng → callback hủy (<code>@PreDestroy</code>).</li>
+            <li>Với Bean <code>prototype</code>, Spring không quản lý đầy đủ giai đoạn hủy — cần tự xử lý giải phóng tài nguyên.</li>
+        </ul>
+    </div>
+</section>
+<section id="ioc-di-3" class="section">
+    <h2><i class="fas fa-cubes"></i> BÀI 3. KHAI BÁO VÀ QUẢN LÝ BEAN TRONG SPRING BOOT</h2>
+
+    <h3>Mục tiêu bài học</h3>
+    <p>Sau khi hoàn thành bài học, người học có thể:</p>
+    <ul>
+        <li>Hiểu cách khai báo một Spring Bean và cách Spring đăng ký Bean vào IoC Container.</li>
+        <li>Phân biệt vai trò của <code>@Component</code>, <code>@Service</code>, <code>@Repository</code>, <code>@Controller</code> và <code>@RestController</code>.</li>
+        <li>Sử dụng <code>@Configuration</code> và <code>@Bean</code> để khai báo các đối tượng cần Spring quản lý.</li>
+        <li>Phân biệt cách đăng ký Bean bằng annotation trên lớp với cách đăng ký qua phương thức cấu hình.</li>
+        <li>Hiểu Component Scanning và cách Spring tìm kiếm các Bean khi khởi động ứng dụng.</li>
+        <li>Tổ chức package đúng cách để tránh lỗi Spring không tìm thấy Bean.</li>
+    </ul>
+
+    <h3>3.1. Annotation <code>@Component</code></h3>
+
+    <h4>3.1.1. <code>@Component</code> là gì?</h4>
+    <p><code>@Component</code> là annotation dùng để đánh dấu một lớp có thể được Spring phát hiện và đăng ký thành Bean thông qua cơ chế Component Scanning.</p>
+
+    <p>Trong Java thông thường, khi muốn sử dụng một đối tượng, chúng ta có thể tạo nó bằng từ khóa <code>new</code>.</p>
+
+    <p>Ví dụ, xây dựng lớp <code>EmailService</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class EmailService {
+
+    public void sendEmail() {
+        System.out.println("Sending email...");
+    }
+}</pre>
+    </div>
+
+    <p>Muốn sử dụng lớp này, chúng ta tạo đối tượng:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>EmailService emailService = new EmailService();
+
+emailService.sendEmail();</pre>
+    </div>
+
+    <p>Cách làm này hoàn toàn hợp lệ trong Java. Tuy nhiên, nếu muốn Spring quản lý đối tượng <code>EmailService</code>, chúng ta có thể đánh dấu lớp bằng <code>@Component</code>.</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Component;
+
+@Component
+public class EmailService {
+
+    public void sendEmail() {
+        System.out.println("Sending email...");
+    }
+}</pre>
+    </div>
+
+    <p>Sau khi ứng dụng khởi động, nếu lớp nằm trong phạm vi Component Scanning, Spring sẽ phát hiện <code>EmailService</code> và đăng ký Bean tương ứng trong IoC Container.</p>
+
+    <p>Điều này cho phép các thành phần khác sử dụng <code>EmailService</code> thông qua Dependency Injection mà không cần tự tạo đối tượng ở nơi sử dụng.</p>
+
+    <h4>3.1.2. Cách sử dụng Bean được khai báo bằng <code>@Component</code></h4>
+    <p>Giả sử chúng ta có lớp <code>NotificationService</code> cần sử dụng <code>EmailService</code>.</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Component;
+
+@Component
+public class NotificationService {
+
+    private final EmailService emailService;
+
+    public NotificationService(EmailService emailService) {
+        this.emailService = emailService;
+    }
+
+    public void notifyUser() {
+        emailService.sendEmail();
+    }
+}</pre>
+    </div>
+
+    <p>Phân tích code:</p>
+    <ul>
+        <li><code>@Component</code>: yêu cầu Spring phát hiện và đăng ký <code>NotificationService</code> thành Bean.</li>
+        <li><code>private final EmailService emailService</code>: khai báo dependency mà lớp cần sử dụng.</li>
+        <li><code>NotificationService(EmailService emailService)</code>: constructor nhận dependency từ bên ngoài.</li>
+        <li><code>this.emailService = emailService</code>: lưu dependency vào thuộc tính của đối tượng.</li>
+        <li><code>notifyUser()</code>: gọi phương thức gửi email thông qua dependency đã được cung cấp.</li>
+    </ul>
+
+    <p>Vì cả hai lớp đều được Spring quản lý và chỉ có một Bean <code>EmailService</code> phù hợp, Spring có thể tự động tiêm Bean đó vào constructor của <code>NotificationService</code>.</p>
+
+    <p>Luồng hoạt động:</p>
+
+    <div class="info-box">
+        <pre>Spring Boot khởi động
+        |
+        v
+Phát hiện EmailService và NotificationService
+        |
+        v
+Đăng ký hai Bean trong Container
+        |
+        v
+Tiêm EmailService vào NotificationService</pre>
+    </div>
+
+    <h4>3.1.3. Đặt tên Bean bằng <code>@Component</code></h4>
+    <p>Mặc định, Spring thường lấy tên Bean từ tên lớp theo quy tắc viết thường chữ cái đầu tiên.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Component
+public class EmailService {
+}</pre>
+    </div>
+
+    <p>Tên Bean mặc định là <code>emailService</code>.</p>
+
+    <p>Nếu muốn đặt tên khác, chúng ta có thể chỉ định trực tiếp:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Component("primaryEmailService")
+public class EmailService {
+}</pre>
+    </div>
+
+    <p>Lúc này, tên Bean là <code>primaryEmailService</code>.</p>
+
+    <p>Việc đặt tên riêng hữu ích khi ứng dụng có nhiều Bean cần phân biệt. Tuy nhiên, nếu không có nhu cầu đặc biệt, nên sử dụng quy tắc đặt tên mặc định để code nhất quán.</p>
+
+    <h4>3.1.4. Khi nào nên sử dụng <code>@Component</code>?</h4>
+    <p><code>@Component</code> phù hợp với các thành phần Spring nói chung, chẳng hạn:</p>
+    <ul>
+        <li>Lớp hỗ trợ xử lý thông báo.</li>
+        <li>Lớp chuyển đổi dữ liệu.</li>
+        <li>Lớp xử lý tiện ích cần được Spring quản lý.</li>
+        <li>Những thành phần không thuộc một vai trò chuyên biệt hơn như Service hoặc Repository.</li>
+    </ul>
+
+    <p>Trong ứng dụng Spring Boot, nếu lớp có vai trò nghiệp vụ, truy cập dữ liệu hoặc xử lý HTTP rõ ràng, nên cân nhắc sử dụng annotation chuyên biệt tương ứng để thể hiện đúng trách nhiệm của lớp.</p>
+
+    <h3>3.2. Annotation <code>@Service</code></h3>
+
+    <h4>3.2.1. <code>@Service</code> là gì?</h4>
+    <p><code>@Service</code> được sử dụng để đánh dấu các lớp thực hiện xử lý nghiệp vụ trong ứng dụng.</p>
+
+    <p>Ví dụ, trong hệ thống quản lý sản phẩm, lớp <code>ProductService</code> có thể đảm nhiệm các công việc:</p>
+    <ul>
+        <li>Kiểm tra dữ liệu sản phẩm trước khi lưu.</li>
+        <li>Tính toán giá bán.</li>
+        <li>Kiểm tra số lượng tồn kho.</li>
+        <li>Phối hợp với Repository để lấy và cập nhật dữ liệu.</li>
+        <li>Áp dụng các quy tắc nghiệp vụ của hệ thống.</li>
+    </ul>
+
+    <p>Khai báo một Service:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Service;
+
+@Service
+public class ProductService {
+
+    public String getProductName() {
+        return "Laptop Dell";
+    }
+}</pre>
+    </div>
+
+    <p><code>@Service</code> là một annotation chuyên biệt thuộc nhóm stereotype của Spring. Nó có vai trò tương tự <code>@Component</code> trong việc giúp Spring phát hiện lớp, nhưng thể hiện rõ rằng lớp này chịu trách nhiệm xử lý nghiệp vụ.</p>
+
+    <h4>3.2.2. Ví dụ <code>ProductService</code> sử dụng Repository</h4>
+    <p>Giả sử chúng ta có <code>ProductRepository</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Repository;
+
+@Repository
+public class ProductRepository {
+
+    public String findProductName() {
+        return "Laptop Dell";
+    }
+}</pre>
+    </div>
+
+    <p>Tiếp theo, xây dựng <code>ProductService</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Service;
+
+@Service
+public class ProductService {
+
+    private final ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    public String getProductName() {
+        return productRepository.findProductName();
+    }
+}</pre>
+    </div>
+
+    <p>Trong thiết kế này:</p>
+    <ul>
+        <li><code>ProductRepository</code> chịu trách nhiệm truy cập dữ liệu.</li>
+        <li><code>ProductService</code> chịu trách nhiệm xử lý nghiệp vụ và sử dụng Repository khi cần.</li>
+        <li>Spring Container cung cấp <code>ProductRepository</code> cho <code>ProductService</code> thông qua constructor.</li>
+    </ul>
+
+    <p>Đây là một cách tổ chức phổ biến trong ứng dụng Backend Spring Boot.</p>
+
+    <h4>3.2.3. Vì sao nên sử dụng <code>@Service</code> thay vì luôn dùng <code>@Component</code>?</h4>
+    <p>Về khả năng phát hiện và đăng ký Bean, cả hai annotation đều có thể phục vụ mục đích đó.</p>
+
+    <p>Tuy nhiên, <code>@Service</code> thể hiện rõ hơn ý nghĩa của lớp trong kiến trúc ứng dụng.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Service
+public class OrderService {
+}</pre>
+    </div>
+
+    <p>Tên và annotation cho người đọc biết ngay đây là lớp xử lý nghiệp vụ đơn hàng.</p>
+
+    <p>Trong khi đó:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Component
+public class OrderService {
+}</pre>
+    </div>
+
+    <p>Code vẫn có thể hoạt động, nhưng ý nghĩa kiến trúc không được thể hiện rõ bằng.</p>
+
+    <p>Vì vậy, nên sử dụng annotation theo đúng vai trò của lớp để tăng khả năng đọc hiểu và bảo trì mã nguồn.</p>
+
+    <h3>3.3. Annotation <code>@Repository</code></h3>
+
+    <h4>3.3.1. <code>@Repository</code> là gì?</h4>
+    <p><code>@Repository</code> được sử dụng để đánh dấu các lớp chịu trách nhiệm truy cập và thao tác với dữ liệu.</p>
+
+    <p>Trong kiến trúc Backend, Repository thường nằm giữa tầng nghiệp vụ và nguồn dữ liệu.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Repository;
+
+@Repository
+public class ProductRepository {
+
+    public String findProductName() {
+        return "Laptop Dell";
+    }
+}</pre>
+    </div>
+
+    <p>Trong ví dụ trên, <code>ProductRepository</code> trả về một chuỗi cố định để minh họa. Trong dự án thực tế, Repository có thể thực hiện các thao tác với MySQL thông qua Spring Data JPA, JDBC hoặc những cơ chế truy cập dữ liệu khác.</p>
+
+    <h4>3.3.2. Vai trò của <code>@Repository</code></h4>
+    <p>Trong một ứng dụng quản lý sản phẩm, tầng Repository thường chịu trách nhiệm:</p>
+    <ul>
+        <li>Truy vấn sản phẩm theo ID.</li>
+        <li>Lấy danh sách sản phẩm.</li>
+        <li>Thêm sản phẩm vào cơ sở dữ liệu.</li>
+        <li>Cập nhật thông tin sản phẩm.</li>
+        <li>Xóa sản phẩm theo yêu cầu.</li>
+    </ul>
+
+    <p>Ví dụ với Spring Data JPA:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ProductRepository
+        extends JpaRepository&lt;Product, Long&gt; {
+}</pre>
+    </div>
+
+    <p>Giả sử lớp <code>Product</code> là một entity JPA hợp lệ. Trong trường hợp này, Spring Data JPA có thể tạo implementation cho interface Repository khi cấu hình phù hợp.</p>
+
+    <p>Cần phân biệt hai cách sử dụng:</p>
+    <ul>
+        <li>Với Repository tự viết theo kiểu lớp thông thường, <code>@Repository</code> giúp Spring phát hiện lớp qua Component Scanning.</li>
+        <li>Với Spring Data JPA, framework tạo implementation cho interface Repository dựa trên cơ chế repository scanning. <code>@Repository</code> trên interface thường không bắt buộc trong cấu hình Spring Boot thông dụng.</li>
+    </ul>
+
+    <h4>3.3.3. Khả năng chuyển đổi ngoại lệ dữ liệu</h4>
+    <p>Ngoài việc đánh dấu thành phần truy cập dữ liệu, <code>@Repository</code> còn tham gia vào cơ chế chuyển đổi một số ngoại lệ truy cập dữ liệu sang hệ thống ngoại lệ của Spring.</p>
+
+    <p>Ví dụ, khi sử dụng các cơ chế hỗ trợ phù hợp, một ngoại lệ đặc thù của thư viện truy cập dữ liệu có thể được chuyển thành ngoại lệ thuộc hệ thống <code>DataAccessException</code> của Spring.</p>
+
+    <p>Cơ chế này giúp tầng nghiệp vụ ít phụ thuộc hơn vào loại ngoại lệ cụ thể của từng công nghệ truy cập dữ liệu.</p>
+
+    <p>Tuy nhiên, việc chuyển đổi ngoại lệ không đơn giản chỉ dựa vào sự hiện diện của annotation trong mọi trường hợp; nó còn phụ thuộc vào cách cấu hình và cơ chế xử lý của Spring.</p>
+
+    <h4>3.3.4. Phân biệt <code>@Service</code> và <code>@Repository</code></h4>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tiêu chí</th>
+                    <th><code>@Service</code></th>
+                    <th><code>@Repository</code></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Vai trò</td><td>Xử lý nghiệp vụ</td><td>Truy cập dữ liệu</td></tr>
+                <tr><td>Ví dụ</td><td><code>ProductService</code></td><td><code>ProductRepository</code></td></tr>
+                <tr><td>Vị trí thường gặp</td><td>Tầng Service</td><td>Tầng Repository</td></tr>
+                <tr><td>Đặc điểm riêng</td><td>Thể hiện trách nhiệm nghiệp vụ</td><td>Hỗ trợ cơ chế xử lý ngoại lệ dữ liệu trong các trường hợp phù hợp</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Cả hai đều giúp Spring nhận diện thành phần và quản lý Bean, nhưng được sử dụng cho những mục đích kiến trúc khác nhau.</p>
+
+    <h3>3.4. Annotation <code>@Controller</code> và <code>@RestController</code></h3>
+    <p>Hai annotation này thường xuất hiện ở tầng giao tiếp HTTP của ứng dụng Spring MVC và Spring Boot.</p>
+
+    <h4>3.4.1. <code>@Controller</code></h4>
+    <p><code>@Controller</code> được dùng để đánh dấu lớp xử lý yêu cầu web trong Spring MVC.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class HomeController {
+
+    @GetMapping("/home")
+    public String home() {
+        return "home";
+    }
+}</pre>
+    </div>
+
+    <p>Giải thích:</p>
+    <ul>
+        <li><code>@Controller</code>: đánh dấu lớp xử lý yêu cầu web.</li>
+        <li><code>@GetMapping("/home")</code>: ánh xạ HTTP GET đến đường dẫn <code>/home</code>.</li>
+        <li><code>return "home"</code>: trong cấu hình Spring MVC thông thường, trả về tên view để hệ thống tìm giao diện tương ứng.</li>
+    </ul>
+
+    <p>Cách sử dụng này phù hợp với ứng dụng render giao diện phía server.</p>
+
+    <h4>3.4.2. <code>@RestController</code></h4>
+    <p>Trong ứng dụng Backend cung cấp REST API cho frontend, chúng ta thường muốn trả dữ liệu trực tiếp dưới dạng JSON hoặc văn bản thay vì trả về tên view.</p>
+
+    <p>Spring cung cấp <code>@RestController</code> cho mục đích này.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ProductController {
+
+    @GetMapping("/api/products/name")
+    public String getProductName() {
+        return "Laptop Dell";
+    }
+}</pre>
+    </div>
+
+    <p>Khi gửi yêu cầu:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>HTTP</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>GET /api/products/name</pre>
+    </div>
+
+    <p>Response body sẽ chứa:</p>
+
+    <div class="info-box">
+        <pre>Laptop Dell</pre>
+    </div>
+
+    <p>Trong trường hợp trả về một đối tượng Java, Spring MVC thường sử dụng bộ chuyển đổi thông điệp để chuyển đối tượng thành JSON khi cấu hình phù hợp.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public record ProductResponse(
+        Long id,
+        String name,
+        double price
+) {
+}</pre>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@RestController
+public class ProductController {
+
+    @GetMapping("/api/products/1")
+    public ProductResponse getProduct() {
+        return new ProductResponse(
+                1L,
+                "Laptop Dell",
+                15000000
+        );
+    }
+}</pre>
+    </div>
+
+    <p>Response JSON minh họa:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>JSON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>{
+  "id": 1,
+  "name": "Laptop Dell",
+  "price": 15000000
+}</pre>
+    </div>
+
+    <p>Đoạn code trên sử dụng Java <code>record</code> để tạo một kiểu dữ liệu phản hồi đơn giản. Với các dự án dùng Java phiên bản cũ hơn, có thể thay bằng một lớp DTO thông thường.</p>
+
+    <h4>3.4.3. Mối quan hệ giữa <code>@Controller</code> và <code>@RestController</code></h4>
+    <p><code>@RestController</code> được cấu tạo từ <code>@Controller</code> và <code>@ResponseBody</code>.</p>
+
+    <p>Có thể hiểu đơn giản:</p>
+    <ul>
+        <li><code>@Controller</code>: mặc định trả về tên view trong cơ chế xử lý view của Spring MVC.</li>
+        <li><code>@RestController</code>: mặc định trả dữ liệu trực tiếp qua response body cho các phương thức handler.</li>
+    </ul>
+
+    <p>Vì vậy, trong các dự án Backend Spring Boot xây dựng REST API, <code>@RestController</code> thường là lựa chọn phù hợp cho tầng Controller.</p>
+
+    <h4>3.4.4. Sơ đồ kiến trúc ứng dụng</h4>
+
+    <div class="info-box">
+        <pre>Client
+Frontend / Postman
+        |
+        v
+ProductController
+@RestController — tiếp nhận HTTP request
+        |
+        v
+ProductService
+@Service — xử lý nghiệp vụ
+        |
+        v
+ProductRepository
+@Repository — truy cập dữ liệu
+        |
+        v
+Database
+Ví dụ: MySQL</pre>
+    </div>
+
+    <p>Đây là cách phân chia trách nhiệm phổ biến. Spring Container quản lý các Bean phù hợp và kết nối dependency giữa chúng; sơ đồ không có nghĩa mọi thao tác dữ liệu đều bắt buộc phải đi qua đúng một lớp Repository tự viết.</p>
+
+    <h3>3.5. Annotation <code>@Configuration</code></h3>
+
+    <h4>3.5.1. <code>@Configuration</code> là gì?</h4>
+    <p><code>@Configuration</code> được sử dụng để đánh dấu một lớp chứa các khai báo cấu hình cho Spring Container.</p>
+
+    <p>Lớp này thường dùng để định nghĩa Bean thông qua những phương thức có annotation <code>@Bean</code>.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+}</pre>
+    </div>
+
+    <p>Ở thời điểm này, <code>AppConfig</code> là một lớp cấu hình. Chúng ta có thể bổ sung các phương thức khai báo Bean vào lớp đó.</p>
+
+    <h4>3.5.2. Khi nào cần <code>@Configuration</code>?</h4>
+    <p>Trong nhiều trường hợp, chúng ta có thể đánh dấu trực tiếp lớp bằng <code>@Component</code>, <code>@Service</code> hoặc <code>@Repository</code>.</p>
+
+    <p>Tuy nhiên, có những đối tượng cần được tạo theo cách riêng. Chúng ta có thể muốn:</p>
+    <ul>
+        <li>Chỉ định tham số khởi tạo.</li>
+        <li>Cấu hình một thư viện bên ngoài.</li>
+        <li>Tạo đối tượng dựa trên những giá trị cấu hình.</li>
+        <li>Khai báo các thành phần dùng chung cho ứng dụng.</li>
+    </ul>
+
+    <p>Đây là những trường hợp mà lớp cấu hình trở nên hữu ích.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public EmailService emailService() {
+        return new EmailService();
+    }
+}</pre>
+    </div>
+
+    <p>Trong đó:</p>
+    <ul>
+        <li><code>@Configuration</code> đánh dấu lớp cấu hình.</li>
+        <li><code>@Bean</code> đánh dấu phương thức khai báo Bean.</li>
+        <li><code>emailService()</code> trả về đối tượng sẽ được đăng ký trong Container.</li>
+    </ul>
+
+    <p>Phương thức này vẫn sử dụng <code>new EmailService()</code>, nhưng Spring đăng ký đối tượng được trả về làm Bean theo cấu hình.</p>
+
+    <h4>3.5.3. <code>@Configuration</code> có phải là Bean không?</h4>
+    <p>Lớp được đánh dấu bằng <code>@Configuration</code> cũng được Spring quản lý như một Bean cấu hình.</p>
+
+    <p>Trong chế độ cấu hình đầy đủ mặc định, Spring thường sử dụng cơ chế nâng cấp lớp cấu hình để hỗ trợ việc gọi các phương thức <code>@Bean</code> thông qua proxy, nhằm bảo đảm ngữ nghĩa quản lý Bean khi những phương thức cấu hình gọi lẫn nhau.</p>
+
+    <p>Người mới chưa cần đi sâu vào cơ chế proxy ở giai đoạn này. Điều quan trọng là hiểu <code>@Configuration</code> đóng vai trò khai báo cấu hình cho Container, không phải annotation thay thế cho mọi annotation khác.</p>
+
+    <h3>3.6. Annotation <code>@Bean</code></h3>
+
+    <h4>3.6.1. <code>@Bean</code> là gì?</h4>
+    <p><code>@Bean</code> được đặt trên một phương thức để chỉ định rằng đối tượng được phương thức trả về sẽ được đăng ký thành Bean trong Spring Container.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public EmailService emailService() {
+        return new EmailService();
+    }
+}</pre>
+    </div>
+
+    <p>Khi Spring xử lý cấu hình này, phương thức <code>emailService()</code> cung cấp đối tượng <code>EmailService</code> để đăng ký làm Bean.</p>
+
+    <p>Điều này khác với việc chỉ tạo một đối tượng trong một phương thức Java thông thường. Nếu phương thức không được Spring nhận diện như một phương thức khai báo Bean, đối tượng trả về sẽ không tự động được đăng ký vào Container.</p>
+
+    <h4>3.6.2. Đặt tên Bean bằng <code>@Bean</code></h4>
+    <p>Mặc định, tên Bean được lấy từ tên phương thức.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Bean
+public EmailService emailService() {
+    return new EmailService();
+}</pre>
+    </div>
+
+    <p>Tên Bean mặc định là <code>emailService</code>.</p>
+
+    <p>Nếu cần, chúng ta có thể chỉ định tên:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Bean("primaryEmailService")
+public EmailService emailService() {
+    return new EmailService();
+}</pre>
+    </div>
+
+    <p>Tên Bean lúc này là <code>primaryEmailService</code>.</p>
+
+    <p>Tên Bean có thể được sử dụng trong một số trường hợp cần tham chiếu hoặc phân biệt các Bean cùng loại.</p>
+
+    <h4>3.6.3. Khai báo Bean có dependency</h4>
+    <p>Một phương thức <code>@Bean</code> cũng có thể nhận dependency thông qua tham số.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Configuration
+public class AppConfig {
+
+    @Bean
+    public EmailService emailService() {
+        return new EmailService();
+    }
+
+    @Bean
+    public NotificationService notificationService(
+            EmailService emailService) {
+        return new NotificationService(emailService);
+    }
+}</pre>
+    </div>
+
+    <p>Giả sử <code>NotificationService</code> có constructor nhận <code>EmailService</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class NotificationService {
+
+    private final EmailService emailService;
+
+    public NotificationService(EmailService emailService) {
+        this.emailService = emailService;
+    }
+}</pre>
+    </div>
+
+    <p>Spring sẽ cung cấp Bean <code>EmailService</code> làm tham số khi tạo Bean <code>NotificationService</code>, nếu việc lựa chọn dependency là rõ ràng.</p>
+
+    <p>Đây là một cách khai báo dependency thông qua cấu hình Java thay vì sử dụng Component Scanning cho hai lớp.</p>
+
+    <h4>3.6.4. Những trường hợp nên dùng <code>@Bean</code></h4>
+    <p><code>@Bean</code> đặc biệt phù hợp khi cần đăng ký một đối tượng mà chúng ta không thể hoặc không muốn sửa lớp để thêm annotation.</p>
+
+    <p>Ví dụ, một thư viện bên ngoài cung cấp lớp <code>ExternalClient</code>. Chúng ta không kiểm soát mã nguồn của lớp này, nhưng vẫn có thể đăng ký đối tượng của nó làm Bean:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Configuration
+public class ClientConfig {
+
+    @Bean
+    public ExternalClient externalClient() {
+        return new ExternalClient();
+    }
+}</pre>
+    </div>
+
+    <p>Đây là ví dụ minh họa, giả định <code>ExternalClient</code> có constructor không tham số. Trong dự án thực tế, cách khởi tạo phụ thuộc vào API của thư viện.</p>
+
+    <h3>3.7. Phân biệt <code>@Component</code> và <code>@Bean</code></h3>
+    <p>Hai annotation này đều có thể được sử dụng để đăng ký đối tượng vào Spring Container, nhưng cơ chế sử dụng khác nhau.</p>
+
+    <h4>3.7.1. Sử dụng <code>@Component</code></h4>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Component
+public class EmailService {
+}</pre>
+    </div>
+
+    <p>Spring phát hiện lớp <code>EmailService</code> thông qua Component Scanning và đăng ký Bean tương ứng nếu lớp nằm trong phạm vi quét.</p>
+
+    <p>Cách này phù hợp với các lớp do chúng ta xây dựng và muốn Spring tự phát hiện.</p>
+
+    <h4>3.7.2. Sử dụng <code>@Bean</code></h4>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Configuration
+public class AppConfig {
+
+    @Bean
+    public EmailService emailService() {
+        return new EmailService();
+    }
+}</pre>
+    </div>
+
+    <p>Ở đây, chúng ta chủ động định nghĩa phương thức tạo đối tượng và yêu cầu Spring đăng ký đối tượng trả về.</p>
+
+    <p>Cách này phù hợp khi cần kiểm soát việc khởi tạo hoặc đăng ký lớp thư viện bên ngoài.</p>
+
+    <h4>3.7.3. Bảng so sánh</h4>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tiêu chí</th>
+                    <th><code>@Component</code></th>
+                    <th><code>@Bean</code></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Vị trí sử dụng</td><td>Trên lớp</td><td>Trên phương thức</td></tr>
+                <tr><td>Cơ chế</td><td>Component Scanning phát hiện lớp</td><td>Spring xử lý phương thức cấu hình</td></tr>
+                <tr><td>Cách tạo đối tượng</td><td>Spring khởi tạo lớp theo cơ chế phù hợp</td><td>Phương thức cung cấp đối tượng</td></tr>
+                <tr><td>Lớp thư viện bên ngoài</td><td>Thường không thể đánh dấu trực tiếp lớp</td><td>Có thể đăng ký thông qua phương thức cấu hình</td></tr>
+                <tr><td>Khả năng kiểm soát cách khởi tạo</td><td>Thường ít trực tiếp hơn</td><td>Chủ động định nghĩa trong phương thức</td></tr>
+                <tr><td>Trường hợp sử dụng phổ biến</td><td>Service, Repository, Controller và các thành phần do ứng dụng xây dựng</td><td>Bean cần cấu hình riêng hoặc đối tượng từ thư viện bên ngoài</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Quy tắc ghi nhớ: nếu lớp do chúng ta xây dựng và cần Spring tự phát hiện, thường dùng <code>@Component</code> hoặc annotation chuyên biệt. Nếu cần chủ động định nghĩa cách tạo đối tượng thông qua một phương thức cấu hình, dùng <code>@Bean</code>.</p>
+
+    <p>Không nên đăng ký cùng một thành phần bằng cả hai cách nếu không có lý do rõ ràng, vì có thể tạo nhiều Bean riêng biệt ngoài ý muốn.</p>
+
+    <h3>3.8. Component Scanning và cách Spring tìm kiếm Bean</h3>
+
+    <h4>3.8.1. Component Scanning là gì?</h4>
+    <p>Component Scanning là cơ chế giúp Spring tìm các lớp được đánh dấu bằng annotation phù hợp và đăng ký chúng thành Bean.</p>
+
+    <p>Trong ứng dụng Spring Boot, Component Scanning thường được kích hoạt thông qua <code>@SpringBootApplication</code>.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@SpringBootApplication
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}</pre>
+    </div>
+
+    <p><code>@SpringBootApplication</code> bao gồm <code>@ComponentScan</code> cùng các cơ chế cấu hình khác.</p>
+
+    <p>Theo mặc định, Spring Boot quét package chứa lớp khởi động và các package con của nó.</p>
+
+    <h4>3.8.2. Ví dụ về Component Scanning</h4>
+    <p>Giả sử lớp khởi động nằm tại:</p>
+
+    <div class="info-box">
+        <pre>com.example.demo.DemoApplication</pre>
+    </div>
+
+    <p>Cấu trúc dự án:</p>
+
+    <div class="info-box">
+        <pre>com.example.demo
+├── DemoApplication.java
+├── controller
+│   └── ProductController.java
+├── service
+│   └── ProductService.java
+└── repository
+    └── ProductRepository.java</pre>
+    </div>
+
+    <p>Các lớp nằm trong những package con của <code>com.example.demo</code>, nếu được đánh dấu bằng annotation phù hợp, có thể được phát hiện thông qua Component Scanning mặc định.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>package com.example.demo.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class ProductService {
+}</pre>
+    </div>
+
+    <p>Spring có thể phát hiện <code>ProductService</code> vì package <code>com.example.demo.service</code> nằm dưới package gốc <code>com.example.demo</code>.</p>
+
+    <h4>3.8.3. Spring không quét mọi package trong dự án</h4>
+    <p>Một lỗi phổ biến là đặt lớp khởi động ở package không phù hợp.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="info-box">
+        <pre>com.example.application
+└── DemoApplication.java
+
+com.example.product
+└── ProductService.java</pre>
+    </div>
+
+    <p>Nếu sử dụng Component Scanning mặc định từ <code>com.example.application</code>, package <code>com.example.product</code> không nằm trong phạm vi quét đó.</p>
+
+    <p>Do vậy, Spring có thể không phát hiện <code>ProductService</code> và không đăng ký Bean tương ứng.</p>
+
+    <p>Nếu lớp khác cần <code>ProductService</code>, ứng dụng có thể báo lỗi kiểu:</p>
+
+    <div class="info-box">
+        <pre>NoSuchBeanDefinitionException</pre>
+    </div>
+
+    <p>hoặc một lỗi liên quan đến việc không thể giải quyết dependency khi khởi động.</p>
+
+    <p>Cách khắc phục tốt nhất trong ứng dụng thông thường là tổ chức lại package để lớp khởi động nằm ở package gốc chung.</p>
+
+    <p>Nếu có lý do cần giữ các package tách biệt, chúng ta có thể cấu hình rõ phạm vi quét bằng <code>@ComponentScan</code>.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@SpringBootApplication(scanBasePackages = {
+        "com.example.application",
+        "com.example.product"
+})
+public class DemoApplication {
+}</pre>
+    </div>
+
+    <p>Cấu hình này cho phép Component Scanning xem xét cả hai package được chỉ định.</p>
+
+    <p>Tuy nhiên, trong dự án lớn, việc cấu hình phạm vi quét cần được thực hiện có chủ đích để tránh quét nhầm các thành phần không mong muốn.</p>
+
+    <h4>3.8.4. Component Scanning có đăng ký tất cả các lớp Java không?</h4>
+    <p>Không.</p>
+
+    <p>Component Scanning không có nghĩa là Spring sẽ tự động biến mọi lớp Java trong dự án thành Bean.</p>
+
+    <p>Thông thường, cơ chế này tìm những lớp được đánh dấu bằng các stereotype phù hợp như:</p>
+    <ul>
+        <li><code>@Component</code></li>
+        <li><code>@Service</code></li>
+        <li><code>@Repository</code></li>
+        <li><code>@Controller</code></li>
+        <li><code>@RestController</code></li>
+    </ul>
+
+    <p>Ngoài ra, Bean còn có thể được đăng ký qua <code>@Bean</code>, các cơ chế cấu hình tự động của Spring Boot hoặc những cơ chế đăng ký Bean khác.</p>
+
+    <p>Một lớp DTO, entity hoặc lớp tiện ích thông thường không nhất thiết phải trở thành Bean. Chỉ nên đăng ký Bean khi cần Spring quản lý hoặc cung cấp đối tượng đó.</p>
+
+    <h3>3.9. Quy tắc đặt package để Spring nhận diện Bean</h3>
+
+    <h4>3.9.1. Đặt lớp khởi động ở package gốc</h4>
+    <p>Trong ứng dụng Spring Boot, nên đặt lớp có <code>@SpringBootApplication</code> ở package gốc của dự án.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="info-box">
+        <pre>com.example.productmanagement
+├── ProductManagementApplication.java
+├── controller
+│   └── ProductController.java
+├── service
+│   └── ProductService.java
+├── repository
+│   └── ProductRepository.java
+├── entity
+│   └── Product.java
+├── dto
+│   └── ProductResponse.java
+└── config
+    └── AppConfig.java</pre>
+    </div>
+
+    <p>Ở cấu trúc này, <code>ProductManagementApplication</code> nằm tại <code>com.example.productmanagement</code>.</p>
+
+    <p>Các package <code>controller</code>, <code>service</code>, <code>repository</code> và <code>config</code> đều là package con, nên phù hợp với phạm vi Component Scanning mặc định.</p>
+
+    <h4>3.9.2. Phân chia package theo trách nhiệm</h4>
+    <p>Trong ứng dụng Backend, chúng ta thường chia package theo vai trò:</p>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Package</th>
+                    <th>Nội dung</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><code>controller</code></td><td>Xử lý yêu cầu HTTP</td></tr>
+                <tr><td><code>service</code></td><td>Xử lý nghiệp vụ</td></tr>
+                <tr><td><code>repository</code></td><td>Truy cập dữ liệu</td></tr>
+                <tr><td><code>entity</code></td><td>Các lớp mô hình dữ liệu JPA</td></tr>
+                <tr><td><code>dto</code></td><td>Đối tượng truyền dữ liệu</td></tr>
+                <tr><td><code>config</code></td><td>Các lớp cấu hình Spring</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Cách tổ chức này giúp lập trình viên dễ tìm kiếm thành phần và hiểu vai trò của từng lớp.</p>
+
+    <p>Không có một cấu trúc package duy nhất bắt buộc cho mọi dự án. Tuy nhiên, với người mới học Spring Boot, mô hình trên là một điểm bắt đầu rõ ràng và dễ quản lý.</p>
+
+    <h4>3.9.3. Những lỗi cần tránh</h4>
+
+    <p><strong>Lỗi 1: Đặt lớp khởi động sai package</strong></p>
+    <p>Khi lớp khởi động nằm trong một package quá sâu, một số package khác có thể nằm ngoài phạm vi quét mặc định.</p>
+
+    <p><strong>Lỗi 2: Quên annotation hoặc cơ chế đăng ký Bean</strong></p>
+    <p>Một lớp cần được Spring quản lý nhưng không được phát hiện qua Component Scanning và cũng không được đăng ký theo cách khác sẽ không tự động trở thành Bean.</p>
+
+    <p><strong>Lỗi 3: Có nhiều Bean cùng kiểu nhưng không có cách lựa chọn rõ ràng</strong></p>
+    <p>Nếu một constructor cần một interface và có nhiều Bean cùng triển khai interface đó, Spring có thể không biết nên chọn Bean nào. Trong trường hợp này, có thể cần sử dụng <code>@Primary</code>, <code>@Qualifier</code> hoặc một cơ chế lựa chọn phù hợp.</p>
+
+    <p><strong>Lỗi 4: Cho rằng mọi lớp đều cần annotation Spring</strong></p>
+    <p>Không phải lớp nào cũng cần trở thành Bean. DTO, các đối tượng dữ liệu đơn giản hoặc một số lớp tiện ích có thể được tạo và sử dụng mà không cần Spring quản lý trực tiếp.</p>
+
+    <h3>3.10. Tổng kết bài học</h3>
+    <p>Trong bài học này, chúng ta đã tìm hiểu cách khai báo và quản lý Bean trong Spring Boot.</p>
+
+    <p>Các kiến thức quan trọng cần ghi nhớ:</p>
+    <ul>
+        <li><code>@Component</code> đánh dấu một thành phần có thể được Spring phát hiện và quản lý.</li>
+        <li><code>@Service</code> thể hiện lớp xử lý nghiệp vụ.</li>
+        <li><code>@Repository</code> thể hiện lớp truy cập dữ liệu và hỗ trợ cơ chế xử lý ngoại lệ dữ liệu của Spring trong những trường hợp phù hợp.</li>
+        <li><code>@Controller</code> và <code>@RestController</code> được dùng để xây dựng tầng xử lý yêu cầu web.</li>
+        <li><code>@Configuration</code> đánh dấu lớp cấu hình.</li>
+        <li><code>@Bean</code> cho phép khai báo đối tượng Spring quản lý thông qua một phương thức.</li>
+        <li>Component Scanning giúp Spring phát hiện các thành phần được đánh dấu phù hợp.</li>
+        <li>Đặt lớp khởi động tại package gốc giúp các package con được quét theo mặc định.</li>
+    </ul>
+
+    <h4>Bài tập củng cố</h4>
+
+    <p><strong>Trắc nghiệm nhanh</strong></p>
+
+    <p><strong>1. Annotation nào thường được dùng để đánh dấu lớp xử lý nghiệp vụ?</strong></p>
+    <ul>
+        <li><code>@Repository</code></li>
+        <li><code>@Service</code></li>
+        <li><code>@RestController</code></li>
+        <li><code>@Configuration</code></li>
+    </ul>
+
+    <p><strong>2. Annotation nào được đặt trên phương thức để đăng ký đối tượng trả về thành Bean?</strong></p>
+    <ul>
+        <li><code>@Component</code></li>
+        <li><code>@Autowired</code></li>
+        <li><code>@Bean</code></li>
+        <li><code>@Entity</code></li>
+    </ul>
+
+    <p><strong>3. Theo mặc định, Component Scanning của Spring Boot bắt đầu từ đâu?</strong></p>
+    <ul>
+        <li>Tất cả package trên máy tính</li>
+        <li>Package chứa lớp <code>@SpringBootApplication</code> và các package con</li>
+        <li>Chỉ package controller</li>
+        <li>Chỉ package service</li>
+    </ul>
+
+    <p><strong>4. Annotation nào thường dùng để xây dựng REST API?</strong></p>
+    <ul>
+        <li><code>@RestController</code></li>
+        <li><code>@Repository</code></li>
+        <li><code>@Configuration</code></li>
+        <li><code>@Bean</code></li>
+    </ul>
+
+    <p><strong>5. Một lớp được tạo bằng new có tự động trở thành Spring Bean không?</strong></p>
+    <ul>
+        <li>Có, luôn luôn</li>
+        <li>Không, trừ khi được đăng ký hoặc quản lý qua cơ chế phù hợp</li>
+        <li>Chỉ khi lớp có constructor</li>
+        <li>Chỉ khi lớp có getter</li>
+    </ul>
+
+    <p>Bài tiếp theo trong lộ trình là <strong>Phần 4 — Dependency Injection trong Spring</strong>, tập trung vào Constructor Injection, Setter Injection, Field Injection và cách lựa chọn phương pháp phù hợp trong các dự án Spring Boot.</p>
+
+    <div class="success-box">
+        <h5>Ghi nhớ trọng tâm</h5>
+        <ul>
+            <li><strong><code>@Component</code></strong> đánh dấu thành phần Spring chung; <strong><code>@Service</code></strong> cho tầng nghiệp vụ; <strong><code>@Repository</code></strong> cho tầng truy cập dữ liệu; <strong><code>@Controller</code></strong> / <strong><code>@RestController</code></strong> cho tầng web.</li>
+            <li><strong><code>@Configuration</code></strong> đánh dấu lớp cấu hình; <strong><code>@Bean</code></strong> đăng ký Bean qua phương thức — phù hợp cho đối tượng cần kiểm soát khởi tạo hoặc thư viện bên ngoài.</li>
+            <li><strong><code>@Component</code></strong> dùng trên lớp; <strong><code>@Bean</code></strong> dùng trên phương thức — hai cơ chế đăng ký khác nhau, không nên dùng trùng cho cùng một thành phần.</li>
+            <li><strong>Component Scanning</strong> mặc định quét package chứa <code>@SpringBootApplication</code> và các package con.</li>
+            <li><strong>Đặt lớp khởi động ở package gốc</strong> để tránh lỗi <code>NoSuchBeanDefinitionException</code>.</li>
+            <li>Không phải mọi lớp Java đều cần trở thành Bean — DTO, entity, utility thường không cần Spring quản lý.</li>
+            <li>Có nhiều Bean cùng kiểu → cần <code>@Primary</code> hoặc <code>@Qualifier</code> để chỉ định rõ ràng.</li>
+            <li><strong><code>@Service</code> + <code>@Repository</code></strong> thể hiện đúng vai trò kiến trúc, giúp code dễ đọc và bảo trì hơn so với dùng <code>@Component</code> chung chung.</li>
+        </ul>
+    </div>
+</section>
+<section id="ioc-di-4" class="section">
+    <h2><i class="fas fa-link"></i> BÀI 4. DEPENDENCY INJECTION TRONG SPRING</h2>
+
+    <p>Trong bài trước, chúng ta đã học cách khai báo và quản lý Bean bằng <code>@Component</code>, <code>@Service</code>, <code>@Repository</code>, <code>@Configuration</code> và <code>@Bean</code>. Tuy nhiên, chỉ khai báo Bean thôi chưa đủ. Một vấn đề quan trọng hơn là làm thế nào để các Bean sử dụng được những Bean khác mà không phải tự tạo đối tượng bằng <code>new</code>?</p>
+
+    <p>Đó chính là nội dung của Dependency Injection (DI).</p>
+
+    <p>Bài học này sử dụng Java và Spring Boot, lấy ví dụ từ một dự án quản lý sản phẩm. Chúng ta sẽ lần lượt tìm hiểu Dependency, cơ chế DI, ba phương pháp tiêm phụ thuộc, cách lựa chọn phương pháp phù hợp và cách sử dụng Lombok để giảm mã nguồn.</p>
+
+    <h3>Mục tiêu bài học</h3>
+    <p>Sau khi hoàn thành bài học, người học có thể:</p>
+    <ul>
+        <li>Hiểu Dependency là gì và vì sao các lớp cần phụ thuộc vào nhau.</li>
+        <li>Giải thích cách Spring Container cung cấp Bean cho đối tượng cần sử dụng.</li>
+        <li>Viết được Constructor Injection, Setter Injection và Field Injection.</li>
+        <li>So sánh ưu, nhược điểm của từng phương pháp.</li>
+        <li>Áp dụng Constructor Injection cùng Lombok <code>@RequiredArgsConstructor</code> trong dự án Spring Boot.</li>
+    </ul>
+
+    <h3>4.1. Dependency là gì?</h3>
+
+    <h4>4.1.1. Khái niệm Dependency</h4>
+    <p>Dependency (sự phụ thuộc) là mối quan hệ trong đó một lớp cần sử dụng một lớp hoặc đối tượng khác để thực hiện công việc của mình.</p>
+
+    <p>Ví dụ, trong hệ thống quản lý sản phẩm:</p>
+    <ul>
+        <li><code>ProductController</code> tiếp nhận yêu cầu từ client.</li>
+        <li><code>ProductService</code> xử lý nghiệp vụ sản phẩm.</li>
+        <li><code>ProductRepository</code> truy cập dữ liệu sản phẩm.</li>
+    </ul>
+
+    <p>Khi <code>ProductController</code> cần gọi phương thức của <code>ProductService</code>, nó phải có một đối tượng <code>ProductService</code> để sử dụng. Khi đó, <code>ProductController</code> phụ thuộc vào <code>ProductService</code>.</p>
+
+    <div class="info-box">
+        <pre>ProductController
+Tiếp nhận HTTP request
+        |
+        v
+ProductService
+Xử lý nghiệp vụ
+        |
+        v
+ProductRepository
+Truy cập dữ liệu</pre>
+    </div>
+
+    <p>Đây là ví dụ về quan hệ phụ thuộc giữa các lớp. Chúng ta chưa xét đến cách Spring tạo và kết nối các đối tượng; phần đó sẽ được giải thích ở các mục tiếp theo.</p>
+
+    <h4>4.1.2. Ví dụ chưa sử dụng Dependency Injection</h4>
+    <p>Giả sử có lớp <code>ProductService</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class ProductService {
+
+    public void getAllProducts() {
+        System.out.println("Lấy danh sách sản phẩm");
+    }
+}</pre>
+    </div>
+
+    <p>Lớp <code>ProductController</code> cần sử dụng <code>ProductService</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public class ProductController {
+
+    private ProductService productService =
+            new ProductService();
+
+    public void getProducts() {
+        productService.getAllProducts();
+    }
+}</pre>
+    </div>
+
+    <p>Giải thích:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>private ProductService productService =
+        new ProductService();</pre>
+    </div>
+
+    <ul>
+        <li><code>ProductService</code>: kiểu dữ liệu của biến.</li>
+        <li><code>productService</code>: biến lưu tham chiếu đến đối tượng.</li>
+        <li><code>new ProductService()</code>: tự tạo một đối tượng <code>ProductService</code>.</li>
+    </ul>
+
+    <p>Đoạn code này chạy được trong Java thông thường. Tuy nhiên, <code>ProductController</code> đang tự chịu trách nhiệm tạo đối tượng mà nó cần sử dụng.</p>
+
+    <p>Cách làm này có một số hạn chế:</p>
+    <ol>
+        <li>Khó thay thế đối tượng: nếu muốn đổi sang một cách triển khai <code>ProductService</code> khác, ta có thể phải sửa code tạo đối tượng.</li>
+        <li>Khó kiểm thử: khi kiểm thử controller, việc thay <code>ProductService</code> thật bằng một đối tượng giả (mock) trở nên kém thuận tiện hơn.</li>
+        <li>Khó quản lý tập trung: mỗi lớp tự tạo các đối tượng mà nó cần, khiến việc quản lý vòng đời và cấu hình đối tượng phức tạp hơn.</li>
+    </ol>
+
+    <p>Đây không có nghĩa là từ khóa <code>new</code> luôn xấu. Java vẫn cần tạo đối tượng. Vấn đề nằm ở chỗ: lớp nghiệp vụ có nên tự tạo các dependency mà Spring có thể quản lý và cung cấp hay không?</p>
+
+    <p>Trong ứng dụng Spring Boot, chúng ta thường để Spring quản lý các đối tượng cần được dùng chung giữa các thành phần.</p>
+
+    <h4>4.1.3. Ví dụ sử dụng Dependency Injection</h4>
+    <p>Thay vì tự tạo <code>ProductService</code>, <code>ProductController</code> khai báo rằng nó cần một đối tượng thuộc kiểu <code>ProductService</code>.</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Service
+public class ProductService {
+
+    public void getAllProducts() {
+        System.out.println("Lấy danh sách sản phẩm");
+    }
+}</pre>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @GetMapping
+    public String getProducts() {
+        productService.getAllProducts();
+        return "Lấy danh sách sản phẩm thành công";
+    }
+}</pre>
+    </div>
+
+    <p>Trong ví dụ này:</p>
+    <ul>
+        <li><code>@Service</code> giúp Spring phát hiện và đăng ký <code>ProductService</code> thành Bean.</li>
+        <li><code>@RestController</code> giúp Spring phát hiện <code>ProductController</code> và xử lý các yêu cầu HTTP.</li>
+        <li>Constructor của <code>ProductController</code> khai báo rằng lớp này cần một <code>ProductService</code>.</li>
+        <li>Spring tìm Bean phù hợp và truyền vào constructor khi tạo <code>ProductController</code>.</li>
+    </ul>
+
+    <p>Đây chính là Constructor Injection, một phương pháp Dependency Injection sẽ được học kỹ ở mục 4.3.</p>
+
+    <div class="success-box">
+        <h5>Điểm cần nhớ</h5>
+        <p>Dependency là đối tượng mà một lớp cần sử dụng. Dependency Injection là cách đưa đối tượng đó từ bên ngoài vào, thay vì để lớp tự tạo và quản lý nó.</p>
+    </div>
+
+    <h3>4.2. Dependency Injection hoạt động như thế nào?</h3>
+
+    <h4>4.2.1. Nguyên lý hoạt động</h4>
+    <p>Trong Spring, Dependency Injection hoạt động dựa trên sự phối hợp giữa Spring IoC Container và các Bean được đăng ký trong container.</p>
+
+    <p>Quy trình tổng quát:</p>
+    <ol>
+        <li>Spring Boot khởi động ứng dụng.</li>
+        <li>Spring quét các package để tìm những lớp được khai báo là Bean, chẳng hạn <code>@Service</code>, <code>@Repository</code>, <code>@Controller</code>.</li>
+        <li>Spring tạo và quản lý các Bean theo cấu hình.</li>
+        <li>Khi tạo một Bean cần sử dụng Bean khác, Spring tìm dependency phù hợp.</li>
+        <li>Spring đưa dependency vào đối tượng cần sử dụng thông qua phương pháp injection tương ứng.</li>
+    </ol>
+
+    <p>Ví dụ, <code>ProductController</code> cần <code>ProductService</code>. Spring sẽ tạo <code>ProductService</code> và cung cấp nó cho <code>ProductController</code> khi khởi tạo controller, miễn là có Bean phù hợp và không có vấn đề về tính duy nhất của Bean.</p>
+
+    <h4>4.2.2. Sơ đồ Dependency Injection</h4>
+
+    <div class="info-box">
+        <pre>1. Spring Boot khởi động
+   Đọc cấu hình và thực hiện component scanning
+        |
+        v
+2. Spring Container quản lý Bean
+   ProductService · ProductController
+        |
+        v
+3. Phân giải Dependency
+   ProductController cần ProductService
+        |
+        v
+4. Inject Dependency
+   Spring truyền ProductService vào constructor
+        |
+        v
+5. Controller sẵn sàng hoạt động
+   Có thể gọi phương thức của ProductService</pre>
+    </div>
+
+    <h4>4.2.3. Ví dụ code hoàn chỉnh</h4>
+    <p>Giả sử cấu trúc package như sau:</p>
+
+    <div class="info-box">
+        <pre>com.example.productmanagement
+├── ProductManagementApplication.java
+└── product
+    ├── controller
+    │   └── ProductController.java
+    └── service
+        └── ProductService.java</pre>
+    </div>
+
+    <p>Lớp khởi động ứng dụng:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@SpringBootApplication
+public class ProductManagementApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(
+                ProductManagementApplication.class,
+                args
+        );
+    }
+}</pre>
+    </div>
+
+    <p><code>ProductService.java</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>package com.example.productmanagement.product.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class ProductService {
+
+    public String getMessage() {
+        return "ProductService đang hoạt động";
+    }
+}</pre>
+    </div>
+
+    <p><code>ProductController.java</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>package com.example.productmanagement.product.controller;
+
+import com.example.productmanagement.product.service.ProductService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ProductController {
+
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @GetMapping("/api/products/message")
+    public String getMessage() {
+        return productService.getMessage();
+    }
+}</pre>
+    </div>
+
+    <p>Khi chạy ứng dụng và gửi GET request đến:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>HTTP</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>GET http://localhost:8080/api/products/message</pre>
+    </div>
+
+    <p>Kết quả trả về:</p>
+
+    <div class="info-box">
+        <pre>ProductService đang hoạt động</pre>
+    </div>
+
+    <p>Hãy chú ý rằng chúng ta không viết <code>new ProductService()</code> trong controller. Spring tự cung cấp dependency thông qua constructor.</p>
+
+    <h4>4.2.4. Spring biết cần truyền đối tượng nào bằng cách nào?</h4>
+    <p>Spring nhìn vào tham số của constructor:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public ProductController(ProductService productService) {
+    this.productService = productService;
+}</pre>
+    </div>
+
+    <p>Tham số có kiểu <code>ProductService</code>, vì vậy Spring tìm Bean tương thích với kiểu đó.</p>
+
+    <p>Nếu chỉ có một Bean phù hợp, Spring có thể inject Bean đó. Nếu không có Bean phù hợp, ứng dụng thường thất bại khi khởi động. Nếu có nhiều Bean phù hợp mà chưa xác định được Bean cần dùng, Spring có thể báo lỗi không phân giải được dependency; khi đó có thể cần <code>@Primary</code> hoặc <code>@Qualifier</code>.</p>
+
+    <h3>4.3. Constructor Injection</h3>
+
+    <h4>4.3.1. Khái niệm</h4>
+    <p>Constructor Injection là phương pháp đưa dependency vào một lớp thông qua constructor của lớp đó.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Service
+public class ProductService {
+}</pre>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@RestController
+public class ProductController {
+
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+}</pre>
+    </div>
+
+    <p>Trong code trên, <code>ProductController</code> nhận <code>ProductService</code> thông qua constructor.</p>
+
+    <p>Constructor Injection là phương pháp nên ưu tiên khi một dependency là thành phần bắt buộc để đối tượng hoạt động.</p>
+
+    <h4>4.3.2. Phân tích từng dòng code</h4>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>private final ProductService productService;</pre>
+    </div>
+
+    <ul>
+        <li><code>private</code>: chỉ lớp <code>ProductController</code> truy cập trực tiếp được biến này.</li>
+        <li><code>ProductService</code>: kiểu dữ liệu của dependency.</li>
+        <li><code>final</code>: biến tham chiếu phải được gán giá trị đúng một lần trong quá trình khởi tạo đối tượng và không thể được gán lại sau đó.</li>
+        <li><code>productService</code>: biến lưu tham chiếu đến đối tượng được inject.</li>
+    </ul>
+
+    <p>Tiếp theo:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public ProductController(ProductService productService) {
+    this.productService = productService;
+}</pre>
+    </div>
+
+    <p>Đây là constructor của <code>ProductController</code>.</p>
+    <ul>
+        <li>Tham số <code>ProductService productService</code> nhận dependency từ bên ngoài.</li>
+        <li><code>this.productService</code> là thuộc tính của đối tượng hiện tại.</li>
+        <li><code>productService</code> ở vế phải là tham số của constructor.</li>
+        <li>Phép gán giúp lưu dependency vào thuộc tính để các phương thức khác có thể sử dụng.</li>
+    </ul>
+
+    <p>Trong Spring Framework hiện đại, nếu lớp chỉ có một constructor, Spring có thể sử dụng constructor đó để thực hiện injection mà không cần thêm <code>@Autowired</code>.</p>
+
+    <p>Bạn có thể viết:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public ProductController(ProductService productService) {
+    this.productService = productService;
+}</pre>
+    </div>
+
+    <p>Không bắt buộc phải viết:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Autowired
+public ProductController(ProductService productService) {
+    this.productService = productService;
+}</pre>
+    </div>
+
+    <p>Nếu lớp có nhiều constructor, bạn cần chú ý quy tắc lựa chọn constructor của Spring và có thể cần dùng <code>@Autowired</code> để chỉ rõ constructor phù hợp.</p>
+
+    <h4>4.3.3. Constructor Injection với nhiều dependency</h4>
+    <p>Trong thực tế, một service có thể cần nhiều dependency.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Service
+public class ProductService {
+
+    private final ProductRepository productRepository;
+    private final CategoryService categoryService;
+
+    public ProductService(
+            ProductRepository productRepository,
+            CategoryService categoryService
+    ) {
+        this.productRepository = productRepository;
+        this.categoryService = categoryService;
+    }
+}</pre>
+    </div>
+
+    <p>Giả sử <code>ProductRepository</code> và <code>CategoryService</code> đều đã được đăng ký thành Bean phù hợp. Spring sẽ truyền cả hai dependency vào constructor khi tạo <code>ProductService</code>.</p>
+
+    <p>Cách làm này giúp thể hiện rõ những thành phần mà <code>ProductService</code> cần để hoạt động.</p>
+
+    <p>Lưu ý: <code>ProductRepository</code> trong ví dụ này là tên minh họa cho một repository đã được cấu hình. Nếu sử dụng Spring Data JPA, bạn có thể khai báo interface repository theo cơ chế của Spring Data JPA thay vì tự viết một lớp <code>@Repository</code> thông thường.</p>
+
+    <h4>4.3.4. Khi nào sử dụng Constructor Injection?</h4>
+    <p>Nên sử dụng khi:</p>
+    <ul>
+        <li>Dependency là bắt buộc.</li>
+        <li>Đối tượng không thể hoạt động đúng nếu thiếu dependency.</li>
+        <li>Muốn sử dụng <code>final</code> để bảo vệ tham chiếu dependency.</li>
+        <li>Muốn dễ viết unit test bằng cách truyền mock vào constructor.</li>
+        <li>Muốn thể hiện rõ các dependency của lớp ngay tại thời điểm khởi tạo.</li>
+    </ul>
+
+    <h3>4.4. Setter Injection</h3>
+
+    <h4>4.4.1. Khái niệm</h4>
+    <p>Setter Injection là phương pháp đưa dependency vào một đối tượng thông qua phương thức setter.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Service
+public class ProductService {
+
+    public String getMessage() {
+        return "ProductService đang hoạt động";
+    }
+}</pre>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@RestController
+public class ProductController {
+
+    private ProductService productService;
+
+    @Autowired
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @GetMapping("/api/products/message")
+    public String getMessage() {
+        return productService.getMessage();
+    }
+}</pre>
+    </div>
+
+    <p>Ở đây, Spring gọi phương thức <code>setProductService(...)</code> để truyền dependency vào controller.</p>
+
+    <h4>4.4.2. Phân tích code</h4>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>private ProductService productService;</pre>
+    </div>
+
+    <p>Thuộc tính không dùng <code>final</code> vì giá trị của nó sẽ được gán thông qua setter sau khi đối tượng được khởi tạo.</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Autowired
+public void setProductService(ProductService productService) {
+    this.productService = productService;
+}</pre>
+    </div>
+
+    <ul>
+        <li><code>@Autowired</code> yêu cầu Spring tự động inject dependency vào phương thức.</li>
+        <li><code>setProductService</code> là phương thức nhận dependency.</li>
+        <li>Phép gán <code>this.productService = productService</code> lưu dependency vào thuộc tính.</li>
+    </ul>
+
+    <p>Khi Spring quản lý Bean này, nó sẽ thực hiện injection qua setter trong quá trình khởi tạo và thiết lập Bean.</p>
+
+    <h4>4.4.3. Ưu điểm và hạn chế</h4>
+
+    <p><strong>Ưu điểm:</strong></p>
+    <ul>
+        <li>Có thể thay đổi dependency sau khi đối tượng đã được tạo.</li>
+        <li>Phù hợp với một số dependency mang tính tùy chọn.</li>
+        <li>Có thể thuận tiện khi cần cấu hình một dependency sau khi khởi tạo đối tượng.</li>
+    </ul>
+
+    <p><strong>Hạn chế:</strong></p>
+    <ul>
+        <li>Dependency có thể chưa được thiết lập nếu đối tượng được sử dụng sai thời điểm hoặc được tạo ngoài cơ chế quản lý của Spring.</li>
+        <li>Không thể dùng <code>final</code> cho thuộc tính cần được gán qua setter.</li>
+        <li>Đối tượng có thể ở trạng thái chưa hoàn chỉnh trước khi setter được gọi.</li>
+    </ul>
+
+    <p>Ví dụ, nếu tự tạo controller bằng <code>new ProductController()</code> ngoài Spring, setter không tự được gọi. Nếu tiếp tục gọi <code>getMessage()</code> trong khi <code>productService</code> chưa được gán, chương trình có thể gặp <code>NullPointerException</code>.</p>
+
+    <p>Trong ứng dụng Spring Boot thông thường, Constructor Injection phù hợp hơn với dependency bắt buộc, còn Setter Injection có thể dùng cho dependency tùy chọn hoặc trường hợp cần thay đổi cấu hình sau khi khởi tạo.</p>
+
+    <h3>4.5. Field Injection</h3>
+
+    <h4>4.5.1. Khái niệm</h4>
+    <p>Field Injection là phương pháp inject dependency trực tiếp vào thuộc tính của lớp bằng annotation <code>@Autowired</code>.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@RestController
+public class ProductController {
+
+    @Autowired
+    private ProductService productService;
+
+    @GetMapping("/api/products/message")
+    public String getMessage() {
+        return productService.getMessage();
+    }
+}</pre>
+    </div>
+
+    <p>Ở đây, bạn không khai báo constructor hoặc setter để nhận <code>ProductService</code>. Spring thực hiện inject trực tiếp vào field khi khởi tạo Bean.</p>
+
+    <h4>4.5.2. Field Injection hoạt động như thế nào?</h4>
+    <p>Với Bean do Spring quản lý, quy trình đơn giản có thể hiểu như sau:</p>
+    <ol>
+        <li>Spring tạo đối tượng <code>ProductController</code>.</li>
+        <li>Spring xử lý các dependency được khai báo bằng <code>@Autowired</code>.</li>
+        <li>Spring tìm Bean <code>ProductService</code> phù hợp.</li>
+        <li>Spring inject Bean vào thuộc tính <code>productService</code>.</li>
+        <li>Controller được hoàn tất quá trình khởi tạo theo vòng đời của Bean.</li>
+    </ol>
+
+    <p>Tuy nhiên, thứ tự chi tiết còn phụ thuộc vào vòng đời Bean và các cơ chế khởi tạo khác. Điểm quan trọng là dependency của Field Injection không được nhận thông qua constructor.</p>
+
+    <h4>4.5.3. Ưu điểm và hạn chế</h4>
+
+    <p><strong>Ưu điểm:</strong></p>
+    <ul>
+        <li>Code ngắn.</li>
+        <li>Dễ viết ví dụ đơn giản.</li>
+        <li>Không cần khai báo constructor hoặc setter.</li>
+    </ul>
+
+    <p><strong>Hạn chế:</strong></p>
+    <ul>
+        <li>Dependency không được thể hiện rõ qua constructor.</li>
+        <li>Khó khởi tạo đối tượng độc lập với Spring trong unit test.</li>
+        <li>Không thể khai báo thuộc tính được inject theo cách thông thường là <code>final</code>.</li>
+        <li>Đối tượng có thể được tạo ra trước khi dependency được inject, khiến việc khởi tạo và kiểm thử độc lập trở nên kém thuận tiện.</li>
+        <li>Khó thể hiện rõ những dependency nào là bắt buộc.</li>
+    </ul>
+
+    <p>Ví dụ, nếu muốn kiểm thử controller mà không khởi động Spring:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>ProductController controller = new ProductController();</pre>
+    </div>
+
+    <p>Với Field Injection, <code>productService</code> chưa được inject nên có thể là <code>null</code>.</p>
+
+    <p>Ngược lại, với Constructor Injection, bạn có thể truyền một đối tượng giả hoặc mock trực tiếp vào constructor.</p>
+
+    <p>Vì những hạn chế này, không nên chọn Field Injection làm phương pháp mặc định cho code Spring Boot mới.</p>
+
+    <h3>4.6. So sánh các phương pháp Dependency Injection</h3>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tiêu chí</th>
+                    <th>Constructor Injection</th>
+                    <th>Setter Injection</th>
+                    <th>Field Injection</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Cách inject</td><td>Qua constructor</td><td>Qua setter</td><td>Qua field</td></tr>
+                <tr><td>Dependency bắt buộc</td><td>Rất phù hợp</td><td>Ít phù hợp hơn</td><td>Có thể dùng nhưng không khuyến nghị</td></tr>
+                <tr><td>Dùng <code>final</code> cho field dependency</td><td>Có</td><td>Không</td><td>Không</td></tr>
+                <tr><td>Dễ unit test độc lập</td><td>Tốt</td><td>Khá tốt</td><td>Kém thuận tiện</td></tr>
+                <tr><td>Có thể thay dependency sau khi khởi tạo</td><td>Không nếu chỉ giữ tham chiếu <code>final</code></td><td>Có</td><td>Có thể thay đổi field</td></tr>
+                <tr><td>Thể hiện dependency rõ ràng</td><td>Rõ</td><td>Rõ qua setter</td><td>Kém rõ hơn</td></tr>
+                <tr><td>Khuyến nghị</td><td>Ưu tiên</td><td>Dùng khi phù hợp</td><td>Tránh làm mặc định</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Cần hiểu rằng cả ba phương pháp đều có thể hoạt động với Spring. Sự khác nhau nằm ở cách truyền dependency và mức độ phù hợp với thiết kế của ứng dụng.</p>
+
+    <h4>Ví dụ cùng một dependency theo ba cách</h4>
+
+    <p><strong>1. Constructor Injection</strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>private final ProductService productService;
+
+public ProductController(ProductService productService) {
+    this.productService = productService;
+}</pre>
+    </div>
+
+    <p>Phù hợp nhất với dependency bắt buộc.</p>
+
+    <p><strong>2. Setter Injection</strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>private ProductService productService;
+
+@Autowired
+public void setProductService(ProductService productService) {
+    this.productService = productService;
+}</pre>
+    </div>
+
+    <p>Hữu ích khi dependency có thể tùy chọn hoặc cần được thiết lập sau.</p>
+
+    <p><strong>3. Field Injection</strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Autowired
+private ProductService productService;</pre>
+    </div>
+
+    <p>Ngắn gọn nhưng kém thuận tiện hơn cho kiểm thử và thiết kế dependency rõ ràng.</p>
+
+    <h3>4.7. Vì sao nên ưu tiên Constructor Injection?</h3>
+
+    <p>Constructor Injection không chỉ là cách viết code khác. Nó hỗ trợ một số nguyên tắc thiết kế quan trọng trong ứng dụng Spring Boot.</p>
+
+    <h4>4.7.1. Đảm bảo dependency bắt buộc được cung cấp</h4>
+    <p>Xét lớp sau:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Service
+public class ProductService {
+
+    private final ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+}</pre>
+    </div>
+
+    <p>Nếu muốn tạo <code>ProductService</code>, bạn phải cung cấp một <code>ProductRepository</code> cho constructor. Nếu thiếu dependency phù hợp trong cấu hình Spring, ứng dụng thường không khởi động được.</p>
+
+    <p>Điều này giúp phát hiện sớm lỗi cấu hình thay vì để đối tượng hoạt động trong trạng thái thiếu dependency.</p>
+
+    <h4>4.7.2. Hỗ trợ tính bất biến của tham chiếu dependency</h4>
+    <p>Khi khai báo:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>private final ProductRepository productRepository;</pre>
+    </div>
+
+    <p>Sau khi constructor gán giá trị, bạn không thể gán lại thuộc tính đó bằng một tham chiếu khác trong code thông thường.</p>
+
+    <p>Điều này giúp giảm nguy cơ vô tình thay đổi dependency trong quá trình xử lý nghiệp vụ.</p>
+
+    <p>Lưu ý: <code>final</code> bảo vệ việc gán lại tham chiếu, không có nghĩa là toàn bộ trạng thái bên trong đối tượng được tham chiếu cũng bất biến.</p>
+
+    <h4>4.7.3. Dễ viết unit test</h4>
+    <p>Giả sử <code>ProductService</code> phụ thuộc vào <code>ProductRepository</code>.</p>
+
+    <p>Ta có thể tạo service bằng một repository giả trong bài kiểm thử:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>ProductRepository repository = mock(ProductRepository.class);
+
+ProductService service = new ProductService(repository);</pre>
+    </div>
+
+    <p>Đoạn code minh họa cách truyền dependency trực tiếp khi khởi tạo. Để sử dụng <code>mock(...)</code>, bài kiểm thử cần Mockito và phải có định nghĩa phù hợp cho <code>ProductRepository</code>.</p>
+
+    <p>Ưu điểm là bạn không nhất thiết phải khởi động toàn bộ Spring Container chỉ để kiểm thử logic của một lớp.</p>
+
+    <p>Khi sử dụng Mockito trong bài học kiểm thử Spring Boot, cách làm này sẽ giúp kiểm thử service độc lập và kiểm soát kết quả từ dependency.</p>
+
+    <h4>4.7.4. Thể hiện rõ thiết kế của lớp</h4>
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public ProductService(
+        ProductRepository productRepository,
+        CategoryService categoryService,
+        DiscountService discountService
+) {
+    this.productRepository = productRepository;
+    this.categoryService = categoryService;
+    this.discountService = discountService;
+}</pre>
+    </div>
+
+    <p>Chỉ cần nhìn constructor, người đọc có thể biết <code>ProductService</code> cần ba dependency nào.</p>
+
+    <p>Nếu một constructor có quá nhiều dependency, đó cũng có thể là dấu hiệu lớp đang đảm nhận quá nhiều trách nhiệm. Khi đó, nên xem xét chia nhỏ lớp hoặc điều chỉnh thiết kế thay vì chỉ tìm cách rút ngắn constructor.</p>
+
+    <h4>4.7.5. Kết luận lựa chọn</h4>
+    <p>Với các Bean thông thường trong Spring Boot, có thể áp dụng quy tắc sau:</p>
+    <ul>
+        <li>Dependency bắt buộc: dùng Constructor Injection.</li>
+        <li>Dependency thực sự tùy chọn hoặc cần cấu hình sau: cân nhắc Setter Injection.</li>
+        <li>Field Injection: tránh sử dụng làm lựa chọn mặc định trong code mới.</li>
+    </ul>
+
+    <h3>4.8. Sử dụng Lombok <code>@RequiredArgsConstructor</code> trong Constructor Injection</h3>
+
+    <p>Đến đây, chúng ta đã hiểu cách viết Constructor Injection thủ công. Tuy nhiên, nếu một lớp có nhiều dependency, constructor có thể dài và lặp lại nhiều dòng code.</p>
+
+    <p>Lombok giúp giảm phần code lặp đó.</p>
+
+    <h4>4.8.1. <code>@RequiredArgsConstructor</code> là gì?</h4>
+    <p><code>@RequiredArgsConstructor</code> là annotation của Lombok. Nó tự sinh constructor chứa các trường bắt buộc, chủ yếu gồm:</p>
+    <ul>
+        <li>Các field khai báo <code>final</code> nhưng chưa được khởi tạo tại nơi khai báo.</li>
+        <li>Các field được đánh dấu <code>@NonNull</code> nhưng chưa được khởi tạo tại nơi khai báo.</li>
+    </ul>
+
+    <p>Trong Spring Boot, chúng ta thường khai báo dependency là <code>final</code> rồi sử dụng <code>@RequiredArgsConstructor</code>.</p>
+
+    <h4>4.8.2. Viết constructor theo cách thông thường</h4>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Service
+public class ProductService {
+
+    private final ProductRepository productRepository;
+    private final CategoryService categoryService;
+
+    public ProductService(
+            ProductRepository productRepository,
+            CategoryService categoryService
+    ) {
+        this.productRepository = productRepository;
+        this.categoryService = categoryService;
+    }
+
+    public String getMessage() {
+        return "ProductService đang hoạt động";
+    }
+}</pre>
+    </div>
+
+    <p>Code này hoàn toàn hợp lệ. Nhưng khi có nhiều dependency, constructor sẽ dài hơn.</p>
+
+    <h4>4.8.3. Rút gọn bằng <code>@RequiredArgsConstructor</code></h4>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class ProductService {
+
+    private final ProductRepository productRepository;
+    private final CategoryService categoryService;
+
+    public String getMessage() {
+        return "ProductService đang hoạt động";
+    }
+}</pre>
+    </div>
+
+    <p>Trong ví dụ này, Lombok tự sinh constructor tương đương về cơ bản với:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public ProductService(
+        ProductRepository productRepository,
+        CategoryService categoryService
+) {
+    this.productRepository = productRepository;
+    this.categoryService = categoryService;
+}</pre>
+    </div>
+
+    <p>Spring sử dụng constructor được sinh ra để inject các Bean phù hợp. Bạn không cần tự viết constructor và cũng không cần thêm <code>@Autowired</code> nếu lớp chỉ có constructor này.</p>
+
+    <p>Lưu ý: Lombok sinh constructor trong quá trình biên dịch. Bạn không nhìn thấy constructor được viết trực tiếp trong file <code>.java</code>, nhưng constructor vẫn có trong bytecode đã biên dịch.</p>
+
+    <h4>4.8.4. Áp dụng trong Controller</h4>
+    <p>Ví dụ hoàn chỉnh:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>package com.example.productmanagement.product.controller;
+
+import com.example.productmanagement.product.service.ProductService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/products")
+@RequiredArgsConstructor
+public class ProductController {
+
+    private final ProductService productService;
+
+    @GetMapping("/message")
+    public String getMessage() {
+        return productService.getMessage();
+    }
+}</pre>
+    </div>
+
+    <p>Spring sẽ sử dụng constructor do Lombok sinh ra để cung cấp <code>ProductService</code>.</p>
+
+    <p>Với cấu trúc package phù hợp, <code>ProductService</code> đã được đăng ký thành Bean bằng <code>@Service</code>, và các dependency bên trong service cũng phải được cấu hình hợp lệ.</p>
+
+    <h4>4.8.5. Vì sao phải khai báo <code>final</code>?</h4>
+    <p>So sánh hai trường hợp:</p>
+
+    <p><strong>Trường hợp 1 — Có <code>final</code></strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>private final ProductService productService;</pre>
+    </div>
+
+    <p><code>@RequiredArgsConstructor</code> sẽ đưa field này vào constructor được sinh ra nếu field chưa được khởi tạo tại nơi khai báo.</p>
+
+    <p><strong>Trường hợp 2 — Không có <code>final</code></strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>private ProductService productService;</pre>
+    </div>
+
+    <p>Field này không tự động trở thành tham số của constructor do <code>@RequiredArgsConstructor</code> sinh ra chỉ vì nó là một field thông thường.</p>
+
+    <p>Vì vậy, khi áp dụng Constructor Injection với Lombok, hãy dùng:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@RequiredArgsConstructor
+private final ProductService productService;</pre>
+    </div>
+
+    <p>Cụ thể, annotation đặt trên lớp, còn <code>final</code> đặt trên field:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@RestController
+@RequiredArgsConstructor
+public class ProductController {
+
+    private final ProductService productService;
+}</pre>
+    </div>
+
+    <p>Không viết <code>@RequiredArgsConstructor</code> trên field để mong Lombok sinh constructor cho lớp.</p>
+
+    <h4>4.8.6. Điều kiện để Lombok hoạt động</h4>
+    <p>Nếu IDE báo lỗi không nhận diện <code>@RequiredArgsConstructor</code>, hãy kiểm tra:</p>
+    <ol>
+        <li>Dự án đã thêm dependency Lombok.</li>
+        <li>IntelliJ IDEA nhận diện annotation Lombok; nếu cần, kiểm tra cấu hình annotation processing.</li>
+        <li>Các import sử dụng đúng package <code>lombok.RequiredArgsConstructor</code>.</li>
+        <li>Các field cần inject được khai báo phù hợp, thường là <code>private final</code>.</li>
+    </ol>
+
+    <p>Ví dụ với Maven, nếu dự án chưa có Lombok, có thể thêm dependency sau vào <code>pom.xml</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>XML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>&lt;dependency&gt;
+    &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+    &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+    &lt;optional&gt;true&lt;/optional&gt;
+&lt;/dependency&gt;</pre>
+    </div>
+
+    <p>Với dự án Spring Boot sử dụng quản lý dependency của Spring Boot, phiên bản Lombok thường được quản lý theo cấu hình dự án. Nếu dự án có quy định dependency riêng, hãy dùng phiên bản tương thích với cấu hình hiện tại.</p>
+
+    <h3>4.9. Bài tập thực hành</h3>
+
+    <h4>Bài 1 — Constructor Injection</h4>
+    <p>Tạo hai lớp:</p>
+    <ul>
+        <li><code>NotificationService</code>: có phương thức <code>sendNotification()</code> trả về chuỗi <code>"Đã gửi thông báo"</code>.</li>
+        <li><code>NotificationController</code>: inject <code>NotificationService</code> bằng Constructor Injection.</li>
+    </ul>
+
+    <p>Yêu cầu:</p>
+    <ol>
+        <li>Dùng <code>@Service</code> và <code>@RestController</code>.</li>
+        <li>Tạo endpoint <code>GET /api/notifications</code>.</li>
+        <li>Trả về kết quả từ <code>NotificationService</code>.</li>
+        <li>Không sử dụng <code>new NotificationService()</code> trong controller.</li>
+    </ol>
+
+    <h4>Bài 2 — Lombok</h4>
+    <p>Chuyển <code>NotificationController</code> ở bài 1 sang sử dụng <code>@RequiredArgsConstructor</code>.</p>
+
+    <p>Yêu cầu:</p>
+    <ul>
+        <li>Xóa constructor tự viết.</li>
+        <li>Giữ field <code>private final NotificationService notificationService</code>.</li>
+        <li>Đảm bảo endpoint vẫn hoạt động.</li>
+    </ul>
+
+    <h4>Bài 3 — Phân tích lỗi</h4>
+    <p>Cho đoạn code:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@RestController
+public class ProductController {
+
+    @Autowired
+    private ProductService productService;
+
+    public ProductController() {
+    }
+
+    @GetMapping("/products")
+    public String getProducts() {
+        return productService.getMessage();
+    }
+}</pre>
+    </div>
+
+    <p>Hãy trả lời:</p>
+    <ol>
+        <li>Đoạn code đang dùng phương pháp injection nào?</li>
+        <li>Vì sao cách này kém thuận tiện khi unit test?</li>
+        <li>Hãy sửa code sang Constructor Injection.</li>
+        <li>Hãy tiếp tục rút gọn bằng <code>@RequiredArgsConstructor</code>.</li>
+    </ol>
+
+    <h3>4.10. Câu hỏi ôn tập</h3>
+
+    <p><strong>1. Dependency là gì?</strong></p>
+    <ul>
+        <li>Một annotation của Spring</li>
+        <li>Một đối tượng hoặc thành phần mà lớp cần sử dụng</li>
+        <li>Một HTTP request</li>
+    </ul>
+
+    <p><strong>2. Spring thực hiện Constructor Injection dựa vào đâu?</strong></p>
+    <ul>
+        <li>Tên endpoint</li>
+        <li>Tham số của constructor và Bean phù hợp</li>
+        <li>Tên biến phải trùng tên lớp</li>
+    </ul>
+
+    <p><strong>3. Phương pháp nào nên ưu tiên với dependency bắt buộc?</strong></p>
+    <ul>
+        <li>Field Injection</li>
+        <li>Setter Injection trong mọi trường hợp</li>
+        <li>Constructor Injection</li>
+    </ul>
+
+    <p><strong>4. <code>@RequiredArgsConstructor</code> sinh constructor cho những field nào?</strong></p>
+    <ul>
+        <li>Tất cả field trong lớp</li>
+        <li>Các field <code>final</code> chưa được khởi tạo và các field <code>@NonNull</code> chưa được khởi tạo</li>
+        <li>Chỉ các field <code>public</code></li>
+    </ul>
+
+    <p><strong>5. Một lớp có đúng một constructor thì có bắt buộc thêm <code>@Autowired</code> không?</strong></p>
+    <ul>
+        <li>Có, luôn luôn</li>
+        <li>Không, Spring có thể sử dụng constructor duy nhất</li>
+        <li>Chỉ khi dùng <code>@Service</code></li>
+    </ul>
+
+    <h3>Tổng kết bài 4</h3>
+    <p>Có thể ghi nhớ toàn bộ bài học bằng bảng sau:</p>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Khái niệm</th>
+                    <th>Ghi nhớ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Dependency</td><td>Thành phần mà một lớp cần sử dụng</td></tr>
+                <tr><td>Dependency Injection</td><td>Cung cấp dependency từ bên ngoài vào lớp</td></tr>
+                <tr><td>Constructor Injection</td><td>Inject qua constructor</td></tr>
+                <tr><td>Setter Injection</td><td>Inject qua setter</td></tr>
+                <tr><td>Field Injection</td><td>Inject trực tiếp vào field</td></tr>
+                <tr><td><code>final</code></td><td>Không cho phép gán lại tham chiếu sau khi đã khởi tạo</td></tr>
+                <tr><td><code>@RequiredArgsConstructor</code></td><td>Lombok sinh constructor cho các field bắt buộc</td></tr>
+                <tr><td>Phương pháp ưu tiên</td><td>Constructor Injection, có thể kết hợp Lombok</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Luồng tư duy quan trọng nhất là:</p>
+
+    <div class="info-box">
+        <pre>Spring Boot khởi động
+        |
+        v
+Spring Container quản lý Bean
+        |
+        v
+ProductController cần ProductService
+        |
+        v
+Spring tìm Bean phù hợp
+        |
+        v
+Constructor Injection
+        |
+        v
+ProductController sử dụng ProductService</pre>
+    </div>
+
+    <p>Sau bài này, bạn đã nắm được cách các Bean được kết nối với nhau. Bước tiếp theo phù hợp là <strong>Phần 5 — Bean Scope và vòng đời Bean trong Spring</strong>, gồm Singleton, Prototype, các scope trong ứng dụng web, vòng đời khởi tạo và hủy Bean, cùng các annotation như <code>@PostConstruct</code> và <code>@PreDestroy</code>.</p>
+
+    <div class="success-box">
+        <h5>Ghi nhớ trọng tâm</h5>
+        <ul>
+            <li><strong>Dependency</strong> là đối tượng mà một lớp cần sử dụng; <strong>Dependency Injection</strong> là cách đưa dependency từ bên ngoài vào thay vì tự tạo bằng <code>new</code>.</li>
+            <li><strong>Constructor Injection</strong> là phương pháp ưu tiên cho dependency bắt buộc: đảm bảo dependency được cung cấp, hỗ trợ <code>final</code>, dễ unit test và thể hiện thiết kế rõ ràng.</li>
+            <li><strong>Setter Injection</strong> phù hợp cho dependency tùy chọn hoặc cần cấu hình sau khi khởi tạo.</li>
+            <li><strong>Field Injection</strong> ngắn gọn nhưng khó test, không dùng được <code>final</code> — không nên làm mặc định trong code mới.</li>
+            <li>Với lớp chỉ có một constructor, <strong>không bắt buộc</strong> thêm <code>@Autowired</code>.</li>
+            <li><strong><code>@RequiredArgsConstructor</code></strong> của Lombok tự sinh constructor cho các field <code>final</code> chưa khởi tạo — giúp rút gọn Constructor Injection.</li>
+            <li>Khi dùng Lombok, phải khai báo field là <strong><code>private final</code></strong> thì field mới được đưa vào constructor.</li>
+            <li>Nếu có nhiều Bean cùng kiểu, cần <strong><code>@Primary</code></strong> hoặc <strong><code>@Qualifier</code></strong> để Spring biết chọn Bean nào.</li>
+            <li>Constructor quá nhiều dependency có thể là dấu hiệu lớp đang <strong>đảm nhận quá nhiều trách nhiệm</strong> — nên xem xét chia nhỏ lớp.</li>
+        </ul>
+    </div>
+</section>
+            </main>
+        </div>
+
+        <footer>
+            <p> GV: Nguyễn Đình Mạnh</p>
+        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Xóa class active từ tất cả các link và section
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    // Thêm class active cho link được click
+                    this.classList.add('active');
+
+                    // Hiển thị section tương ứng
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        });
+
+        // Hàm copy code
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Đã copy!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Kiểm tra quiz
+        function checkQuiz() {
+            const answer = document.getElementById('quizQuestion').value;
+            const resultDiv = document.getElementById('quizResult');
+            const output = document.getElementById('quizResultContent');
+
+            resultDiv.classList.add('active');
+
+            if (answer === 'restcontroller') {
+                output.textContent = '✅ Chính xác! @RestController được dùng để tạo REST API trong Spring Boot.';
+            } else if (answer === 'controller') {
+                output.textContent = '❌ Chưa chính xác. @Controller dùng để trả về View (HTML), cần kết hợp với @ResponseBody để trả về JSON. Đáp án đúng là @RestController.';
+            } else if (answer === 'service') {
+                output.textContent = '❌ Chưa chính xác. @Service dùng cho tầng business logic, không phải để tạo API. Đáp án đúng là @RestController.';
+            } else if (answer === 'component') {
+                output.textContent = '❌ Chưa chính xác. @Component là annotation chung cho Spring bean. Đáp án đúng là @RestController.';
+            } else {
+                output.textContent = '❌ Vui lòng chọn một đáp án.';
+            }
+        }
+    </script>
+</body>
+
+</html>
