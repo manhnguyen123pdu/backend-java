@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Tổng quan Java Web  - Spring Framework & Spring Boot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #17a2b8;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            min-height: 80vh;
+        }
+
+        .sidebar {
+            background: var(--light);
+            padding: 20px;
+            border-right: 3px solid var(--secondary);
+            height: 80vh;
+            overflow-y: auto;
+            position: sticky;
+            top: 0;
+        }
+
+        .nav-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--secondary);
+            color: white;
+            transform: translateX(5px);
+            border-color: var(--secondary);
+        }
+
+        .nav-link1 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .main-content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 25px 0 15px;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent);
+        }
+
+        h4 {
+            color: var(--info);
+            margin: 20px 0 10px;
+        }
+
+        h5 {
+            color: var(--dark);
+            margin: 15px 0 8px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul,
+        ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.4;
+            border: 2px solid #444;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        .class-name {
+            color: #4ec9b0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: var(--secondary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid var(--info);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+        }
+
+        .btn-run {
+            background: var(--success);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            border-left: 4px solid var(--warning);
+            display: none;
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        .result-content {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #e9ecef;
+            white-space: pre-wrap;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 3px solid var(--secondary);
+            }
+        }
+
+        .visual-array {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .array-item {
+            width: 60px;
+            height: 60px;
+            background: var(--secondary);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .array-index {
+            position: absolute;
+            top: -25px;
+            font-size: 12px;
+            color: var(--dark);
+        }
+
+        .array-value {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .algorithm-steps {
+            background: #f0f7ff;
+            border-left: 4px solid #4dabf7;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .algorithm-steps ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .algorithm-steps li {
+            margin-bottom: 5px;
+        }
+
+        .method-demo {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .demo .wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .demo .array {
+            display: flex;
+        }
+
+        .demo .item {
+            width: 100px;
+            padding: 15px;
+            margin: 5px;
+            background: white;
+            color: black;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.4s;
+        }
+
+        .demo .active {
+            background: #ffcc00;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .demo .arrow {
+            position: absolute;
+            top: -35px;
+            font-size: 28px;
+            transition: 0.4s;
+        }
+
+        .demo .index {
+            margin-top: 30px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        pre{
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-leaf"></i> Tổng quan Java Web - Spring Framework & Spring Boot</h1>
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul style="list-style: none;">
+<li class="nav-item"><a href="#rest-1" class="nav-link"><i class="fas fa-globe"></i> Tổng quan về RESTful API</a></li>
+<li class="nav-item"><a href="#rest-2" class="nav-link"><i class="fas fa-link"></i> Ánh xạ URL và HTTP Method</a></li>
+<li class="nav-item"><a href="#rest-3" class="nav-link"><i class="fas fa-download"></i> Xây dựng API GET để lấy dữ liệu mẫu</a></li>
+<li class="nav-item"><a href="#rest-4" class="nav-link"><i class="fas fa-upload"></i> Xây dựng API POST để tiếp nhận dữ liệu</a></li>
+<li class="nav-item"><a href="#rest-5" class="nav-link"><i class="fas fa-edit"></i> Xây dựng API PUT và PATCH để cập nhật dữ liệu</a></li>
+<li class="nav-item"><a href="#rest-6" class="nav-link"><i class="fas fa-trash-alt"></i> Xây dựng API DELETE để xóa dữ liệu</a></li>
+<li class="nav-item"><a href="#rest-7" class="nav-link"><i class="fas fa-sitemap"></i> Thiết kế Endpoint theo nguyên tắc REST</a></li>
+<li class="nav-item"><a href="#rest-8" class="nav-link"><i class="fas fa-laptop-code"></i> Thực hành CRUD API sử dụng dữ liệu mẫu lưu trong bộ nhớ</a></li>
+<li class="nav-item"><a href="#rest-9" class="nav-link"><i class="fas fa-vial"></i> Kiểm thử RESTful API bằng Postman</a></li>
+                </ul>
+            </nav>
+
+           <main class="main-content">
+            <section id="rest-1" class="section active">
+<h2>Tổng quan về RESTful API</h2>
+    <h3>1.1. API là gì?</h3>
+    <p>API là viết tắt của Application Programming Interface, nghĩa là giao diện lập trình ứng dụng.</p>
+
+    <p>API cung cấp một cách thức để các thành phần phần mềm giao tiếp và sử dụng chức năng hoặc dữ liệu của nhau mà không cần biết toàn bộ cách triển khai bên trong.</p>
+
+    <p>Hãy xét ví dụ một ứng dụng quản lý sản phẩm.</p>
+
+    <p>Frontend cần hiển thị danh sách sản phẩm nhưng không trực tiếp truy cập vào mã nguồn xử lý bên trong Backend. Thay vào đó, Frontend gửi yêu cầu đến API mà Backend cung cấp.</p>
+
+    <div class="info-box">
+        <pre>Frontend
+Giao diện người dùng
+        |
+        v
+API
+Tiếp nhận yêu cầu và cung cấp dữ liệu
+        |
+        v
+Backend
+Xử lý yêu cầu và thực hiện nghiệp vụ</pre>
+    </div>
+
+    <p>Ví dụ, Frontend muốn lấy danh sách sản phẩm, Backend cung cấp một API có địa chỉ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>HTTP</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>GET /api/products</pre>
+    </div>
+
+    <p>Khi nhận yêu cầu này, Backend xử lý và trả về dữ liệu:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>JSON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>[
+  {
+    "id": 1,
+    "name": "Laptop Dell",
+    "price": 15000000
+  },
+  {
+    "id": 2,
+    "name": "Laptop HP",
+    "price": 18000000
+  }
+]</pre>
+    </div>
+
+    <p>Frontend nhận dữ liệu JSON và sử dụng dữ liệu đó để hiển thị thành danh sách sản phẩm trên giao diện.</p>
+
+    <div class="success-box">
+        <h5>Điểm cần nhớ</h5>
+        <p>API là giao diện giao tiếp giữa các thành phần phần mềm. API không đồng nghĩa với Database, cũng không phải toàn bộ ứng dụng Backend.</p>
+    </div>
+
+    <h3>1.2. Web API là gì?</h3>
+    <p>Web API là API được cung cấp thông qua các công nghệ web, thường sử dụng giao thức HTTP hoặc HTTPS để giao tiếp.</p>
+
+    <p>Ví dụ, một ứng dụng Spring Boot cung cấp địa chỉ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>HTTP</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>http://localhost:8080/api/products</pre>
+    </div>
+
+    <p>Trong đó:</p>
+    <ul>
+        <li><code>http</code> là giao thức giao tiếp.</li>
+        <li><code>localhost</code> là máy đang chạy ứng dụng.</li>
+        <li><code>8080</code> là cổng ứng dụng.</li>
+        <li><code>/api/products</code> là đường dẫn đến tài nguyên mà API cung cấp.</li>
+    </ul>
+
+    <p>Khi Frontend gửi HTTP Request đến địa chỉ này, ứng dụng Spring Boot có thể tiếp nhận yêu cầu, xử lý và trả về HTTP Response.</p>
+
+    <p>Web API có thể được xây dựng bằng nhiều công nghệ khác nhau, chẳng hạn Spring Boot, ASP.NET Core, Node.js hoặc Django.</p>
+
+    <p>Trong khóa học này, chúng ta sử dụng Java và Spring Boot để xây dựng Web API.</p>
+
+    <h3>1.3. REST là gì?</h3>
+    <p>REST là viết tắt của Representational State Transfer. Đây là một kiểu kiến trúc dùng để thiết kế các hệ thống phân tán, đặc biệt phổ biến trong xây dựng Web API.</p>
+
+    <p>REST định hướng cách thiết kế API thông qua các tài nguyên, cách định danh tài nguyên và cách sử dụng những quy ước giao tiếp của HTTP.</p>
+
+    <p>Để hiểu REST, trước tiên cần hiểu khái niệm Resource — tài nguyên.</p>
+
+    <p>Trong ứng dụng quản lý bán hàng, tài nguyên có thể là:</p>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tài nguyên</th>
+                    <th>Ý nghĩa</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Products</td><td>Danh sách sản phẩm</td></tr>
+                <tr><td>Product</td><td>Một sản phẩm cụ thể</td></tr>
+                <tr><td>Categories</td><td>Danh sách danh mục</td></tr>
+                <tr><td>Customers</td><td>Danh sách khách hàng</td></tr>
+                <tr><td>Orders</td><td>Danh sách đơn hàng</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Mỗi tài nguyên thường được xác định bằng một URI.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>URI</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>/api/products
+/api/products/1
+/api/categories
+/api/customers
+/api/orders</pre>
+    </div>
+
+    <p>Trong đó:</p>
+    <ul>
+        <li><code>/api/products</code> đại diện cho tập hợp sản phẩm.</li>
+        <li><code>/api/products/1</code> đại diện cho sản phẩm có mã định danh <code>1</code>.</li>
+        <li><code>/api/categories</code> đại diện cho tập hợp danh mục.</li>
+    </ul>
+
+    <p>REST khuyến khích thiết kế địa chỉ dựa trên tài nguyên thay vì đặt tên URL theo hành động.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>HTTP</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>GET /api/products
+POST /api/products
+GET /api/products/1
+DELETE /api/products/1</pre>
+    </div>
+
+    <p>Các URL trên đều hướng đến tài nguyên sản phẩm. Ý nghĩa của thao tác được xác định bởi HTTP Method.</p>
+
+    <p>Ngược lại, cách thiết kế như sau thường không được ưu tiên:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>HTTP</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>/getAllProducts
+/createProduct
+/deleteProductById/1</pre>
+    </div>
+
+    <p>Lý do là hành động đã được thể hiện thông qua HTTP Method nên không cần lặp lại hành động trong tên URL.</p>
+
+    <h3>1.4. RESTful API là gì?</h3>
+    <p>RESTful API là Web API được thiết kế theo các nguyên tắc và ràng buộc của kiến trúc REST.</p>
+
+    <p>Trong thực tế, thuật ngữ này thường được sử dụng để chỉ các API sử dụng tài nguyên, URI rõ ràng, HTTP Method phù hợp và HTTP Status Code có ý nghĩa.</p>
+
+    <p>Ví dụ với tài nguyên sản phẩm:</p>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>HTTP Method</th>
+                    <th>Endpoint</th>
+                    <th>Ý nghĩa</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>GET</td><td><code>/api/products</code></td><td>Lấy danh sách sản phẩm</td></tr>
+                <tr><td>GET</td><td><code>/api/products/1</code></td><td>Lấy sản phẩm có ID bằng 1</td></tr>
+                <tr><td>POST</td><td><code>/api/products</code></td><td>Tạo sản phẩm mới</td></tr>
+                <tr><td>PUT</td><td><code>/api/products/1</code></td><td>Cập nhật toàn bộ thông tin sản phẩm</td></tr>
+                <tr><td>PATCH</td><td><code>/api/products/1</code></td><td>Cập nhật một phần thông tin sản phẩm</td></tr>
+                <tr><td>DELETE</td><td><code>/api/products/1</code></td><td>Xóa sản phẩm có ID bằng 1</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Bảng trên thể hiện cách thiết kế API theo tài nguyên. Ở các phần tiếp theo, chúng ta sẽ thực hành từng loại Request bằng Spring Boot.</p>
+
+    <p>Cần lưu ý rằng một API không tự động trở thành RESTful chỉ vì sử dụng HTTP và trả về JSON. REST có những ràng buộc kiến trúc rộng hơn, trong đó có Client–Server, Stateless, Cacheable, Uniform Interface và Layered System. Trong một số định nghĩa đầy đủ, Code-on-Demand là ràng buộc tùy chọn.</p>
+
+    <h3>1.5. Phân biệt API, REST và RESTful API</h3>
+    <p>Ba khái niệm này có liên quan nhưng không giống nhau.</p>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Khái niệm</th>
+                    <th>Ý nghĩa</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>API</td><td>Giao diện để các thành phần phần mềm giao tiếp</td></tr>
+                <tr><td>Web API</td><td>API giao tiếp qua công nghệ web, thường dùng HTTP/HTTPS</td></tr>
+                <tr><td>REST</td><td>Kiểu kiến trúc với các nguyên tắc và ràng buộc thiết kế</td></tr>
+                <tr><td>RESTful API</td><td>Web API được thiết kế theo kiến trúc REST</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Ví dụ, một ứng dụng Spring Boot có thể cung cấp API qua HTTP nhưng thiết kế Endpoint không theo nguyên tắc tài nguyên của REST. Đó vẫn có thể là Web API, nhưng chưa chắc là RESTful API theo nghĩa chặt chẽ.</p>
+
+    <h3>1.6. Client và Server trong RESTful API</h3>
+    <p>Trong mô hình giao tiếp HTTP, Client là bên gửi yêu cầu và Server là bên tiếp nhận, xử lý yêu cầu đó.</p>
+
+    <p>Client có thể là:</p>
+    <ul>
+        <li>Website được xây dựng bằng HTML, CSS và JavaScript.</li>
+        <li>Ứng dụng React hoặc Angular.</li>
+        <li>Ứng dụng di động Android hoặc iOS.</li>
+        <li>Postman được sử dụng để kiểm thử API.</li>
+        <li>Một Backend khác cần gọi đến API.</li>
+    </ul>
+
+    <p>Server là hệ thống cung cấp API, thực hiện xử lý và trả về kết quả.</p>
+
+    <p>Trong khóa học này, Spring Boot đóng vai trò xây dựng ứng dụng Server.</p>
+
+    <p>Ví dụ về luồng giao tiếp:</p>
+
+    <div class="info-box">
+        <pre>Người dùng
+    |
+    v
+Frontend (React)
+    |
+    | HTTP Request
+    v
+Spring Boot Backend
+    |
+    | Xử lý yêu cầu
+    v
+HTTP Response (JSON)
+    |
+    v
+Frontend hiển thị kết quả</pre>
+    </div>
+
+    <p>Ở giai đoạn đầu, chúng ta chưa cần kết nối Database. Backend có thể trả về dữ liệu mẫu được khai báo trực tiếp trong Java để tập trung hiểu cơ chế hoạt động của API.</p>
+
+    <h3>1.7. Quy trình hoạt động của một RESTful API</h3>
+    <p>Giả sử người dùng mở trang danh sách sản phẩm.</p>
+
+    <p><strong>Bước 1:</strong> Frontend gửi Request đến Backend:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>HTTP</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>GET /api/products</pre>
+    </div>
+
+    <p><strong>Bước 2:</strong> Spring Boot tiếp nhận Request và xác định Controller phù hợp.</p>
+
+    <p><strong>Bước 3:</strong> Controller thực hiện xử lý cần thiết. Trong bài học này, dữ liệu có thể được lấy từ một danh sách mẫu trong bộ nhớ.</p>
+
+    <p><strong>Bước 4:</strong> Spring Boot chuyển đổi dữ liệu Java thành JSON và tạo HTTP Response.</p>
+
+    <p><strong>Bước 5:</strong> Frontend nhận JSON và hiển thị danh sách sản phẩm.</p>
+
+    <p>Ví dụ Response:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>HTTP</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>HTTP/1.1 200 OK
+Content-Type: application/json</pre>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header"><span>JSON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>[
+  {
+    "id": 1,
+    "name": "Laptop Dell",
+    "price": 15000000
+  }
+]</pre>
+    </div>
+
+    <p>Có thể tóm tắt quy trình như sau:</p>
+
+    <div class="info-box">
+        <pre>1. Client gửi HTTP Request
+        |
+        v
+2. Spring Boot tiếp nhận Request
+        |
+        v
+3. Controller xử lý yêu cầu
+        |
+        v
+4. Spring Boot tạo HTTP Response
+        |
+        v
+5. Client nhận kết quả</pre>
+    </div>
+
+    <h3>1.8. Vai trò của Spring Boot khi xây dựng RESTful API</h3>
+    <p>Spring Boot giúp xây dựng ứng dụng Backend bằng Java với cấu hình thuận tiện và khả năng tích hợp hệ sinh thái Spring.</p>
+
+    <p>Khi xây dựng RESTful API, chúng ta thường sử dụng Spring Web, dựa trên Spring MVC, để xử lý HTTP Request và HTTP Response.</p>
+
+    <p>Spring Boot hỗ trợ:</p>
+    <ul>
+        <li>Khởi tạo và chạy ứng dụng web.</li>
+        <li>Tiếp nhận HTTP Request.</li>
+        <li>Ánh xạ Request đến Controller.</li>
+        <li>Nhận dữ liệu từ URL, Query Parameter và Request Body.</li>
+        <li>Chuyển đổi dữ liệu Java thành JSON.</li>
+        <li>Trả về HTTP Status Code và Response Header.</li>
+        <li>Tích hợp các thành phần khác khi dự án phát triển.</li>
+    </ul>
+
+    <p>Trong phần đầu của khóa học, chúng ta chỉ sử dụng Spring Web và Controller. Các thành phần như Database, JPA, Service và Repository sẽ được học ở những bài sau.</p>
+
+    <h3>1.9. Tổng kết phần 1</h3>
+    <p>Sau phần này, cần nắm được những điểm cốt lõi:</p>
+    <ul>
+        <li>API là giao diện giao tiếp giữa các thành phần phần mềm.</li>
+        <li>Web API thường sử dụng HTTP hoặc HTTPS để trao đổi dữ liệu.</li>
+        <li>REST là kiểu kiến trúc định hướng việc thiết kế hệ thống dựa trên tài nguyên và các ràng buộc cụ thể.</li>
+        <li>RESTful API là API được thiết kế theo các nguyên tắc REST.</li>
+        <li>Client gửi Request; Server tiếp nhận, xử lý và trả về Response.</li>
+        <li>Spring Boot cung cấp công cụ để xây dựng Backend và xử lý HTTP.</li>
+        <li>Có thể bắt đầu xây dựng RESTful API bằng dữ liệu mẫu mà chưa cần Database.</li>
+    </ul>
+
+    <h3>Bài tập củng cố</h3>
+
+    <p><strong>1. API có vai trò gì?</strong></p>
+    <ul>
+        <li>Lưu trữ toàn bộ dữ liệu của ứng dụng</li>
+        <li>Cung cấp giao diện giao tiếp giữa các thành phần phần mềm</li>
+        <li>Chỉ dùng để thiết kế giao diện web</li>
+    </ul>
+
+    <p><strong>2. Trong ứng dụng React giao tiếp với Spring Boot, bên nào thường gửi HTTP Request?</strong></p>
+    <ul>
+        <li>React (Client)</li>
+        <li>Spring Boot (Server)</li>
+        <li>MySQL</li>
+    </ul>
+
+    <p><strong>3. Endpoint nào phù hợp hơn với cách thiết kế REST cho việc lấy danh sách sản phẩm?</strong></p>
+    <ul>
+        <li><code>/getAllProducts</code></li>
+        <li><code>/api/products</code></li>
+        <li><code>/api/deleteProducts</code></li>
+    </ul>
+
+    <p><strong>4. Có cần Database để bắt đầu học RESTful API với Spring Boot không?</strong></p>
+    <ul>
+        <li>Bắt buộc phải có</li>
+        <li>Không, có thể dùng dữ liệu mẫu trong bộ nhớ</li>
+        <li>Chỉ có thể dùng tệp JSON</li>
+    </ul>
+
+    <p>Phần tiếp theo: <strong>Phần 2 — Mô hình Client–Server và giao tiếp HTTP</strong>, tìm hiểu sâu hơn về Request, Response, HTTP Method và JSON trước khi bắt tay viết Controller.</p>
+
+    <div class="success-box">
+        <h5>Ghi nhớ trọng tâm</h5>
+        <ul>
+            <li><strong>API</strong> là giao diện giao tiếp giữa các thành phần phần mềm, không phải Database và không phải toàn bộ Backend.</li>
+            <li><strong>Web API</strong> là API giao tiếp qua HTTP/HTTPS, có thể xây dựng bằng nhiều công nghệ (Spring Boot, Node.js, ASP.NET Core...).</li>
+            <li><strong>REST</strong> là kiểu kiến trúc định hướng thiết kế dựa trên <strong>tài nguyên (Resource)</strong> và các ràng buộc cụ thể.</li>
+            <li><strong>RESTful API</strong> là Web API được thiết kế theo nguyên tắc REST — không tự động trở thành RESTful chỉ vì dùng HTTP và trả JSON.</li>
+            <li>Endpoint nên dựa trên <strong>tài nguyên</strong> (<code>/api/products</code>) thay vì hành động (<code>/getAllProducts</code>).</li>
+            <li><strong>HTTP Method</strong> xác định ý nghĩa thao tác: GET, POST, PUT, PATCH, DELETE.</li>
+            <li><strong>Client</strong> gửi Request; <strong>Server</strong> tiếp nhận, xử lý và trả về Response.</li>
+            <li>Có thể bắt đầu xây dựng RESTful API với <strong>dữ liệu mẫu trong bộ nhớ</strong>, chưa cần Database.</li>
+        </ul>
+    </div>
+</section>
+
+
+<section id="rest-3" class="section">
+
+    <h2>GET MAPPING</h2>
+
+    <h3>3.1. Mục tiêu bài học</h3>
+    <p>Trong phần này, chúng ta sẽ xây dựng API đầu tiên bằng Spring Boot để trả về dữ liệu mẫu cho Client.</p>
+
+    <p>Nội dung tập trung vào:</p>
+    <ul>
+        <li>Sử dụng <code>@RestController</code> để xây dựng API.</li>
+        <li>Sử dụng <code>@GetMapping</code> để ánh xạ HTTP GET Request.</li>
+        <li>Khai báo dữ liệu mẫu trực tiếp trong Java.</li>
+        <li>Trả về một đối tượng và danh sách đối tượng.</li>
+        <li>Quan sát cách Spring Boot chuyển đổi dữ liệu Java thành JSON.</li>
+        <li>Kiểm thử API bằng trình duyệt và Postman.</li>
+    </ul>
+
+    <p>Ở bài này, chúng ta chưa sử dụng Database, JPA, Service hay Repository.</p>
+
+    <h3>3.2. API GET là gì?</h3>
+    <p>HTTP GET là phương thức thường được sử dụng để yêu cầu Server cung cấp dữ liệu.</p>
+
+    <p>Ví dụ, một ứng dụng quản lý sản phẩm cần lấy danh sách sản phẩm để hiển thị trên giao diện. Client gửi Request:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>HTTP</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>GET http://localhost:8080/api/products</pre>
+    </div>
+
+    <p>Spring Boot tiếp nhận yêu cầu, tìm phương thức Controller phù hợp và trả về dữ liệu.</p>
+
+    <p>Quy trình hoạt động:</p>
+
+    <div class="info-box">
+        <pre>Client (Postman / Frontend)
+            |
+            | GET /api/products
+            v
+   Spring Boot Server
+            |
+            v
+    ProductController
+            |
+            | Lấy dữ liệu mẫu
+            v
+       Java Objects
+            |
+            | Chuyển đổi thành JSON
+            v
+      HTTP Response</pre>
+    </div>
+
+    <p>Ở đây, dữ liệu được khai báo trong bộ nhớ của ứng dụng. Khi ứng dụng khởi động lại, các dữ liệu mẫu này được tạo lại từ code, không phải dữ liệu được lưu trữ lâu dài.</p>
+
+    <h3>3.3. Tạo lớp Product</h3>
+    <p>Trước tiên, chúng ta tạo một lớp Java đại diện cho sản phẩm.</p>
+
+    <p>Cấu trúc thư mục:</p>
+
+    <div class="info-box">
+        <pre>src/main/java/com/example/demo/
+├── DemoApplication.java
+├── controller/
+│   └── ProductController.java
+└── model/
+    └── Product.java</pre>
+    </div>
+
+    <p>Tạo file <code>Product.java</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>package com.example.demo.model;
+
+public class Product {
+
+    private Long id;
+    private String name;
+    private double price;
+
+    public Product() {
+    }
+
+    public Product(Long id, String name, double price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+}</pre>
+    </div>
+
+    <h4>Giải thích code</h4>
+
+    <p><strong>Khai báo các thuộc tính</strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>private Long id;
+private String name;
+private double price;</pre>
+    </div>
+
+    <p>Ba thuộc tính đại diện cho mã sản phẩm, tên sản phẩm và giá sản phẩm.</p>
+
+    <p><strong>Constructor không tham số</strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public Product() {
+}</pre>
+    </div>
+
+    <p>Cho phép tạo đối tượng <code>Product</code> mà không cần truyền tham số.</p>
+
+    <p><strong>Constructor có tham số</strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public Product(Long id, String name, double price) {
+    this.id = id;
+    this.name = name;
+    this.price = price;
+}</pre>
+    </div>
+
+    <p>Giúp khởi tạo đối tượng và gán giá trị cho các thuộc tính ngay khi tạo.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>Product product = new Product(1L, "Laptop Dell", 15000000);</pre>
+    </div>
+
+    <p><strong>Các phương thức getter</strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public Long getId() {
+    return id;
+}</pre>
+    </div>
+
+    <p>Getter cho phép truy xuất giá trị thuộc tính. Spring Boot sử dụng cơ chế chuyển đổi dữ liệu JSON để đọc các giá trị này khi tạo Response.</p>
+
+    <h3>3.4. Xây dựng API GET trả về một sản phẩm</h3>
+    <p>Tạo file <code>ProductController.java</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>package com.example.demo.controller;
+
+import com.example.demo.model.Product;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+
+    @GetMapping("/demo")
+    public Product getProduct() {
+
+        Product product = new Product(
+                1L,
+                "Laptop Dell",
+                15000000
+        );
+
+        return product;
+    }
+}</pre>
+    </div>
+
+    <h4>Giải thích từng thành phần</h4>
+
+    <p><strong>1. <code>@RestController</code></strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@RestController</pre>
+    </div>
+
+    <p>Đánh dấu lớp là Controller dùng để xử lý HTTP Request và trả dữ liệu trực tiếp trong Response Body.</p>
+
+    <p><strong>2. <code>@RequestMapping("/api/products")</code></strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@RequestMapping("/api/products")</pre>
+    </div>
+
+    <p>Khai báo đường dẫn chung cho các API trong <code>ProductController</code>.</p>
+
+    <p><strong>3. <code>@GetMapping("/demo")</code></strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@GetMapping("/demo")</pre>
+    </div>
+
+    <p>Khai báo phương thức xử lý GET Request tại đường dẫn <code>/demo</code>.</p>
+
+    <p>Đường dẫn hoàn chỉnh được tạo bằng cách kết hợp hai phần:</p>
+
+    <div class="info-box">
+        <pre>/api/products + /demo
+          |
+          v
+/api/products/demo</pre>
+    </div>
+
+    <p><strong>4. Tạo đối tượng Product</strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>Product product = new Product(
+        1L,
+        "Laptop Dell",
+        15000000
+);</pre>
+    </div>
+
+    <p>Đối tượng này chứa dữ liệu mẫu của một sản phẩm.</p>
+
+    <p><strong>5. Trả về đối tượng</strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>return product;</pre>
+    </div>
+
+    <p>Controller trả về đối tượng Java. Spring Boot sử dụng <code>HttpMessageConverter</code> phù hợp để chuyển đối tượng thành JSON trong HTTP Response.</p>
+
+    <h3>3.5. Chạy ứng dụng và kiểm thử</h3>
+    <p>Khởi động ứng dụng bằng cách chạy lớp <code>DemoApplication</code>.</p>
+
+    <p>Mở trình duyệt hoặc Postman và gửi GET Request đến:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>HTTP</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>GET http://localhost:8080/api/products/demo</pre>
+    </div>
+
+    <p>Kết quả JSON trả về:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>JSON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>{
+  "id": 1,
+  "name": "Laptop Dell",
+  "price": 15000000.0
+}</pre>
+    </div>
+
+    <p>Đây là kết quả chuyển đổi từ đối tượng Java <code>Product</code> thành JSON.</p>
+
+    <p>Lưu ý: giá trị <code>price</code> có thể được hiển thị là <code>15000000.0</code> vì thuộc tính đang sử dụng kiểu <code>double</code>.</p>
+
+    <h3>3.6. Xây dựng API GET trả về danh sách sản phẩm</h3>
+    <p>Trong thực tế, Client thường cần lấy danh sách sản phẩm thay vì chỉ một sản phẩm.</p>
+
+    <p>Chúng ta sử dụng <code>List&lt;Product&gt;</code> để biểu diễn danh sách các đối tượng.</p>
+
+    <p>Cập nhật <code>ProductController.java</code> như sau:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>package com.example.demo.controller;
+
+import com.example.demo.model.Product;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+
+    @GetMapping("/demo")
+    public Product getProduct() {
+        return new Product(1L, "Laptop Dell", 15000000);
+    }
+
+    @GetMapping
+    public List&lt;Product&gt; getAllProducts() {
+
+        List&lt;Product&gt; products = List.of(
+                new Product(1L, "Laptop Dell", 15000000),
+                new Product(2L, "Laptop HP", 18000000),
+                new Product(3L, "Laptop Asus", 20000000)
+        );
+
+        return products;
+    }
+}</pre>
+    </div>
+
+    <h4>Giải thích phần code mới</h4>
+
+    <p><strong><code>List&lt;Product&gt;</code></strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>public List&lt;Product&gt; getAllProducts()</pre>
+    </div>
+
+    <p>Kiểu trả về là một danh sách các đối tượng <code>Product</code>.</p>
+
+    <p><strong><code>List.of(...)</code></strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>List&lt;Product&gt; products = List.of(
+        new Product(1L, "Laptop Dell", 15000000),
+        new Product(2L, "Laptop HP", 18000000),
+        new Product(3L, "Laptop Asus", 20000000)
+);</pre>
+    </div>
+
+    <p>Tạo một danh sách chứa ba sản phẩm mẫu.</p>
+
+    <p><code>List.of()</code> tạo danh sách không thể thêm, xóa hoặc thay thế phần tử thông qua các thao tác sửa đổi thông thường. Điều này phù hợp với ví dụ chỉ đọc dữ liệu.</p>
+
+    <p><strong>Trả về danh sách</strong></p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>return products;</pre>
+    </div>
+
+    <p>Spring Boot chuyển danh sách Java thành một mảng JSON.</p>
+
+    <h3>3.7. Kiểm thử API lấy danh sách</h3>
+    <p>Gửi GET Request đến:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>HTTP</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>GET http://localhost:8080/api/products</pre>
+    </div>
+
+    <p>Response nhận được:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>JSON</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>[
+  {
+    "id": 1,
+    "name": "Laptop Dell",
+    "price": 15000000.0
+  },
+  {
+    "id": 2,
+    "name": "Laptop HP",
+    "price": 18000000.0
+  },
+  {
+    "id": 3,
+    "name": "Laptop Asus",
+    "price": 20000000.0
+  }
+]</pre>
+    </div>
+
+    <p>Phân biệt hai kết quả:</p>
+    <ul>
+        <li>API <code>/api/products/demo</code> trả về một đối tượng JSON.</li>
+        <li>API <code>/api/products</code> trả về một mảng JSON chứa nhiều đối tượng.</li>
+    </ul>
+
+    <h3>3.8. Vì sao không cần tự chuyển Java thành JSON?</h3>
+    <p>Trong Spring Boot, khi sử dụng Spring Web và trả về một đối tượng từ <code>@RestController</code>, framework có thể tự chuyển đổi đối tượng thành JSON thông qua <code>HttpMessageConverter</code>, thường là Jackson khi được cấu hình mặc định.</p>
+
+    <p>Chúng ta không cần tự ghép chuỗi JSON như sau:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>return "{\"id\":1,\"name\":\"Laptop Dell\"}";</pre>
+    </div>
+
+    <p>Thay vào đó, chỉ cần trả về đối tượng Java:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>return new Product(1L, "Laptop Dell", 15000000);</pre>
+    </div>
+
+    <p>Cách thứ hai dễ bảo trì hơn, hạn chế lỗi định dạng JSON và thuận tiện khi dữ liệu có nhiều thuộc tính.</p>
+
+    <h3>3.9. Tổng kết</h3>
+    <p>Sau phần học này, bạn đã biết cách:</p>
+    <ul>
+        <li>Tạo lớp Java đại diện cho dữ liệu sản phẩm.</li>
+        <li>Xây dựng Controller với <code>@RestController</code>.</li>
+        <li>Sử dụng <code>@GetMapping</code> để tạo API GET.</li>
+        <li>Trả về một đối tượng và một danh sách đối tượng.</li>
+        <li>Hiểu cách Spring Boot chuyển đổi dữ liệu Java thành JSON.</li>
+        <li>Kiểm thử API bằng trình duyệt hoặc Postman.</li>
+    </ul>
+
+    <h3>Bài tập thực hành</h3>
+    <p>Tạo lớp <code>Category</code> gồm <code>id</code>, <code>name</code>, <code>description</code>, sau đó xây dựng hai API:</p>
+    <ol>
+        <li><code>GET /api/categories/demo</code> — trả về một danh mục mẫu.</li>
+        <li><code>GET /api/categories</code> — trả về danh sách ba danh mục mẫu.</li>
+    </ol>
+
+    <p>Chưa cần sử dụng Database. Mục tiêu là luyện tập cách xây dựng API GET và trả dữ liệu JSON từ Java.</p>
+
+    <div class="success-box">
+        <h5>Ghi nhớ trọng tâm</h5>
+        <ul>
+            <li><strong>HTTP GET</strong> là phương thức dùng để yêu cầu Server cung cấp dữ liệu.</li>
+            <li><strong><code>@RestController</code></strong> đánh dấu lớp xử lý HTTP Request và trả dữ liệu trực tiếp về Response Body.</li>
+            <li><strong><code>@GetMapping</code></strong> ánh xạ HTTP GET Request đến phương thức xử lý; đường dẫn hoàn chỉnh = đường dẫn cấp Class + đường dẫn cấp Method.</li>
+            <li><strong>Spring Boot tự động chuyển đổi</strong> đối tượng Java thành JSON thông qua <code>HttpMessageConverter</code> (thường là Jackson) — không cần tự ghép chuỗi JSON.</li>
+            <li>Trả về <strong>một đối tượng</strong> → JSON object; trả về <strong><code>List&lt;T&gt;</code></strong> → JSON array.</li>
+            <li><strong><code>List.of(...)</code></strong> tạo danh sách bất biến — phù hợp cho dữ liệu chỉ đọc trong ví dụ.</li>
+            <li>Dữ liệu mẫu được khai báo <strong>trong bộ nhớ</strong>, không lưu trữ lâu dài — khởi động lại ứng dụng sẽ tạo lại từ code.</li>
+            <li>Kiểu <code>double</code> có thể hiển thị giá trị như <code>15000000.0</code> trong JSON — cần lưu ý khi thiết kế dữ liệu.</li>
+        </ul>
+    </div>
+</section>
+           </main>
+        </div>
+
+        <footer>
+            <p> GV: Nguyễn Đình Mạnh</p>
+        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Xóa class active từ tất cả các link và section
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    // Thêm class active cho link được click
+                    this.classList.add('active');
+
+                    // Hiển thị section tương ứng
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        });
+
+        // Hàm copy code
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Đã copy!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Kiểm tra quiz
+        function checkQuiz() {
+            const answer = document.getElementById('quizQuestion').value;
+            const resultDiv = document.getElementById('quizResult');
+            const output = document.getElementById('quizResultContent');
+
+            resultDiv.classList.add('active');
+
+            if (answer === 'restcontroller') {
+                output.textContent = '✅ Chính xác! @RestController được dùng để tạo REST API trong Spring Boot.';
+            } else if (answer === 'controller') {
+                output.textContent = '❌ Chưa chính xác. @Controller dùng để trả về View (HTML), cần kết hợp với @ResponseBody để trả về JSON. Đáp án đúng là @RestController.';
+            } else if (answer === 'service') {
+                output.textContent = '❌ Chưa chính xác. @Service dùng cho tầng business logic, không phải để tạo API. Đáp án đúng là @RestController.';
+            } else if (answer === 'component') {
+                output.textContent = '❌ Chưa chính xác. @Component là annotation chung cho Spring bean. Đáp án đúng là @RestController.';
+            } else {
+                output.textContent = '❌ Vui lòng chọn một đáp án.';
+            }
+        }
+    </script>
+</body>
+
+</html>
