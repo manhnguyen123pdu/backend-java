@@ -219,18 +219,18 @@ const lessons = [
         icon: "fa-database"
     },
 
-    {
-        id: 22,
-        phase: 4,
-        category: "Spring Boot",
-        title: "Entity Mapping",
-        description: "@Entity, @Table, @Column, @Id và @GeneratedValue.",
-        duration: 120,
-        icon: "fa-table"
-    },
+    // {
+    //     id: 22,
+    //     phase: 4,
+    //     category: "Spring Boot",
+    //     title: "Entity Mapping",
+    //     description: "@Entity, @Table, @Column, @Id và @GeneratedValue.",
+    //     duration: 120,
+    //     icon: "fa-table"
+    // },
 
     {
-        id: 23,
+        id: 22,
         phase: 4,
         category: "Spring Boot",
         title: "Repository Pattern với Spring Data JPA",
