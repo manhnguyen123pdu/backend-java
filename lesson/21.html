@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> ORM, JPA & Hibernate Fundamentals <title>
+    <title>ORM, JPA & Hibernate Fundamentals</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -472,7 +472,7 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-database"></i> ORM, JPA & Hibernate Fundamentals </h1>
+            <h1><i class="fas fa-database"></i> ORM, JPA & Hibernate Fundamentals</h1>
         </header>
 
         <div class="content-wrapper">
@@ -484,6 +484,7 @@
                     <li class="nav-item"><a href="#install-mysql" class="nav-link"><i class="fas fa-download"></i> Cài đặt MySQL</a></li>
                     <li class="nav-item"><a href="#install-workbench" class="nav-link"><i class="fas fa-tools"></i> Cài đặt MySQL Workbench</a></li>
                     <li class="nav-item"><a href="#create-project" class="nav-link"><i class="fas fa-plus-circle"></i> Tạo project với JPA</a></li>
+                    <li class="nav-item"><a href="#jpa-naming-rules" class="nav-link"><i class="fas fa-plus-circle"></i>Quy tắc </a></li>
                     <li class="nav-item"><a href="#configure-database" class="nav-link"><i class="fas fa-cog"></i> Cấu hình kết nối</a></li>
                     <li class="nav-item"><a href="#entity" class="nav-link"><i class="fas fa-cube"></i> Entity - Ánh xạ bảng</a></li>
                     <li class="nav-item"><a href="#entity-annotations" class="nav-link"><i class="fas fa-hashtag"></i> JPA Annotations</a></li>
@@ -1537,8 +1538,260 @@
                         java.sql.SQLException: Communications link failure<br>
                         → <strong>MySQL chưa chạy</strong>
                     </div>
+                    
                 </section>
+<section id="jpa-naming-rules" class="section">
+    <h2><i class="fas fa-database"></i> QUY TẮC ĐẶT TÊN BẢNG, CỘT VÀ LƯU Ý KHI DÙNG JPA/HIBERNATE</h2>
 
+    <p>Khi làm việc với Spring Boot và JPA/Hibernate, việc tuân thủ quy tắc đặt tên giúp mã nguồn dễ đọc, dễ bảo trì và hạn chế lỗi ánh xạ giữa Entity Java và bảng trong cơ sở dữ liệu. Dưới đây là các quy tắc phổ biến và những lưu ý quan trọng.</p>
+
+    <h3>1. Quy tắc đặt tên Bảng (Table)</h3>
+
+    <h4>1.1. Kiểu chữ và định dạng</h4>
+    <p>Sử dụng chuẩn <strong>snake_case</strong> (chữ thường, cách nhau bằng dấu gạch dưới <code>_</code>) hoặc <strong>PascalCase</strong> tùy dự án. Tuy nhiên, phổ biến và tương thích tốt nhất với Spring/Hibernate là <strong>snake_case</strong>.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>SQL</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>user_account
+order_detail</pre>
+    </div>
+
+    <h4>1.2. Danh từ số nhiều</h4>
+    <p>Nên đặt tên bảng ở dạng <strong>số nhiều</strong> theo Bộ quy tắc viết SQL.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>SQL</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>users
+products
+orders</pre>
+    </div>
+
+    <h4>1.3. Không dùng tiền tố</h4>
+    <p>Tránh dùng các tiền tố kiểu cũ như <code>tbl_</code>, <code>table_</code> hoặc ký pháp Hungary.</p>
+
+    <p>Ví dụ nên tránh:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>SQL</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>tbl_users
+table_products</pre>
+    </div>
+
+    <h4>1.4. Ánh xạ trong Java Entity</h4>
+    <ul>
+        <li>Tên Class trong Java thường viết theo <strong>PascalCase</strong> (Ví dụ: <code>UserAccount</code>).</li>
+        <li>Mặc định, Hibernate sẽ tự động chuyển tên Class từ PascalCase sang snake_case cho tên bảng (<code>user_account</code>).</li>
+        <li>Nếu tên bảng trong SQL khác hoàn toàn với tên class, bắt buộc dùng annotation <code>@Table(name = "ten_bang")</code>.</li>
+    </ul>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Entity
+@Table(name = "user_account")
+public class UserAccount {
+    // ...
+}</pre>
+    </div>
+
+    <h3>2. Quy tắc đặt tên Cột (Column)</h3>
+
+    <h4>2.1. Kiểu chữ và định dạng</h4>
+    <p>Dùng <strong>snake_case</strong> cho tên cột.</p>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>SQL</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>first_name
+created_at
+user_id</pre>
+    </div>
+
+    <h4>2.2. Khớp với thuộc tính Java</h4>
+    <ul>
+        <li>Thuộc tính (field) trong Java Entity viết theo <strong>camelCase</strong> (Ví dụ: <code>firstName</code>, <code>createdAt</code>).</li>
+        <li>Hibernate tự động ánh xạ <strong>camelCase</strong> (Java) sang <strong>snake_case</strong> (SQL) thông qua <code>ImplicitNamingStrategy</code> hoặc <code>PhysicalNamingStrategy</code>.</li>
+    </ul>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>private String firstName;   // → first_name
+private LocalDateTime createdAt; // → created_at</pre>
+    </div>
+
+    <h4>2.3. Khóa chính (Primary Key)</h4>
+    <ul>
+        <li>Thường đặt tên là <code>id</code> hoặc ghép bảng kèm <code>_id</code> (Ví dụ: <code>user_id</code>).</li>
+        <li>Bắt buộc gắn annotation <code>@Id</code> trên thuộc tính tương ứng trong Entity.</li>
+    </ul>
+
+    <p>Ví dụ:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long id;</pre>
+    </div>
+
+    <h4>2.4. Khóa ngoại (Foreign Key)</h4>
+    <p>Đặt tên theo cú pháp: <code>[tên_bảng_tham_chieu] + _id</code>.</p>
+
+    <p>Ví dụ: Bảng <code>orders</code> tham chiếu đến bảng <code>users</code> thì cột khóa ngoại là <code>user_id</code>.</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>SQL</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>-- Bảng orders
+user_id BIGINT NOT NULL,
+FOREIGN KEY (user_id) REFERENCES users(id)</pre>
+    </div>
+
+    <h4>2.5. Tránh từ khóa SQL</h4>
+    <p>Không đặt tên cột trùng với từ khóa của SQL (như <code>order</code>, <code>group</code>, <code>select</code>, <code>table</code>, <code>date</code>...) để tránh lỗi cú pháp khi viết câu lệnh truy vấn.</p>
+
+    <p>Ví dụ nên tránh:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>SQL</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>order
+group
+select
+table
+date</pre>
+    </div>
+
+    <h3>3. Lưu ý quan trọng khi dùng với Spring Boot (JPA/Hibernate)</h3>
+
+    <h4>3.1. Constructor rỗng</h4>
+    <p>Entity trong Spring Data JPA <strong>bắt buộc</strong> phải có constructor không tham số (<code>public</code> hoặc <code>protected</code>) để Hibernate khởi tạo object qua Reflection.</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>@Entity
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    // Constructor rỗng bắt buộc
+    public Product() {
+    }
+
+    // Constructor có tham số (tùy chọn)
+    public Product(String name) {
+        this.name = name;
+    }
+}</pre>
+    </div>
+
+    <h4>3.2. Không dùng từ khóa <code>final</code></h4>
+    <p>Class Entity <strong>không được khai báo là <code>final</code></strong> vì Hibernate cần tạo các lớp Proxy để hỗ trợ tính năng Lazy Loading.</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>// SAI: không dùng final
+public final class Product {
+    // ...
+}
+
+// ĐÚNG
+public class Product {
+    // ...
+}</pre>
+    </div>
+
+    <h4>3.3. Cấu hình Naming Strategy</h4>
+    <p>Nếu bạn muốn kiểm soát cách Spring chuyển đổi tên từ Java sang SQL, có thể cấu hình trong <code>application.properties</code> hoặc <code>application.yml</code>.</p>
+
+    <p>Ví dụ với <code>application.properties</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>Properties</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl</pre>
+    </div>
+
+    <p>Hoặc với <code>application.yml</code>:</p>
+
+    <div class="code-block">
+        <div class="code-header"><span>YAML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre>spring:
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl</pre>
+    </div>
+
+    <div class="info-box">
+        <p><strong>Lưu ý:</strong> Việc chọn <code>PhysicalNamingStrategy</code> phụ thuộc vào quy ước đặt tên của dự án. Nếu không cấu hình, Hibernate sử dụng chiến lược mặc định (thường chuyển camelCase → snake_case).</p>
+    </div>
+
+    <h3>Tổng kết</h3>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Đối tượng</th>
+                    <th>Quy tắc</th>
+                    <th>Ví dụ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Bảng (Table)</td>
+                    <td>snake_case, số nhiều, không tiền tố</td>
+                    <td><code>user_account</code>, <code>products</code></td>
+                </tr>
+                <tr>
+                    <td>Cột (Column)</td>
+                    <td>snake_case, khớp camelCase Java</td>
+                    <td><code>first_name</code>, <code>created_at</code></td>
+                </tr>
+                <tr>
+                    <td>Khóa chính</td>
+                    <td><code>id</code> hoặc <code>[bảng]_id</code>, có <code>@Id</code></td>
+                    <td><code>id</code>, <code>user_id</code></td>
+                </tr>
+                <tr>
+                    <td>Khóa ngoại</td>
+                    <td><code>[bảng_tham_chiếu]_id</code></td>
+                    <td><code>user_id</code>, <code>product_id</code></td>
+                </tr>
+                <tr>
+                    <td>Class Entity</td>
+                    <td>PascalCase, không <code>final</code>, có constructor rỗng</td>
+                    <td><code>UserAccount</code>, <code>Product</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="success-box">
+        <h5>Ghi nhớ trọng tâm</h5>
+        <ul>
+            <li><strong>Tên bảng</strong>: snake_case, danh từ số nhiều, không dùng tiền tố <code>tbl_</code> hay <code>table_</code>.</li>
+            <li><strong>Tên cột</strong>: snake_case; Hibernate tự động chuyển camelCase (Java) sang snake_case (SQL).</li>
+            <li><strong>Khóa chính</strong>: đặt là <code>id</code> hoặc <code>[bảng]_id</code>, bắt buộc có annotation <code>@Id</code>.</li>
+            <li><strong>Khóa ngoại</strong>: đặt theo cú pháp <code>[tên_bảng_tham_chiếu]_id</code>.</li>
+            <li><strong>Tránh từ khóa SQL</strong> như <code>order</code>, <code>group</code>, <code>select</code>, <code>table</code>, <code>date</code> khi đặt tên cột.</li>
+            <li><strong>Entity bắt buộc có constructor rỗng</strong> (public hoặc protected) để Hibernate khởi tạo qua Reflection.</li>
+            <li><strong>Class Entity không được là <code>final</code></strong> vì Hibernate cần tạo Proxy cho Lazy Loading.</li>
+            <li>Có thể tùy chỉnh cách chuyển đổi tên qua <strong><code>PhysicalNamingStrategy</code></strong> trong <code>application.properties</code> hoặc <code>application.yml</code>.</li>
+            <li>Nếu tên bảng SQL khác tên class, dùng <strong><code>@Table(name = "ten_bang")</code></strong> để ánh xạ rõ ràng.</li>
+        </ul>
+    </div>
+</section>
                 <!-- PHẦN ENTITY - ÁNH XẠ BẢNG -->
                 <section id="entity" class="section">
                     <h2><i class="fas fa-cube"></i> ENTITY - ÁNH XẠ BẢNG TRONG DATABASE</h2>
